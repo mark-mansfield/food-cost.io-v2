@@ -1,1 +1,150 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Roboto:300');
+html, body { height: 100%; }
+
+
+
+:root {
+    --hover-green : #00ffbb;
+    --info-panel-dark-background: rgba(45, 44, 44, 0.3);
+    --hover-background: rgba(108, 105, 105, 1);
+    --light-background: white;
+    --dark-background:  rgba(0, 0, 0, 0.913);
+    --side-background-light:  rgba(20, 20, 20, 0.9);
+    /* colors */
+    --blue: dodgerblue;
+    --icon-large: 2rem;
+    --light-text: white;
+    --title-text: #7289DA;
+    --dark-text: rgb(108, 106, 106);
+   /*  text sizes */
+    --h1-large-text : 1.5rem;
+    --button-text-size-med: 1.3rem;
+}
+
+/* placeholder text */
+::placeholder {
+    color: var(--light-text);
+    font-size : 1rem;
+}
+
+* {
+    margin: 0px;
+    border: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+.active {
+ color: var(--hover-green);
+}
+
+a:hover {
+  color: var(--hover-green);
+  text-decoration: none;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem !important;
+  width: 100%;
+  height: 100%;
+
+}
+
+.main {
+  margin-top: 20px;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+
+}
+
+.section {
+  margin: 20px 0px;
+  display: flex;
+  width: auto;
+  flex-direction: column;
+  align-items: center;
+  color: var(--light-text);
+  text-align: center;
+}
+
+/* font awesome icons */
+.fa-bars  {
+  font-size: var(--icon-large);
+  cursor: pointer;
+  color: var(--blue);
+}
+
+.fa-plus-small-font {
+  font-size: small;
+  color: var(--blue);
+}
+
+.fa-search , .fa-bars , .far, .fa-plus {
+  font-size : 2.3rem;
+  color:var(--blue);
+  cursor: pointer;
+}
+
+
+.fa-search:hover , .fa-bars:hover , .far:hover, .fa-plus:hover{
+  color: var(--hover-green);
+}
+
+.link-list {
+  cursor: pointer;
+}
+
+.link-list:hover {
+  color: var(--hover-green);
+  background-color: var(--hover-background);
+}
+
+h1,h2,h3,h4,h5,h6, .inline-title {
+  color: var(--title-text);
+}
+
+
+
+.inline-title  {
+  font-size: var(--h1-large-text);
+}
+
+h1 {
+  font-size: var(--h1-large-text);
+}
+
+.button {
+  display: flex;
+  justify-content: space-between ;
+  align-items: center;
+  color: var(--light-text);
+  border-radius: 5px;
+  background-color: var(--blue);
+  cursor: pointer;
+  text-align: center;
+  font-size: var(--button-text-size-med);
+}
+
+.button:hover {
+  background-color: var(--hover-green);
+  color: black
+}
+
+
+
+
+
+
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: 'Roboto', sans-serif; }
