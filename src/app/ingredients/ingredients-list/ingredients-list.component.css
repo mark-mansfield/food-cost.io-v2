@@ -1,0 +1,208 @@
+.main>.section>div.info-panel {
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 95vw;
+  color: white;
+  background-color: rgba(45, 44, 44, 0.3);
+  box-shadow: 5px;
+
+}
+
+.main>.section>.info-panel>div>p {
+  margin: 20px;
+}
+
+.main>.section>.search-container>form {
+  display: flex;
+}
+
+.main>.section>.search-container {
+  color: white;
+  border-radius: 5px;
+  background-color: rgba(92, 91, 91, 0.3);
+  width: 95vw;
+  margin: 10px 0;
+}
+
+.main>.section>.search-container>form>input {
+  width: 95%;
+  margin-left: 20px;
+  text-align: center;
+  height: 50px;
+  color: white;
+  background-color: rgba(92, 91, 91, 0.3);
+  margin: 10px;
+}
+
+.main>.section>.search-container>form>button {
+  margin-right: 10px;
+  background: transparent;
+}
+
+.main>.section>.search-container>form>input[type=text] {
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  transition: all 0.30s ease-in-out;
+  outline: none;
+  padding: 3px 0px 3px 3px;
+}
+
+.main>.section>.search-container>form>input[type=text]:focus {
+  box-shadow: 0 0 5px rgb(28, 28, 28);
+  padding: 3px 0px 3px 3px;
+  border: 1px solid rgba(81, 203, 238, 1);
+}
+
+.main>.section>div.link-list {
+  display: flex;
+  justify-content: space-around;
+}
+
+.main>.section>div.link-list>button {
+  height: 60px;
+  margin: 5px;
+}
+
+.main>.section>div>button {
+  margin: 10px 0;
+  width: 95vw;
+  height: 80px;
+}
+
+.main>.section>button>i.far {
+  color: var(--blue);
+}
+
+.main>.section>button>i.far:hover {
+  color: black;
+}
+
+.main>.section>.pagination, mat-paginator {
+  height: 80px;
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+  width: 95vw;
+  background-color: rgba(45, 44, 44, 0.3);
+  box-shadow: 5px;
+  font-size: 1rem;
+  color:white;
+}
+
+
+.main>.section>.pagination>button {
+  flex: 1;
+  border: 1px solid rgb(52, 51, 51);
+  background-color: rgb(70, 69, 69);
+}
+
+.main>.section>.pagination>button:hover {
+  cursor: pointer;
+  background-color: var(--hover-green);
+  color: black;
+}
+
+.main>.section>.pagination>button>i.far {
+  color: var(--blue);
+}
+
+.main>.section>.pagination>button>i.far:hover {
+  color: black;
+}
+
+/* .main>.section >.pagination > div > p {
+  margin-top: 32px
+}
+
+.main>.section >.pagination > div > i {
+  margin-top:24px
+} */
+
+.button>i.far,
+.button>div>i.fa-search {
+  margin-right: 20px;
+}
+
+.far:hover {
+  color: black;
+}
+
+
+
+.info-panel>div {
+  margin-left: 20px;
+}
+
+.button>div {
+  margin-left: 20px;
+}
+
+.action-button {
+  display: flex;
+  justify-content: center;
+}
+
+h1 {
+  font-size: 1.3rem;
+}
+
+/* ipads and larger */
+@media (min-width: 40rem) {
+
+  body {
+    font-size: 1rem;
+  }
+
+  .header__page-title {
+    font-size: 1.6rem;
+  }
+
+  .section {
+    width: 30vw;
+  }
+
+  .main>.section>div.info-panel {
+    height: auto;
+    width: 500px;
+    font-size: 1.3rem;
+  }
+
+  .main>.section>div.search-container {
+    width: 500px;
+    font-size: 1.5rem;
+  }
+
+  .main>.section>div>button {
+    width: 500px;
+  }
+
+  .main>.section>.button>div {
+    margin-left: 20px;
+  }
+
+  .main>.section>.pagination, mat-paginator {
+    width: 500px;
+  }
+
+  .main>.section>.pagination>div {
+    text-align: center;
+  }
+
+  .main>.section>.pagination>div>p {
+    margin-top: 32px
+  }
+
+  .main>.section>.pagination>div>i {
+    margin-top: 24px
+  }
+
+  .main>.section>.button>div.click-icon,
+  .main>.section>.pagination>div.click-icon {
+    font-size: 1.5rem;
+  }
+
+}

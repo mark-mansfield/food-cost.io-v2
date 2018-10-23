@@ -1,0 +1,91 @@
+.main > .section >  input {
+  margin: 20px 0px;
+  width: 95vw;
+  height: 80px;
+  font-size: 2rem;
+  background-color: rgba(92, 91, 91, 0.3);
+  text-align: center;
+  color: var(--light-text);
+}
+
+input[type=text] {
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  transition: all 0.30s ease-in-out;
+  outline: none;
+  padding: 3px 0px 3px 3px;
+}
+
+input[type=text]:focus {
+  box-shadow: 0 0 5px rgb(28, 28, 28);
+  padding: 3px 0px 3px 3px;
+  border: 1px solid rgba(81, 203, 238, 1);
+}
+
+.main > .section > .button {
+
+  margin: 10px 0;
+  width: 95vw;
+  height: 80px;
+  font-size: 2rem;
+
+}
+
+.main > .section >  .info-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  width: 95vw;
+  margin: 20px;
+  color: white;
+  background-color: rgba(45, 44, 44, 0.3);
+  box-shadow: 5px;
+}
+
+.main > .section > .info-panel > div > p {
+  margin: 20px 20px;
+
+}
+
+
+
+.main > .section >  .action-button  {
+  display: flex;
+  justify-content: center;
+
+}
+
+
+/* ipads and larger */
+@media (min-width: 40rem) {
+
+  .section {
+      margin-top: 100px;
+      width: 30vw;
+  }
+
+  .main {
+      height: 100vh;
+  }
+
+  .main > .section > .info-panel {
+      height: 200px;
+      width: 500px;
+      border-radius: 0px;
+  }
+  .main > .section >  input {
+
+      width: 500px;
+
+  }
+  .main > .section > .button {
+
+      margin: 10px 0;
+      width: 500px;
+      height: 80px;
+
+  }
+}

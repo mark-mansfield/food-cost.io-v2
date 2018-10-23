@@ -1,0 +1,50 @@
+
+.hamburger-button {
+  margin: 20px;
+}
+
+.header  {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+  background-color: var(--info-panel-dark-background);
+  height: 100px;
+  color: var(--light-text);
+}
+
+.header > div.header__back-button {
+  display: none;
+}
+
+.header > div.header__brand {
+  margin-left: 20px;
+}
+.header > .nav {
+  display: none;
+}
+
+.header > .nav > div {
+  margin: 0 20px;
+}
+
+
+@media (min-width: 40rem) {
+
+  .header > div.header__back-button {
+    display: block;
+    margin-left: 20px;
+  }
+  .hamburger-button {
+    display: none;
+  }
+
+  .header > .nav {
+    flex: 2;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 20px;
+  }
+
+
+}

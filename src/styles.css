@@ -32,6 +32,7 @@ html, body { height: 100%; }
     border: 0px;
     padding: 0px;
     box-sizing: border-box;
+    outline-color: 1px solid var(--hover-green);
 }
 
 a {
@@ -88,6 +89,8 @@ body {
   color: var(--blue);
 }
 
+
+
 .fa-search , .fa-bars , .far, .fa-plus {
   font-size : 2.3rem;
   color:var(--blue);
@@ -99,11 +102,12 @@ body {
   color: var(--hover-green);
 }
 
-.link-list {
+.link-list-link{
   cursor: pointer;
+  background-color: transparent;
 }
 
-.link-list:hover {
+.link-list-link:hover {
   color: var(--hover-green);
   background-color: var(--hover-background);
 }
@@ -112,7 +116,9 @@ h1,h2,h3,h4,h5,h6, .inline-title {
   color: var(--title-text);
 }
 
-
+.mat-icon-button{
+  color: var(--blue);
+}
 
 .inline-title  {
   font-size: var(--h1-large-text);
@@ -120,6 +126,11 @@ h1,h2,h3,h4,h5,h6, .inline-title {
 
 h1 {
   font-size: var(--h1-large-text);
+}
+
+button , .button{
+  font-size: var(--button-text-size-med);
+  color: var(--blue);
 }
 
 .button {
@@ -131,7 +142,6 @@ h1 {
   background-color: var(--blue);
   cursor: pointer;
   text-align: center;
-  font-size: var(--button-text-size-med);
 }
 
 .button:hover {

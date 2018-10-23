@@ -1,0 +1,16 @@
+<main class="main">
+  <section class="section">
+      <div class="info-panel" id="info-text">
+          <div>
+              <p>To create a dish , first lets give it a name.</p>
+              <p>You can add all the details later..</p>
+          </div>
+      </div>
+
+      <input class="input-field" type="text" [(ngModel)]="dishName"  placeholder="dish name.....">
+
+      <button class="action-button button hvr-ripple-out" (click)="onAddDish()">
+          <div>SAVE</div>
+      </button>
+  </section>
+</main>

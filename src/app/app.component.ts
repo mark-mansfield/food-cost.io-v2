@@ -12,6 +12,7 @@ import { AuthService } from './auth/auth.service';
 })
 export class AppComponent implements OnInit {
   title = 'food-cost.io';
+
   constructor(private authService: AuthService) {}
 
   ngOnInit() {

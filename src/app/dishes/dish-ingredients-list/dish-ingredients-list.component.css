@@ -1,0 +1,88 @@
+.main>.section>div.info-panel {
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 95vw;
+  color: white;
+  background-color: rgba(45, 44, 44, 0.3);
+  box-shadow: 5px;
+  margin: 10px 0;
+}
+
+.main>.section>.info-panel>div>p {
+  margin: 20px;
+}
+
+.main>.section>button {
+  margin: 10px 0;
+  width: 95vw;
+  height: 80px;
+}
+
+.main>.section>button>i.far {
+  color: var(--blue);
+}
+
+.main>.section>button>i.far:hover {
+  color: black;
+}
+
+.button>i.far,
+.button>div>i.fa-search {
+  margin-right: 20px;
+}
+
+.far:hover {
+  color: black;
+}
+
+
+.main>.section>.info-panel>div,
+.main>.section>.button>div {
+  margin-left: 20px;
+}
+
+/* ipads and larger */
+@media (min-width: 40rem) {
+
+  body {
+    font-size: 1rem;
+  }
+
+  .header__page-title {
+    font-size: 1.6rem;
+  }
+
+  .section {
+    width: 30vw;
+  }
+
+  .main>.section>div.info-panel {
+    height: auto;
+    padding: 20px;
+    width: 500px;
+    font-size: 1.3rem;
+  }
+
+  .main>.section>.info-panel>div {
+    padding: 20px;
+  }
+
+  .main>.section>button {
+    width: 500px;
+  }
+
+  .main>.section>.pagination {
+    width: 500px;
+  }
+
+  .main>.section>.pagination>div {
+    text-align: center;
+  }
+
+  .main>.section>.button>div.click-icon {
+    font-size: 1.5rem;
+  }
+
+}

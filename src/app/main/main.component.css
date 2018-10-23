@@ -1,0 +1,35 @@
+.main-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+
+
+.mat-drawer {
+  width: 40vw;
+}
+
+
+.mat-drawer-container {
+  background-color: var(--dark-background) !important;
+  color: var(--light-text);
+}
+
+.mat-drawer {
+  background-color: var(--side-background-light);
+}
+
+.mat-drawer > nav {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.mat-drawer > nav > div {
+  margin: 20px;
+}

@@ -1,0 +1,16 @@
+<main class="main">
+  <section class="section">
+      <div class="info-panel" id="info-text">
+          <div>
+              <p>Enter some data to update this item</p>
+          </div>
+      </div>
+
+      <input *ngIf="field_type === 'text'" class="input-field" type="text" [(ngModel)]="this.field_value"  value="{{ this.field_value }}">
+      <textarea  *ngIf="field_type === 'text-area'" class="input_field" cols="81" rows="10" [(ngModel)]="this.field_value"  value="{{ this.field_value }}"></textarea>
+
+      <div class="action-button button hvr-ripple-out" (click)="onUpdateItem()">
+          <div>SAVE</div>
+      </div>
+  </section>
+</main>

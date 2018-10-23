@@ -1,0 +1,34 @@
+<main class="main">
+  <section class="section">
+    <button class="button" [routerLink]="['/ingredient/edit-field/', 'name', 'text' ]">
+      <div *ngIf="hasData">Name: {{ ingredient.name }}</div>
+      <i class="far fa-arrow-alt-circle-right white"></i>
+    </button>
+    <button class="button" [routerLink]="['/ingredient/edit-field/', 'price', 'text']">
+      <div *ngIf="hasData">Price: {{ ingredient.price }}</div>
+      <i class="far fa-arrow-alt-circle-right white"></i>
+    </button>
+    <button class="button" [routerLink]="['/ingredient/edit-field/', 'unit_amount', 'text']">
+      <div *ngIf="hasData">Unit amt: {{ ingredient.unit_amount }}</div>
+      <i class="far fa-arrow-alt-circle-right white"></i>
+    </button>
+    <button class="button" [routerLink]="['/ingredient/edit-field/', 'unit_type', 'text']">
+      <div *ngIf="hasData">Unit type: {{ ingredient.unit_type }}</div>
+      <i class="far fa-arrow-alt-circle-right white"></i>
+    </button>
+    <button class="button" [routerLink]="['/ingredient/edit-field/', 'supplier', 'text']">
+      <div *ngIf="hasData">Supplier: {{ ingredient.supplier }}</div>
+      <i class="far fa-arrow-alt-circle-right white"></i>
+    </button>
+    <button class="button" [routerLink]="['/ingredient/edit-field/', 'category', 'text']">
+      <div *ngIf="hasData">Category: {{ ingredient.category }}</div>
+      <i class="far fa-arrow-alt-circle-right white"></i>
+    </button>
+    <button class="button" [routerLink]="['/ingredient/edit-field/', 'sub_category', 'text']">
+      <div *ngIf="hasData">Sub-category: {{ ingredient.sub_category }}</div>
+      <i class="far fa-arrow-alt-circle-right white"></i>
+    </button>
+  </section>
+</main>
+
+

@@ -1,0 +1,8 @@
+.mat-form-field, input{
+  width:100%;
+  color:white;
+  border-color: black
+}
+.mat-spinner{
+  margin: auto;
+}
