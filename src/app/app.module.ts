@@ -20,11 +20,13 @@ import { LoginComponent } from './auth/login/login.component';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from '../error-interceptor';
 import { Globals } from './globals';
-import { MatDialogModule } from '@angular/material';
+import { MatDialogModule, MatToolbarModule, MatButtonModule, MatIconModule, MatListModule } from '@angular/material';
 import { DialogLargeComponent } from './dialogs/dialog-large/dialog-large.component';
 import { IngredientCreateHelpDialogComponent } from './dialogs/ingredient-create-help-dialog/ingredient-create-help-dialog.component';
 import { NumpadDialogComponent } from './dialogs/numpad-dialog/numpad-dialog.component';
 import { ErrorComponent } from './error/error.component';
+import { MainNavComponent } from './main-nav/main-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { ErrorComponent } from './error/error.component';
     DialogLargeComponent,
     IngredientCreateHelpDialogComponent,
     NumpadDialogComponent,
-    ErrorComponent
+    ErrorComponent,
+    MainNavComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +54,12 @@ import { ErrorComponent } from './error/error.component';
     FormsModule,
     IngredientsModule,
     DishesModule,
-    AppRoutingModule
+    AppRoutingModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatListModule
   ],
   entryComponents: [DialogLargeComponent, IngredientCreateHelpDialogComponent, NumpadDialogComponent, ErrorComponent],
   providers: [
