@@ -1,59 +1,103 @@
-import { Component, OnInit} from '@angular/core';
-import { DishService } from '../dish.service';
-import { ActivatedRoute , Router} from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DishIngredient } from '../dish-ingredient.model';
 import { Dish } from '../dish.model';
-
+import { Ingredient } from 'src/app/ingredients/ingredient.model';
+import { IngredientsService } from '../../ingredients/ingredients.service';
+import { DishService } from '../dish.service';
+import { MatAccordion } from '@angular/material/expansion';
 @Component({
   selector: 'app-dish-ingredients-list-add',
   templateUrl: './dish-ingredients-list-add.component.html',
   styleUrls: ['./dish-ingredients-list-add.component.css']
 })
 export class DishIngredientsListAddComponent implements OnInit {
-
-
   public dish: Dish;
-  public ingredient: DishIngredient;
   public ingredientsList = [];
+  public categories = [];
+  public suppliers = ['xyz', '123', 'asd'];
+  public ingredientIsOnList = true;
+  public multi = false;
   public isLoading = false;
-  public ingredientName: string;
+  public showRefresh = false;
+  public category;
+  public ingredientsSub: Subscription;
+  public dishesSub: Subscription;
+  public searchTerm: string;
   id: string;
 
-  constructor(public service: DishService, private route: ActivatedRoute) { }
+  constructor(
+    public ingredientsService: IngredientsService,
+    public dishesService: DishService,
+    private route: ActivatedRoute,
+    public router: Router,
+    public ingredientService: IngredientsService
+  ) {}
+
+  @ViewChild('accordion')
+  accordion: MatAccordion;
 
   ngOnInit() {
-    this.id = this.route.snapshot.paramMap.get('_id');
-    // because a manual page reload removes the body of the http request
-    // if page reload , grab the data from local storage
-    // ? Refactor this to just call local storage always?
-    if (this.id) {
-      // this.ingredientsList = this.service.getIngredientsList(this.id);
-      // if (!this.ingredientsList) {
-      //   this.dish = this.service.getSavedDishData();
-      //   this.ingredientsList = JSON.parse(JSON.stringify(this.dish.ingredients));
-      // }
-      this.dish = this.service.getSavedDishData();
-      console.log(this.dish);
-      this.ingredientsList = JSON.parse(JSON.stringify(this.dish.ingredients));
-      this.isLoading = false;
+    this.dish = this.dishesService.loadLocalDishData();
+    const ingredientData = this.ingredientService.loadLocalIngredientsData();
+    this.categories = ingredientData.categories;
+
+    if (ingredientData) {
+      this.ingredientsList = ingredientData.ingredients;
+      this.isLoading = true;
+      this.ingredientsSub = this.ingredientService
+        .getIngredientsUpdateListener()
+        .subscribe((ingredientList: Ingredient[]) => {
+          this.ingredientsList = ingredientList;
+          this.isLoading = false;
+        });
     } else {
-      console.log('no id sent');
+      this.ingredientService.getIngredients();
+      this.isLoading = true;
+      this.ingredientsSub = this.ingredientService
+        .getIngredientsUpdateListener()
+        .subscribe((ingredientList: Ingredient[]) => {
+          console.log(ingredientList);
+          this.ingredientsList = ingredientList;
+          this.isLoading = false;
+        });
     }
   }
 
   onAddIngredient(name) {
-    this.ingredientName = name;
-    this.ingredient = {
-      name: this.ingredientName.toLocaleLowerCase(),
+    const ingredient: DishIngredient = {
+      name: name.toLocaleLowerCase(),
       qty: '0',
-      AP_weight : '0',
-      EP_weight : '0'
+      AP_weight: '1',
+      EP_weight: '0'
     };
-    console.log(this.dish);
-    this.ingredientsList.unshift(this.ingredient);
-    this.dish.ingredients = this.ingredientsList;
+    // avoid expensive array object search
+    const tpmStr = JSON.stringify(this.dish.ingredients);
+    this.ingredientIsOnList = tpmStr.includes(name);
 
-    this.service.updateDish(this.dish);
+    // because you should not be able to  add the same inredient twice to a recipe
+    if (this.ingredientIsOnList) {
+      alert('this ingredient is already a part of this dish');
+    } else {
+      this.dish.ingredients.unshift(ingredient);
+      this.dishesService.updateDish(this.dish, 'ingredients');
+    }
+  }
+
+  search(searchValue) {
+    if (searchValue) {
+      this.ingredientService.searchIngredientByName(searchValue);
+    }
+  }
+
+  refreshList() {
+    this.ingredientsService.refreshingredientsList();
+    this.showRefresh = false;
+    this.accordion.closeAll();
+  }
+
+  filterByCat(cat) {
+    this.ingredientsService.searchIngredientByCategory(cat);
   }
 }

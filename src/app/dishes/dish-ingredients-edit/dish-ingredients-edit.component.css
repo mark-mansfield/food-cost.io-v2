@@ -1,6 +1,4 @@
-
-
-.main>.section> div.info-panel {
+.main > .section > div.info-panel {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -11,7 +9,7 @@
   margin: 10px 0;
 }
 
-.main>.section>form>input {
+.main > .section > form > input {
   margin: 20px 0px;
   width: 95vw;
   height: 80px;
@@ -21,48 +19,48 @@
   color: var(--light-text);
 }
 
-input[type=text] {
-  -webkit-transition: all 0.30s ease-in-out;
-  -moz-transition: all 0.30s ease-in-out;
-  -ms-transition: all 0.30s ease-in-out;
-  -o-transition: all 0.30s ease-in-out;
-  transition: all 0.30s ease-in-out;
+input[type='text'] {
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   outline: none;
   padding: 3px 0px 3px 3px;
 }
 
-input[type=text]:focus {
+input[type='text']:focus {
   box-shadow: 0 0 5px rgb(28, 28, 28);
   padding: 3px 0px 3px 3px;
   border: 1px solid rgba(81, 203, 238, 1);
 }
 
-
 input:not(:valid) ~ .close-icon {
-	display: none;
+  display: none;
 }
 
 .close-icon {
-  border:5px solid transparent;
-	background-color: transparent;
-	display: inline-block;
-	vertical-align: middle;
+  border: 5px solid transparent;
+  background-color: transparent;
+  display: inline-block;
+  vertical-align: middle;
   outline: 0;
   cursor: pointer;
-  position: relative;
+  position: absolute;
+  margin-top: 50px;
 }
 
 .close-icon:hover:after {
   background-color: var(--hover-green);
-  color:black;
+  color: black;
 }
 .close-icon:after {
-  content: "X";
+  content: 'X';
   display: block;
   width: 32px;
   height: 32px;
   position: absolute;
-  background-color:var(--blue);
+  background-color: var(--blue);
   z-index: 1;
   right: 20px;
   top: 0;
@@ -76,7 +74,7 @@ input:not(:valid) ~ .close-icon {
   cursor: pointer;
 }
 
-.main>.section>  button {
+.main > .section > button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -84,13 +82,13 @@ input:not(:valid) ~ .close-icon {
   width: 95vw;
   height: 80px;
 }
-.main>.section>  button > div{
+.main > .section > button > div {
   width: 50%;
 }
 
 .action-button {
   background-color: var(--blue);
-  color:black;
+  color: black;
 }
 
 .action-button:hover {
@@ -98,13 +96,13 @@ input:not(:valid) ~ .close-icon {
   color: black;
 }
 
-.main>.section> .slidecontainer {
+.main > .section > .slidecontainer {
   margin: 20px 0;
   width: 95vw;
   /* Width of the outside container */
 }
 
-.main>.section> .slidecontainer>.slider {
+.main > .section > .slidecontainer > .slider {
   -webkit-appearance: none;
   border-radius: 15px;
   border: 1px solid #504f4f;
@@ -116,7 +114,6 @@ input:not(:valid) ~ .close-icon {
   /* Grey background */
   outline: none;
   /* Remove outline */
-
 }
 
 .slider::-webkit-slider-thumb {
@@ -125,53 +122,49 @@ input:not(:valid) ~ .close-icon {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background:var(--blue);
+  background: var(--blue);
   cursor: pointer;
 }
-
 
 .slider::-moz-range-thumb {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background:var(--blue);
+  background: var(--blue);
   cursor: pointer;
 }
 
-.slider::-webkit-slider-thumb:hover{
+.slider::-webkit-slider-thumb:hover {
   background: var(--hover-green);
 }
 
 .slider::-moz-range-thumb:hover {
-   background: var(--hover-green);
+  background: var(--hover-green);
 }
-.main>.section>button>i.far {
+.main > .section > button > i.far {
   color: var(--blue);
 }
 
-.main>.section>button>i.far:hover {
+.main > .section > button > i.far:hover {
   color: black;
 }
 
-.button>i.far,
-.button>div>i.fa-search {
+.button > i.far,
+.button > div > i.fa-search {
   margin-right: 20px;
 }
-
 
 .far:hover {
   color: black;
 }
 
-
-.main>.section>.info-panel>div,
-.main>.section>.button>div {
+.main > .section > .info-panel > div,
+.main > .section > .button > div {
   margin-left: 20px;
 }
 
 /* ipads and larger */
 @media (min-width: 40rem) {
-
   body {
     font-size: 1rem;
   }
@@ -183,22 +176,22 @@ input:not(:valid) ~ .close-icon {
   .section {
     width: 30vw;
   }
-  .main>.section>form> input,
-  .main>.section>div.info-panel {
+  .main > .section > form > input,
+  .main > .section > div.info-panel {
     height: auto;
     padding: 20px;
     width: 500px;
     font-size: 1.3rem;
   }
 
-  .main>.section>.info-panel>div {
+  .main > .section > .info-panel > div {
     padding: 20px;
   }
 
-  .main>.section>.slidecontainer,
-  .main>.section>button,
-  .main>.section>input,
-  .main>.section>.slidecontainer>.slider {
+  .main > .section > .slidecontainer,
+  .main > .section > button,
+  .main > .section > input,
+  .main > .section > .slidecontainer > .slider {
     width: 500px;
   }
 }

@@ -1,0 +1,28 @@
+<div style="display:flex; flex-direction: column; justify-content: center; align-items: center">
+  <h1 mat-dialog-title>some of your ingredients are already in the system</h1>
+  <h1 mat-dialog-title>would you like us to</h1>
+</div>
+<div style="display: flex; flex-direction: row; justify-content: space-around; align-items: center">
+  <div style="display: flex; flex-direction: column; width: 30%">
+    <mat-dialog-content>
+      <h1>1</h1>
+      only add new items <small>(does not replace existing)</small>
+    </mat-dialog-content>
+    <br /><br />
+    <mat-dialog-actions>
+      <button mat-raised-button (click)="onSave('default')">Only add new</button>
+    </mat-dialog-actions>
+  </div>
+
+  <div style="display: flex; flex-direction: column;  width: 30%">
+    <mat-dialog-content
+      ><h1>2</h1>
+      update and add new items <small>(power feature)</small> <br />
+    </mat-dialog-content>
+    <br /><br />
+    <mat-dialog-actions>
+      <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+      <button mat-raised-button (click)="onSave('overwrite')">Update</button>
+    </mat-dialog-actions>
+  </div>
+</div>

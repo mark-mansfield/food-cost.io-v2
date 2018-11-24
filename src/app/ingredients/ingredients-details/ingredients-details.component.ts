@@ -8,10 +8,7 @@ import { Ingredient } from '../ingredient.model';
   templateUrl: './ingredients-details.component.html',
   styleUrls: ['./ingredients-details.component.css']
 })
-
-
 export class IngredientsDetailsComponent implements OnInit {
-
   public hasData = false;
   public selectedId: string;
   public ingredient: Ingredient;
@@ -23,13 +20,23 @@ export class IngredientsDetailsComponent implements OnInit {
   public supplier: string;
   public category: string;
   public sub_category: string;
-
-  constructor(private route: ActivatedRoute, private router: Router, private service: IngredientsService) { }
+  public ingredientsDoc: any;
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private service: IngredientsService
+  ) {}
 
   ngOnInit() {
+    this.ingredientsDoc = this.service.loadLocalIngredientsData();
     this.ingredient = JSON.parse(localStorage.getItem('ingredient'));
     this.hasData = true;
     console.log(this.ingredient);
   }
 
+  onDelete() {
+    console.log(this.ingredientsDoc);
+    this.service.mode = 'delete';
+    this.service.updateIngredient(this.ingredient, this.ingredientsDoc);
+  }
 }

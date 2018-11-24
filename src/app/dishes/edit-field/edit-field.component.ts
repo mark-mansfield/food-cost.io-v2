@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { DishService } from '../dish.service';
 import { Dish } from '../dish.model';
-
 
 @Component({
   selector: 'app-edit-field',
@@ -11,7 +10,6 @@ import { Dish } from '../dish.model';
   styleUrls: ['./edit-field.component.css']
 })
 export class EditFieldComponent implements OnInit {
-
   public dish: Dish;
   public field_value: string;
   private field: string;
@@ -20,19 +18,19 @@ export class EditFieldComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    public router: Router,
     private dishService: DishService
   ) {}
 
   ngOnInit() {
-
     this.field = this.route.snapshot.paramMap.get('field_name');
     this.id = this.route.snapshot.paramMap.get('_id');
-    this. field_type = this.route.snapshot.paramMap.get('field_type');
+    this.field_type = this.route.snapshot.paramMap.get('field_type');
     if (this.id) {
       this.dish = JSON.parse(localStorage.getItem('dish'));
       this.field_value = this.dish[this.field];
       console.log(this.field_value);
-      } else {
+    } else {
       console.log('no id sent');
     }
   }
@@ -40,6 +38,7 @@ export class EditFieldComponent implements OnInit {
   upDateDish() {
     this.dish[this.field] = this.field_value;
     console.log(this.dish);
-    this.dishService.updateDish(this.dish);
+    this.dishService.updateDish(this.dish, this.field_value);
+    this.router.navigate(['/dish/' + this.dish._id]);
   }
 }

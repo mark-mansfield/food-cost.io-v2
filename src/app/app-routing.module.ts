@@ -9,29 +9,31 @@ import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { IngredientsListComponent } from './ingredients/ingredients-list/ingredients-list.component';
 
-
 const appRoutes: Routes = [
-  { path : 'home' , component: HomepageComponent },
-  { path : 'login' , component: LoginComponent },
-  { path : 'signup' , component: SignupComponent },
-  { path : 'dishes' , loadChildren: './dishes/dishes.module#DishesModule' },
-  { path : 'ingredients' , loadChildren: './ingredients/ingredients.module#IngredientsModule' },
+  { path: 'home', component: HomepageComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'signup', component: SignupComponent },
+  { path: 'dishes', loadChildren: './dishes/dishes.module#DishesModule' },
+  {
+    path: 'ingredients',
+    loadChildren: './ingredients/ingredients.module#IngredientsModule'
+  },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', component: PageNotFoundComponent },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(
       appRoutes,
-      { enableTracing: false } // <-- debugging purposes only
+      {
+        enableTracing: false
+      } // <-- debugging purposes only
     ),
     CommonModule
   ],
-  exports: [
-    RouterModule
-  ],
+  exports: [RouterModule],
   providers: [AuthGuard],
   declarations: []
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

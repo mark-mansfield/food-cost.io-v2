@@ -4,9 +4,7 @@ import { AuthData } from './auth-data.model';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { Globals } from '../globals';
-
-@Injectable({ providedIn: 'root'})
-
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   private token: string;
   private isAuthenticated = false;
@@ -14,14 +12,12 @@ export class AuthService {
   private custId: string;
   expiresInDuration = null;
 
-
-
   // prevent user from being logged out with a manual page reload (we store a token in localStorage) see: autoAuthUser()
   // bounce user after one hour using tokenTimer
   // Subject push the authentication status to interested components
   // return the observable, we just push a boolean from here to the  other parties
   private authStatusListener = new Subject<boolean>();
-  constructor (private http: HttpClient, private router: Router, private globals: Globals) {}
+  constructor(private http: HttpClient, private router: Router, private globals: Globals) {}
 
   getToken() {
     return this.token;
@@ -32,7 +28,7 @@ export class AuthService {
   }
 
   getCustomerData() {
-    return  this.custId;
+    return this.custId;
   }
 
   getAuthStatusListener() {
@@ -41,7 +37,7 @@ export class AuthService {
 
   autoAuthUser() {
     const authInformation = this.getAuthData();
-    if (authInformation == null ) {
+    if (authInformation == null) {
       this.router.navigate(['/login']); /* navigate to login page */
       return;
     }
@@ -56,40 +52,55 @@ export class AuthService {
   }
 
   createUser(email: string, password: string) {
-    const authData: AuthData = {email: email, password: password , custID: email};
-    this.http.post('http://localhost:3000/api/users/signup', authData)
-    .subscribe(response => {
+    const authData: AuthData = {
+      email: email,
+      password: password,
+      custID: email
+    };
+    return this.http.post('http://localhost:3000/api/users/signup', authData).subscribe(
+      response => {
         console.log(response);
         this.router.navigate(['/login']); /* navigate to landing page */
-    });
+      },
+      error => {
+        this.authStatusListener.next(false); /* push status to entire app */
+      }
+    );
   }
 
   login(email: string, password: string) {
-    const authData: AuthData = { email: email, password: password, custID: null};
-    this.http.post<{token: string, expiresIn: string, userId: string}>('http://localhost:3000/api/users/login' , authData)
-    .subscribe(response => {
+    const authData: AuthData = {
+      email: email,
+      password: password,
+      custID: null
+    };
+    this.http
+      .post<{ token: string; expiresIn: string; userId: string }>('http://localhost:3000/api/users/login', authData)
+      .subscribe(
+        response => {
+          // store token for later use
+          const token = response.token;
+          this.token = token;
 
-      // store token for later use
-      const token = response.token;
-      this.token = token;
+          if (token) {
+            this.globals.setCustomer(response);
+            this.custId = response.userId;
+            this.expiresInDuration = response.expiresIn;
 
-      if (token) {
+            this.setAuthTimer(this.expiresInDuration);
+            this.authStatusListener.next(true);
+            this.isAuthenticated = true;
 
-        this.globals.setCustomer(response);
-        this.custId = response.userId;
-        this.expiresInDuration = response.expiresIn;
-
-        this.setAuthTimer(this.expiresInDuration);
-        this.authStatusListener.next(true);
-        this.isAuthenticated = true;
-
-        const now = new Date;
-        const expirationDate = new Date( now.getTime() + this.expiresInDuration * 1000);
-
-        this.saveAuthData(token, expirationDate);
-        this.router.navigate(['']);
-      }
-    });
+            const now = new Date();
+            const expirationDate = new Date(now.getTime() + this.expiresInDuration * 1000);
+            this.saveAuthData(token, expirationDate);
+            this.router.navigate(['']);
+          }
+        },
+        error => {
+          this.authStatusListener.next(false); /* push status to entire app */
+        }
+      );
   }
 
   logout() {
@@ -98,21 +109,20 @@ export class AuthService {
     this.authStatusListener.next(false);
     this.router.navigate(['/']); /* navigate to landing page */
     this.clearAuthData();
+    this.clearCustomerData();
     clearTimeout(this.tokenTimer);
   }
-
-
 
   private setAuthTimer(duration: number) {
     this.tokenTimer = setTimeout(() => {
       this.logout();
-    } , duration * 1000);
+    }, duration * 1000);
   }
 
   private getAuthData() {
     const token = localStorage.getItem('token');
     const expirationDate = localStorage.getItem('expiration');
-    if ( !token || !expirationDate === null) {
+    if (!token || !expirationDate === null) {
       return;
     } else {
       return {
@@ -123,7 +133,7 @@ export class AuthService {
   }
 
   private saveAuthData(token: string, expirationDate: Date) {
-    localStorage.setItem('token' , token);
+    localStorage.setItem('token', token);
     localStorage.setItem('expiration', expirationDate.toISOString());
   }
 
@@ -131,5 +141,11 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
   }
-}
 
+  private clearCustomerData() {
+    localStorage.removeItem('customer');
+    localStorage.removeItem('ingredients');
+    localStorage.removeItem('ingredient');
+    localStorage.removeItem('dishes');
+  }
+}

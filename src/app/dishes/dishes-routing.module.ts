@@ -10,7 +10,7 @@ import { EditFieldComponent } from './edit-field/edit-field.component';
 import { DishIngredientsListAddComponent } from './dish-ingredients-list-add/dish-ingredients-list-add.component';
 
 const dishesRoutes: Routes = [
-  //  list all dishes
+  // list all dishes
   { path: 'dishes',  component: DishesListComponent, canActivate: [AuthGuard]},
    // create a dish
   { path: 'dish/create', component: DishCreateComponent ,  canActivate: [AuthGuard]},

@@ -11,7 +11,6 @@ import { DishIngredient } from '../dish-ingredient.model';
   styleUrls: ['./dish-ingredients-edit.component.css']
 })
 export class DishIngredientsEditComponent implements OnInit {
-
   public dish: Dish;
   public ingredient: DishIngredient;
   public ingredientsList = [];
@@ -19,31 +18,29 @@ export class DishIngredientsEditComponent implements OnInit {
   private ingredientName: string;
   public id: string;
   public qty: string;
-  constructor(private service: DishService, private route: ActivatedRoute) { }
+  public EP_weight: string;
+  constructor(private service: DishService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-
     this.isLoading = true;
     this.id = this.route.snapshot.paramMap.get('_id');
-    this.ingredientName = this.route.snapshot.paramMap.get('ingredient_name').toLocaleLowerCase();
+    this.ingredientName = this.route.snapshot.paramMap
+      .get('ingredient_name')
+      .toLocaleLowerCase();
 
     // because a manual page reload removes the body of the http request
     // if page reload , grab the data from local storage
     if (this.id) {
-      // this.ingredientsList = this.service.getIngredientsList(this.id);
-      // console.log(this.ingredientsList);
-      // if (!this.ingredientsList) {
-      //   this.dish = this.service.getSavedDishData();
-      //   this.ingredientsList = JSON.parse(JSON.stringify(this.dish.ingredients));
-      // }
-      this.dish = this.service.getSavedDishData();
+      this.dish = this.service.loadLocalDishData();
       this.ingredientsList = JSON.parse(JSON.stringify(this.dish.ingredients));
-      this.ingredient = this.ingredientsList.find(item => item.name === this.ingredientName);
+      this.ingredient = this.ingredientsList.find(
+        item => item.name === this.ingredientName
+      );
+      this.EP_weight = (parseFloat(this.ingredient.EP_weight) * 100).toFixed(2);
       this.isLoading = false;
     } else {
       console.log('no id sent');
     }
-
   }
 
   updateIngredient() {
@@ -55,19 +52,19 @@ export class DishIngredientsEditComponent implements OnInit {
     });
 
     this.dish.ingredients = this.ingredientsList;
-    this.service.updateDish(this.dish);
+    this.service.updateDish(this.dish, 'ingredients');
     console.log(this.dish);
   }
 
-  qtyChange (qty) {
+  qtyChange(qty) {
     this.ingredient.qty = qty;
   }
 
   sliderChange(slider) {
-      // console.log(slider.value);
-      const val = parseInt(slider.value, 0) / 100;
-      this.ingredient.EP_weight = val.toString();
-      const output = document.querySelector('#slider-value');
-      output.innerHTML = slider.value   + ' %';
+    // console.log(slider.value);
+    const val = parseInt(slider.value, 0) / 100;
+    this.ingredient.EP_weight = val.toString();
+    const output = document.querySelector('#slider-value');
+    output.innerHTML = slider.value + ' %';
   }
 }

@@ -1,20 +1,18 @@
-<mat-sidenav-container
-    class="main-container">
-    <mat-sidenav class="side-nav"  #sidenav>
-      <nav class="side-nav">
-          <div><a [routerLink]="['/home']" routerLinkActive="active" (click)="toggle()">home</a></div>
-          <div><a [routerLink]="['/dishes']" routerLinkActive="active" (click)="toggle()">dishes</a></div>
-          <div><a [routerLink]="['/logout']" routerLinkActive="active" (click)="toggle()">logout</a></div>
+<mat-sidenav-container class="main-container">
+  <mat-sidenav class="side-nav" #sidenav>
+    <nav class="side-nav">
+      <div><a [routerLink]="['/home']" routerLinkActive="active" (click)="toggle()">home</a></div>
+      <div><a [routerLink]="['/dishes']" routerLinkActive="active" (click)="toggle()">dishes</a></div>
+      <div><a [routerLink]="['/logout']" routerLinkActive="active" (click)="toggle()">logout</a></div>
     </nav>
   </mat-sidenav>
 
   <mat-sidenav-content>
     <app-header class="main__header"></app-header>
     <p></p>
-    <div class="main">
-      <router-outlet></router-outlet>
-    </div>
+
+    <router-outlet></router-outlet>
+
     <app-footer></app-footer>
   </mat-sidenav-content>
-
 </mat-sidenav-container>

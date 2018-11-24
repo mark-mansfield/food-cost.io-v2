@@ -1,14 +1,76 @@
+<!--
+  add an ingredient from a master list to the current dish ingredient list
+-->
 <main class="main">
-    <section class="section">
-        <div class="info-panel" id="info-text">
-            <div>
-                <p>add ingredient , this will be deprecated in v2</p>
-                <p>You can add all the details later..</p>
-            </div>
-        </div>
-        <input class="input-field" type="text" [(ngModel)]="this.ingredientName"  placeholder="ingredient name.....">
-        <button class="action-button button hvr-ripple-out" (click)="onAddIngredient(ingredientName)">
-            <div>SAVE</div>
+  <section class="section">
+    <div class="info-panel" id="info-text">
+      <div>
+        <p>Add an ingredient from your stock list</p>
+        <p>You will add some measurements later..</p>
+      </div>
+    </div>
+    <div class="search-container" *ngIf="ingredientsList.length > 0">
+      search by name
+      <form action="">
+        <button class="click-icon fas fa-sync" (click)="refreshList()">
+          <i></i>
         </button>
-    </section>
-  </main>
+        <input
+          class="input-field"
+          type="text"
+          id="dish-input-text"
+          #searchinput
+          [(ngModel)]="searchTerm"
+          name="search"
+          placeholder="  search....."
+        />
+        <button
+          class="click-icon fas fa-search"
+          (click)="search(searchTerm)"
+        ></button>
+      </form>
+    </div>
+    <div class="info-panel filter-panel">
+      filters
+      <mat-accordion
+        class="example-headers-align"
+        #accordion="matAccordion"
+        [multi]="multi"
+      >
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title> <a>categories</a> </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-panel-title *ngFor="let category of categories">
+            <a (click)="filterByCat(category)">{{ category }}</a>
+          </mat-panel-title>
+          <!--
+            <button *ngFor="let category of categories;" class="link-list-link blue" (click)="filterByCat(category)">{{category}}</button>
+          -->
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title> <a>suppliers</a> </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-panel-title *ngFor="let supplier of suppliers">
+            <a>{{ supplier }}</a>
+          </mat-panel-title>
+          <!--
+            <button *ngFor="let category of categories;" class="link-list-link blue" (click)="filterByCat(category)">{{category}}</button>
+          -->
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+    <button
+      class="button"
+      *ngFor="let ingredient of ingredientsList; let i = index"
+      [attr.data-index]="i"
+    >
+      <div>{{ ingredient.ingredient_name }}</div>
+      <i
+        class="fa fa-plus"
+        (click)="onAddIngredient(ingredient.ingredient_name)"
+      ></i>
+    </button>
+  </section>
+</main>

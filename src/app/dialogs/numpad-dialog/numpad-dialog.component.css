@@ -1,0 +1,34 @@
+.number__pad {
+  width: 500px;
+  height: 500px;
+}
+
+.number__pad-read-out {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  margin: 20px auto;
+  text-align: center;
+  height: 100px;
+  width: 100%;
+  font-size: 4rem;
+  color: white;
+  background-color: rgba(92, 91, 91, 0.3);
+}
+
+.number__pad-update-button {
+  margin: 20px auto;
+  height: 50px;
+  font-size: var(--h1-large-text);
+  width: 100%;
+}
+
+.number__pad-grid-tile {
+  background: var(--blue);
+}
+
+.number__pad-grid-tile:hover {
+  cursor: pointer;
+  background: var(--hover-green);
+}

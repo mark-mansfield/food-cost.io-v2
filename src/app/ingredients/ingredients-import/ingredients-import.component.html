@@ -1,0 +1,278 @@
+<ng-template #greenTick>
+  <div class="animation-ctn">
+    <div class="icon icon--order-success svg">
+      <svg xmlns="http://www.w3.org/2000/svg" width="154px" height="154px">
+        <g fill="none" stroke="#22AE73" stroke-width="2">
+          <circle cx="77" cy="77" r="72" style="stroke-dasharray:480px, 480px; stroke-dashoffset: 960px;"></circle>
+          <circle
+            id="colored"
+            fill="#22AE73"
+            cx="77"
+            cy="77"
+            r="72"
+            style="stroke-dasharray:480px, 480px; stroke-dashoffset: 960px;"
+          ></circle>
+          <polyline
+            class="st0"
+            stroke="#fff"
+            stroke-width="10"
+            points="43.5,77.8 63.7,97.9 112.2,49.4 "
+            style="stroke-dasharray:100px, 100px; stroke-dashoffset: 200px;"
+          />
+        </g>
+      </svg>
+    </div>
+  </div>
+</ng-template>
+
+<main class="main">
+  <section class="section">
+    <div class="info-panel" style="display:flex; flex-direction: row; justify-content: flex-start; align-items: center">
+      <a
+        style="cursor:pointer; margin-left: 20px "
+        (click)="this.stepper.reset(); filePicker.value = ''; showTick = false"
+      >
+        start again
+      </a>
+    </div>
+    <mat-horizontal-stepper #stepper linear>
+      <mat-step [completed]="false">
+        <ng-template matStepLabel>Step 1. Select a file</ng-template>
+
+        <mat-card class="matt-card">
+          <!-- reactive forms approach -->
+          <form [formGroup]="form" (submit)="onSubmit()" #uploadForm="ngForm">
+            <h1>Import from CSV file</h1>
+            <br /><br />
+            <h2>Upload File</h2>
+            <br /><br />
+            <button mat-button type="button" color="accent" (click)="filePicker.click()">
+              <span class="material-icons" style="font-size: 6rem; background-color: none">computer</span>
+            </button>
+            <small>browse</small>
+            <div *ngIf="showTick"><ng-container *ngTemplateOutlet="greenTick"></ng-container></div>
+            <span style="color:black">{{ message }}</span> <br /><br />
+            <p *ngIf="!showTick" style="text-align: center">
+              Acceptable file types: <br /><strong> CSV or tab-delimited text files.</strong>
+            </p>
+            <input type="file" #filePicker (change)="onFilePicked($event)" />
+            <button mat-raised-button color="accent" type="submit" [disabled]="this.uploadForm.control.disabled">
+              upload
+            </button>
+          </form>
+        </mat-card>
+      </mat-step>
+      <mat-step [completed]="false">
+        <ng-template matStepLabel>Step 2. set first column name</ng-template>
+        <mat-card class="matt-card">
+          <table mat-table [dataSource]="previewDataSource[0]" class="mat-elevation-z8">
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef>
+                <br /><br />
+                <h1 style="text-align: center">select a column name for this data</h1>
+                <br /><br />
+                column names
+                <select
+                  required
+                  placeholder="Choose an option"
+                  #select
+                  (change)="setColumnName(0, select.value); this.next2.disabled = false; this.showTick = true"
+                >
+                  <option *ngFor="let keyName of columnKeys; let i = index" [disabled]="keyName[1]" [value]="i">{{
+                    keyName[0]
+                  }}</option>
+                </select>
+                <div *ngIf="showTick"><ng-container *ngTemplateOutlet="greenTick"></ng-container></div>
+                <br /><br />
+                <div style="text-align: center">
+                  <button mat-button matStepperPrevious>Back</button>
+                  <button mat-button matStepperNext #next2 disabled (click)="this.showTick = false">Next</button>
+                </div>
+                <br /><br />
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="previewDisplayColumn"></tr>
+            <tr mat-row *matRowDef="let row; columns: previewDisplayColumn"></tr>
+          </table>
+        </mat-card>
+      </mat-step>
+      <mat-step [completed]="false">
+        <ng-template matStepLabel>Step 3. set second column name</ng-template>
+        <mat-card class="matt-card">
+          <table mat-table [dataSource]="previewDataSource[1]" class="mat-elevation-z8">
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef (click)="showTick = false">
+                <br /><br />
+                <h1 style="text-align: center">select a column name for this data</h1>
+                <br /><br />
+                column names
+                <select
+                  placeholder="Choose an option"
+                  #select
+                  (change)="setColumnName(1, select.value); this.next3.disabled = false; this.showTick = true"
+                >
+                  <option *ngFor="let keyName of columnKeys; let i = index" [disabled]="keyName[1]" [value]="i">{{
+                    keyName[0]
+                  }}</option>
+                </select>
+                <br /><br />
+                <div *ngIf="showTick === true"><ng-container *ngTemplateOutlet="greenTick"></ng-container></div>
+                <br /><br />
+                <div style="text-align: center">
+                  <button mat-button matStepperPrevious (click)="this.stepper.reset()">Back</button>
+                  <button mat-button matStepperNext #next3 disabled (click)="showTick = false">Next</button>
+                </div>
+                <br /><br />
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="previewDisplayColumn"></tr>
+            <tr mat-row *matRowDef="let row; columns: previewDisplayColumn"></tr>
+          </table>
+        </mat-card>
+      </mat-step>
+      <mat-step [completed]="false">
+        <ng-template matStepLabel>Step 4. set third column name</ng-template>
+        <mat-card class="matt-card">
+          <table mat-table [dataSource]="previewDataSource[2]" class="mat-elevation-z8">
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef>
+                <br /><br />
+                <h1 style="text-align: center">select a column name for this data</h1>
+                <br /><br />
+                column names
+                <select
+                  placeholder="Choose an option"
+                  #select
+                  (change)="setColumnName(2, select.value); this.next4.disabled = false; this.showTick = true"
+                >
+                  <option *ngFor="let keyName of columnKeys; let i = index" [disabled]="keyName[1]" [value]="i">{{
+                    keyName[0]
+                  }}</option>
+                </select>
+                <br /><br />
+                <div *ngIf="showTick"><ng-container *ngTemplateOutlet="greenTick"></ng-container></div>
+                <br /><br />
+                <div style="text-align: center">
+                  <button mat-button matStepperPrevious>Back</button>
+                  <button mat-button matStepperNext #next4 disabled (click)="showTick = false">Next</button>
+                </div>
+                <br /><br />
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="previewDisplayColumn"></tr>
+            <tr mat-row *matRowDef="let row; columns: previewDisplayColumn"></tr>
+          </table>
+        </mat-card>
+      </mat-step>
+      <mat-step [completed]="false">
+        <ng-template matStepLabel>Step 5. set 4th column name</ng-template>
+        <mat-card class="matt-card">
+          <table mat-table [dataSource]="previewDataSource[3]" class="mat-elevation-z8">
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef>
+                <br /><br />
+                <h1 style="text-align: center">select a column name for this data</h1>
+                <br /><br />
+                column names
+                <select
+                  placeholder="Choose an option"
+                  #select
+                  (change)="setColumnName(3, select.value); this.next5.disabled = false; this.showTick = true"
+                >
+                  <option *ngFor="let keyName of columnKeys; let i = index" [disabled]="keyName[1]" [value]="i">{{
+                    keyName[0]
+                  }}</option>
+                </select>
+                <br /><br />
+                <div *ngIf="showTick"><ng-container *ngTemplateOutlet="greenTick"></ng-container></div>
+                <br /><br />
+                <div style="text-align: center">
+                  <button mat-button matStepperPrevious>Back</button>
+                  <button mat-button matStepperNext #next5 disabled>Next</button>
+                </div>
+                <br /><br />
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="previewDisplayColumn"></tr>
+            <tr mat-row *matRowDef="let row; columns: previewDisplayColumn"></tr>
+          </table>
+        </mat-card>
+      </mat-step>
+      <mat-step class="mat-step-lge">
+        <ng-template matStepLabel>Review</ng-template>
+        <mat-card review="review-table">
+          <h1>Review</h1>
+          <br /><br />
+          Review Your Data here to make sure columns and data are correctly matched <br /><br />
+          <table mat-table [dataSource]="reviewTableData" class="mat-elevation-z8">
+            <!--
+              - Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition"
+            -->
+
+            <!-- 1. ingredient name Column -->
+            <ng-container matColumnDef="ingredient_name">
+              <th mat-header-cell *matHeaderCellDef>name.</th>
+              <td mat-cell *matCellDef="let element">{{ element.ingredient_name }}</td>
+            </ng-container>
+
+            <!-- 2. ingredient price Column -->
+
+            <ng-container matColumnDef="ingredient_price">
+              <th mat-header-cell *matHeaderCellDef>Ingredient price</th>
+              <td mat-cell *matCellDef="let element">{{ element.ingredient_price }}</td>
+            </ng-container>
+
+            <!-- 3. ingredient purchase Amount column -->
+
+            <ng-container matColumnDef="purchase_amount">
+              <th mat-header-cell *matHeaderCellDef>purchase amount</th>
+              <td mat-cell *matCellDef="let element">{{ element.purchase_amount }}</td>
+            </ng-container>
+
+            <!-- Ingredient Category Column -->
+
+            <ng-container matColumnDef="category">
+              <th mat-header-cell *matHeaderCellDef>category</th>
+              <td mat-cell *matCellDef="let element">{{ element.category }}</td>
+            </ng-container>
+
+            <!-- Ingredient Supplier Column -->
+
+            <ng-container matColumnDef="supplier">
+              <th mat-header-cell *matHeaderCellDef>supplier</th>
+              <td mat-cell *matCellDef="let element">{{ element.supplier }}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="reviewDataDisplayedColumnDefs"></tr>
+
+            <tr mat-row *matRowDef="let row; columns: reviewDataDisplayedColumnDefs"></tr>
+          </table>
+
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+          <br /><br />
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button (click)="this.stepper.reset(); this.filePicker.value = ''">Reset</button>
+          </div>
+          <button class="next-final mat-button" matStepperNext #next5>Next</button>
+        </mat-card>
+        <br /><br />
+        <br /><br />
+      </mat-step>
+      <mat-step class="mat-step-lge">
+        <ng-template matStepLabel>Done</ng-template>
+        <mat-card review="review-table">
+          <h1>Finish</h1>
+          <br /><br />
+          You are ready to upload your data
+          <button class="button" style="margin: 20px;" (click)="onImport()" mat-raised-button>finish</button>
+        </mat-card>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </section>
+</main>

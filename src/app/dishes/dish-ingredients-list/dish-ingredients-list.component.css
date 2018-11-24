@@ -1,5 +1,4 @@
-.main>.section>div.info-panel {
-
+.main > .section > div.info-panel {
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -10,26 +9,30 @@
   margin: 10px 0;
 }
 
-.main>.section>.info-panel>div>p {
+.main > .section > .info-panel > div > p {
   margin: 20px;
 }
 
-.main>.section>button {
+.main > .section > button {
   margin: 10px 0;
   width: 95vw;
   height: 80px;
 }
 
-.main>.section>button>i.far {
+.main > .section > button > i.far {
   color: var(--blue);
 }
 
-.main>.section>button>i.far:hover {
+.main > .section > button > i.far:hover {
   color: black;
 }
 
-.button>i.far,
-.button>div>i.fa-search {
+.main > .section > button > i.far {
+  color: var(--light-text);
+}
+
+.button > i.far,
+.button > div > i.fa-search {
   margin-right: 20px;
 }
 
@@ -37,15 +40,13 @@
   color: black;
 }
 
-
-.main>.section>.info-panel>div,
-.main>.section>.button>div {
+.main > .section > .info-panel > div,
+.main > .section > .button > div {
   margin-left: 20px;
 }
 
 /* ipads and larger */
 @media (min-width: 40rem) {
-
   body {
     font-size: 1rem;
   }
@@ -58,31 +59,30 @@
     width: 30vw;
   }
 
-  .main>.section>div.info-panel {
+  .main > .section > div.info-panel {
     height: auto;
     padding: 20px;
     width: 500px;
     font-size: 1.3rem;
   }
 
-  .main>.section>.info-panel>div {
+  .main > .section > .info-panel > div {
     padding: 20px;
   }
 
-  .main>.section>button {
+  .main > .section > button {
     width: 500px;
   }
 
-  .main>.section>.pagination {
+  .main > .section > .pagination {
     width: 500px;
   }
 
-  .main>.section>.pagination>div {
+  .main > .section > .pagination > div {
     text-align: center;
   }
 
-  .main>.section>.button>div.click-icon {
+  .main > .section > .button > div.click-icon {
     font-size: 1.5rem;
   }
-
 }

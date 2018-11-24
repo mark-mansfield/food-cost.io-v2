@@ -1,0 +1,6 @@
+.error {
+  color: var(--error);
+}
+.error__message {
+  color: var(--light-text);
+}

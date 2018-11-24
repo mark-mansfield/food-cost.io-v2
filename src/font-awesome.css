@@ -1,0 +1,62 @@
+/* font awesome  icons */
+
+.arrow-forward {
+  margin-right: 10px;
+}
+
+.fa-bars {
+  font-size: var(--lge-icon);
+  cursor: pointer;
+  color: var(--blue);
+}
+
+.fa-plus-small-font {
+  font-size: small;
+  color: var(--blue);
+}
+
+.fa-minus-circle {
+  color: var(--red);
+  font-size: var(--xlge-icon);
+}
+
+.fa-minus-circle:hover {
+  color: var(--hover-green);
+  cursor: pointer;
+}
+
+.fa-sync,
+.fa-search,
+.fa-bars,
+.fa-plus,
+.fa-arrow-alt-circle-left,
+.fa-arrow-alt-circle-right,
+.fa-question-circle {
+  font-size: var(--lge-icon);
+  color: var(--blue);
+  cursor: pointer;
+}
+
+.fa-question-circle {
+  font-size: var(--medium-icon);
+}
+.fa-sync:hover,
+.fa-search:hover,
+.fa-bars:hover,
+.fa-arrow-alt-circle-left:hover,
+.fa-arrow-alt-circle-right:hover,
+.fa-plus:hover {
+  color: var(--hover-green);
+}
+
+.fa-eye,
+.fa-eye-slash {
+  font-size: var(--medium-icon);
+  color: var(--blue);
+}
+
+.fa-eye:hover,
+.fa-eye-slash:hover {
+  color: var(--hover-green);
+  cursor: pointer;
+}

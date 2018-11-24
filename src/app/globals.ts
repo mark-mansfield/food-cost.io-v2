@@ -14,4 +14,4 @@ export class Globals {
 
     localStorage.setItem('customer', JSON.stringify(customer));
   }
-
+}

@@ -1,36 +1,41 @@
 <main class="main">
-  <section class="section">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <section class="section" *ngIf='!isLoading'>
+    <i class="fa fa-minus-circle lge-icon" tabIndex='auto' (click)="onDelete(dish._id)" aria-hidden="true"></i>
+    <div class="info-panel delete-tool">
+      <h1>{{ dish.name }}</h1>
+    </div>
+
     <button class="button" [routerLink]="['/dish/edit-field/', selectedId , 'name', 'text']">
-      <div *ngIf="hasData">Name: {{ dish.name }}</div>
+      <div>Name: {{ dish.name }}</div>
       <i class="far fa-arrow-alt-circle-right white"></i>
     </button>
+
     <button class="button" [routerLink]="['/dish/', selectedId , 'ingredients']">
-      <div *ngIf="hasData">Ingredients: {{ ingredientTotal }}</div>
+      <div>Ingredients: {{ ingredientTotal }}</div>
       <i class="far fa-arrow-alt-circle-right white"></i>
     </button>
     <button class="button" [routerLink]="['/dish/edit-field/' ,selectedId,  'description', 'text-area']">
-      <div *ngIf="hasData">Description: <small>{{ this.dish.description.substring(0, 15) + ' ...' }}</small></div>
+      <div>Description: <small>{{ this.dish.description.substring(0, 15) + ' ...' }}</small></div>
       <i class="far fa-arrow-alt-circle-right white"></i>
     </button>
     <button class="button" [routerLink]="['/dish/edit-field/' ,selectedId,  'recipe_method', 'text-area']">
-      <div *ngIf="hasData">Method: <small>{{ this.method.substring(0, 15) + ' ...' }}</small></div>
+      <div>Method: <small>{{ this.method.substring(0, 15) + ' ...' }}</small></div>
       <i class="far fa-arrow-alt-circle-right white"></i>
     </button>
-    <button class="button"  [routerLink]="['/dish/edit-field/' ,selectedId,  'plating_guide', 'text-area']">
-      <div *ngIf="hasData">Plating: <small>{{ this.plating.substring(0, 15) + ' ...' }}</small></div>
+    <button class="button" [routerLink]="['/dish/edit-field/' ,selectedId,  'plating_guide', 'text-area']">
+      <div>Plating: <small>{{ this.plating.substring(0, 15) + ' ...' }}</small></div>
       <i class="far fa-arrow-alt-circle-right white"></i>
     </button>
     <button class="button" [routerLink]="['/dish/edit-field/', selectedId , 'retail_price', 'text']">
-      <div *ngIf="hasData">Retail: ${{ dish.retail_price }}</div>
+      <div>Retail: ${{ dish.retail_price }}</div>
       <i class="far fa-arrow-alt-circle-right white"></i>
     </button>
     <div class="info-panel">
-      <div *ngIf="hasData">Cost: ${{ dish.cost }}</div>
+      <div>Cost: ${{ this.cost }}</div>
     </div>
     <div class="info-panel">
-      <div *ngIf="hasData">Margin: {{ this.margin }} %</div>
+      <div>Margin: {{ this.margin }} %</div>
     </div>
   </section>
 </main>
-
-

@@ -1,19 +1,34 @@
 <main class="main">
   <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <section class="section" *ngIf='!isLoading'>
+  <section class="section" *ngIf="!isLoading">
     <div class="info-panel">
-        <h1>{{ dish.name }}</h1>
+      <i
+        class="far fa-arrow-alt-circle-left"
+        [routerLink]="['/dish/', this.id]"
+      ></i>
+      <div class="page-title-link">{{ dish.name }}</div>
     </div>
     <div class="info-panel">
-      <div>
-        <p class="inline-title">Add an ingredient</p>
+      <div><p class="inline-title">Ingredients</p></div>
+      <div class="click-icon">
+        <i
+          class="fa fa-plus"
+          [routerLink]="['/dish', this.id, 'ingredients', 'add']"
+          ><a href=""></a
+        ></i>
       </div>
-      <div class="click-icon"><i class="fa fa-plus" [routerLink]="['/dish', this.id, 'ingredients', 'add']"><a href=""></a></i></div>
     </div>
-    <button class="button" *ngFor="let ingredient of ingredients" >
+    <button class="button" *ngFor="let ingredient of ingredients">
       <div>{{ ingredient.name.toLocaleLowerCase() }}</div>
-      <i class="far fa fa-minus-circle white" (click)="onDeleteDishIngredient(ingredient.name)" aria-hidden="true"></i>
-      <i class="far fa-arrow-alt-circle-right white" [routerLink]="['/dish/', this.id, 'ingredient' , ingredient.name ]"></i>
+      <i
+        class="far fa fa-minus-circle white"
+        (click)="onDeleteDishIngredient(ingredient.name)"
+        aria-hidden="true"
+      ></i>
+      <i
+        class="far fa-arrow-alt-circle-right white"
+        [routerLink]="['/dish/', this.id, 'ingredient', ingredient.name]"
+      ></i>
     </button>
   </section>
 </main>

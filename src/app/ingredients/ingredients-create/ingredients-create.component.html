@@ -1,3 +1,176 @@
-<p>
-  ingredients-create works!
-</p>
+<div class="help"><i class="far fa-question-circle" (click)="onOpenDialog()"></i></div>
+<main class="main">
+  <section class="section">
+    <h1>Create New Ingredient</h1>
+    <div class="form">
+      <form (submit)="onAddIngredient(ingredientForm)" #ingredientForm="ngForm">
+        <div class="form__node  dark-background">
+          <div class="form__node-label">name:</div>
+          <div class="form__node-input">
+            <input
+              class="input"
+              type="text"
+              name="ingredient_name"
+              ngModel
+              required
+              minlength="3"
+              placeholder="Ingredient Name..."
+              #ingredient_name="ngModel"
+            />
+            <div
+              *ngIf="ingredient_name.errors && (ingredient_name.dirty || ingredient_name.touched)"
+              class="alert alert-danger"
+            >
+              <div [hidden]="!ingredient_name.errors.required">Ingredient name is required!</div>
+              <div [hidden]="!ingredient_name.errors.minlength">name must be at least 3 characters long.</div>
+            </div>
+          </div>
+        </div>
+        <div class="form__node  dark-background">
+          <div class="form__node-label">price: {{ localCurrency }}</div>
+          <!-- <button mat-button (click)="onLaunchNumberPad()">set a price</button> -->
+
+          <div class="form__node-input">
+            <input
+              class="input-half-size"
+              [ngClass]="{
+                'ng-valid': 'priceRequired',
+                input: 'priceRequired',
+                'ng-invalid': '!priceRequired',
+                input: '!priceRequired'
+              }"
+              type="text"
+              name="ingredient_price"
+              ngModel
+              readonly
+              value="{{inputPrice}}"
+              #ingredient_price="ngModel"
+              [required]="priceRequired"
+            />
+            <button
+              class="button input-half-size"
+              style="text-align:center"
+              (click)="onLaunchNumberPad('ingredient_price')"
+            >
+              <span> set price</span>
+            </button>
+          </div>
+          <div
+            *ngIf="ingredient_price.errors && (ingredient_price.dirty || ingredient_price.touched)"
+            class="alert alert-danger"
+          >
+            <div [hidden]="!ingredient_price.errors.required">You must set a price</div>
+          </div>
+        </div>
+        <div class="form__node  dark-background">
+          <div class="form__node-label">supplier:</div>
+          <div class="form__node-input">
+            <select class="input" name="supplier" ngModel #supplier="ngModel" required>
+              <option value="" disabled selected hidden>Choose a supplier</option>
+              <option *ngFor="let supplier of suppliers" value="{{ supplier }}">{{ supplier }}</option>
+            </select>
+          </div>
+          <div *ngIf="supplier.errors && (supplier.dirty || supplier.touched)" class="alert alert-danger">
+            <div [hidden]="!supplier.errors.required">ingredient supplier is required!</div>
+          </div>
+        </div>
+        <div class="form__node  dark-background">
+          <div class="form__node-label">unit size:</div>
+          <div class="form__node-input">
+            <input
+              class="input-half-size"
+              [ngClass]="{
+                'ng-valid': 'unitAmountRequired',
+                input: 'unitAmountRequired',
+                'ng-invalid': '!unitAmountRequired',
+                input: '!unitAmountRequired'
+              }"
+              name="unit_amount"
+              value="{{inputUnitAmount}}"
+              type="text"
+              ngModel
+              readonly
+              #unit_amount="ngModel"
+              placeholder="unit size..."
+              [required]="unitAmountRequired"
+            />
+            <button class="button input-half-size" style="text-align:center" (click)="onLaunchNumberPad('unit_amount')">
+              <span> set unit size</span>
+            </button>
+          </div>
+          <div *ngIf="unit_amount.errors && (unit_amount.dirty || unit_amount.touched)" class="alert alert-danger">
+            <div [hidden]="!unit_amount.errors.required">unit size is required!</div>
+          </div>
+        </div>
+        <div class="form__node  dark-background">
+          <div class="form__node-label">purchase quantity:</div>
+          <div class="form__node-input">
+            <input
+              class="input-half-size"
+              [ngClass]="{
+                'ng-valid': 'purchaseAmountRequired',
+                input: 'purchaseAmountRequired',
+                'ng-invalid': '!purchaseAmountRequired',
+                input: '!purchaseAmountRequired'
+              }"
+              name="purchase_amount"
+              value="{{inputPurchaseAmount}}"
+              ngModel
+              readonly
+              #purchase_amount="ngModel"
+              type="text"
+              placeholder="purchase qty..."
+              [required]="purchaseAmountRequired"
+            />
+            <button
+              class="button input-half-size"
+              style="text-align:center"
+              (click)="onLaunchNumberPad('purchase_amount')"
+            >
+              <span> set purchase quantity</span>
+            </button>
+          </div>
+          <div
+            *ngIf="purchase_amount.errors && (purchase_amount.dirty || purchase_amount.touched)"
+            class="alert alert-danger"
+          >
+            <div [hidden]="!purchase_amount.errors.required">unit amount is required!</div>
+          </div>
+        </div>
+        <div class="form__node  dark-background">
+          <div class="form__node-label">unit type:</div>
+          <div class="form__node-input">
+            <select class="input" name="unit_type" ngModel #supplier="ngModel" required>
+              <option value="" disabled selected hidden>unit type</option>
+              <option *ngFor="let type of unit_types" value="{{ type }}">{{ type }}</option>
+            </select>
+          </div>
+          <div *ngIf="unit_type.errors && (unit_type.dirty || unit_type.touched)" class="alert alert-danger">
+            <div [hidden]="!unit_type.errors.required">unit type is required!</div>
+          </div>
+        </div>
+        <div class="form__node  dark-background" *ngIf="hasCategory">
+          <div class="form__node-label">category:</div>
+          <div class="form__node-input">
+            <select class="input" name="category" ngModel #category="ngModel" required>
+              <option value="" disabled selected hidden>Choose a category</option>
+              <option value="option 2">option 2</option>
+            </select>
+          </div>
+        </div>
+        <div class="form__node  dark-background" *ngIf="hasSubCategory">
+          <div class="form__node-label">sub category:</div>
+          <div class="form__node-input">
+            <select class="input" name="sub_category" ngModel #sub_category="ngModel" required>
+              <option value="" disabled selected hidden>Choose a sub category</option>
+              <option value="option 2">option 2</option>
+            </select>
+          </div>
+        </div>
+        <div class="form__node">
+          <button class="form__node-button " type="submit" [disabled]="!ingredientForm.form.valid">save</button>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>

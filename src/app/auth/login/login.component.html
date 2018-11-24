@@ -1,19 +1,53 @@
-<mat-card class="matt-card">
-  <mat-spinner *ngIf='isLoading'></mat-spinner>
-  <form (submit)='onLogin(loginForm)' #loginForm='ngForm' *ngIf='!isLoading'>
-    <h1>Login</h1>
-    <mat-form-field>
+<main class="login">
+  <section class="login__section">
+    <mat-card class="matt-card">
+      <mat-card-header>
+        <mat-card-title class="mat-card-title">Login</mat-card-title>
+        <mat-card-subtitle><a>forgot / reset</a> </mat-card-subtitle>
+      </mat-card-header>
+      <mat-spinner *ngIf="isLoading"></mat-spinner>
 
-      <input matInput type="email" name="email" ngModel   #emailInput="ngModel" placeholder="E-mail"  required email>
-      <mat-error *ngIf="emailInput.invalid">please enter a valid email</mat-error>
-    </mat-form-field>
+      <form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!isLoading">
+        <mat-card-content>
+          <mat-form-field>
+            <input
+              autocomplete="user-name"
+              matInput
+              type="email"
+              name="email"
+              ngModel
+              #emailInput="ngModel"
+              placeholder="E-mail"
+              required
+              email
+            />
 
-    <mat-form-field>
+            <mat-error *ngIf="emailInput.invalid">please enter a valid email</mat-error>
+          </mat-form-field>
 
-      <input matInput type="password" name="password" value="1234" ngModel #passwordInput="ngModel" placeholder="Password" required>
-      <mat-error *ngIf="passwordInput.invalid">Please enter a valid password</mat-error>
-    </mat-form-field>
-    <button mat-raised-button type="submit" *ngIf='!isLoading'>Login</button>
+          <mat-form-field class="input-password">
+            <input
+              autocomplete="current-password"
+              matInput
+              type="password"
+              name="password"
+              value="1234"
+              ngModel
+              appPassword
+              #passField
+              #passwordInput="ngModel"
+              placeholder="Password"
+              required
+              minlength="4"
+            />
 
-  </form>
-</mat-card>
+            <mat-hint>min 4 characters</mat-hint>
+            <mat-error *ngIf="passwordInput.invalid">Please enter a valid password</mat-error>
+          </mat-form-field>
+          <i #showHide class="far fa-eye" (click)="togglePassword()"></i> <br /><br />
+          <button class="button login__section-button" mat-raised-button type="submit" *ngIf="!isLoading">Login</button>
+        </mat-card-content>
+      </form>
+    </mat-card>
+  </section>
+</main>

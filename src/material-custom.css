@@ -1,0 +1,124 @@
+.mat-expansion-panel-header-title,
+/* need next 2 selectors to override the arrow color */
+.mat-expansion-indicator::after,
+.mat-expansion-panel-header-description,
+.mat-expansion-panel>mat-panel-title>a {
+  color: var(--blue) !important;
+  cursor: pointer;
+}
+
+/* material styles */
+.mat-button,
+.mat-icon-button,
+.mat-stroked-button {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+.mat-button {
+  font-size: var(--h1-large-text) !important;
+}
+
+.mat-stepper-horizontal,
+.mat-stepper-vertical {
+  display: flex;
+  background-color: var(white);
+  color: var(--dark-text);
+  height: 100vh;
+  width: 100vw;
+}
+
+.mat-horizontal-stepper-header-container {
+  margin: 20px 0;
+}
+
+.mat-step-header .mat-step-label.mat-step-label-active {
+}
+
+.mat-step-header .mat-step-label,
+.mat-step-header .mat-step-optional {
+  color: var(--dark-text) !important;
+}
+
+.mat-horizontal-content-container {
+  overflow: scroll !important;
+}
+
+.mat-horizontal-stepper-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mat-card {
+  padding: 24px;
+  border-radius: 2px;
+  background: var(--dark-background);
+  color: var(--light-text);
+  width: 500px;
+}
+.mat-card .mat-card-header-text {
+  margin: 0;
+}
+.mat-card-header .mat-card-title {
+  font-size: var(--h2-medium-text);
+}
+
+.mat-card-subtitle {
+  color: var(--blue);
+}
+
+.mat-card .mat-card.content {
+  width: 300px;
+}
+
+.mat-spinner {
+  margin: auto;
+}
+
+.mat-form-field {
+  width: 100%;
+  color: white;
+  border-color: black;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-underline {
+  background-color: var(--blue);
+}
+
+.mat-form-field-appearance-legacy .mat-hint,
+.mat-hint {
+  color: var(--light-text);
+  margin: 10px;
+}
+.mat-button-toggle,
+.mat-card {
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.mat-cell,
+.mat-footer-cell,
+.mat-header-cell {
+  text-align: left;
+  width: 100px;
+  min-height: inherit;
+}
+
+.mat-dialog-container {
+  background: rgb(20, 48, 58);
+}
+.mat-figure {
+  color: white !important;
+  font-size: 2rem;
+}
+
+div#cdk-step-content-0-5 {
+  width: 80vw !important;
+  display: flex;
+  justify-content: center;
+}
+
+.mat-form-field-label {
+  left: 10px;
+  color: var(--light) !important;
+}
