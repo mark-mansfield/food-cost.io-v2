@@ -1,27 +1,29 @@
-# FoodCostIo
+# food-cost.io
+Objective : <br>
+1. Make food costing for chefs as easy as possible.
+2. Make managing menus easy for restaurant owners
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
 
-## Development server
+Tech Stack
+<br />MongoDb | Angular | Node | express
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Features
+1. Login | Sign up
+2. Authentication
+3. Authorization
+4. costing
+5. ingredients
+6. menus
+7. inventory
+8. notifications
 
-## Code scaffolding
+Road Map
+1. complete implementation of costing feature
+2. test with real users, fellow chefs.
+3. create UI's for ingredients feature
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
