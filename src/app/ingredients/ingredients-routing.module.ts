@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../auth/auth.guard';
-import { IngredientsListComponent } from './ingredients-list/ingredients-list.component';
+// import { IngredientsListComponent } from './ingredients-list/ingredients-list.component';
 import { IngredientsDetailsComponent } from './ingredients-details/ingredients-details.component';
 import { IngredientsCreateComponent } from './ingredients-create/ingredients-create.component';
 import { IngredientsImportComponent } from './ingredients-import/ingredients-import.component';
 import { IngredientEditFieldComponent } from './ingredient-edit-field/ingredient-edit-field.component';
-
+import { IngredientsListV2Component } from './ingredients-list-v2/ingredients-list-v2.component';
 const ingredientsRoutes: Routes = [
   //  list all ingredients
   {
     path: 'ingredients/list',
-    component: IngredientsListComponent,
+    component: IngredientsListV2Component,
     canActivate: [AuthGuard]
   },
   // add ingredient
