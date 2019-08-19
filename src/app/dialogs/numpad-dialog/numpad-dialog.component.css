@@ -1,6 +1,9 @@
 .number__pad {
-  width: 500px;
-  height: 500px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .number__pad-read-out {
@@ -10,25 +13,39 @@
   border: 1px solid black;
   margin: 20px auto;
   text-align: center;
-  height: 100px;
+  height: 80px;
   width: 100%;
-  font-size: 4rem;
-  color: white;
-  background-color: rgba(92, 91, 91, 0.3);
+  font-size: 2rem;
+  color: black;
+  background-color: white;
 }
 
 .number__pad-update-button {
   margin: 20px auto;
-  height: 50px;
+  height: 80px;
   font-size: var(--h1-large-text);
   width: 100%;
 }
 
-.number__pad-grid-tile {
+.number__pad-buttons {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.number__pad-button {
+  flex: 1 0 30%;
+  margin: 1px;
+  color: var(--light-text);
   background: var(--blue);
 }
 
-.number__pad-grid-tile:hover {
+.number__pad-button:hover {
   cursor: pointer;
   background: var(--hover-green);
+}
+
+@media (min-width: 40rem) {
 }

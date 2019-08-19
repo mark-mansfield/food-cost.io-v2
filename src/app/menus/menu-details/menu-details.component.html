@@ -1,0 +1,89 @@
+<main class="main>">
+  <section class="section">
+    <div class="spinner"><mat-spinner *ngIf="isLoading"></mat-spinner></div>
+    <div class="toolbar">
+      <div class="back-button">
+        <a [routerLink]="['/menus/list']"><i class="fas fa-chevron-left med-icon"></i></a>
+      </div>
+
+      <!-- <div class="cancel-edit-mode" [class.visible]="showEditTools" [class.hidden]="!showEditTools">
+        <a (click)="toggleEditMode()">cancel</a>
+      </div> -->
+      <div class="launch-edit-mode">
+        <a (click)="toggleEditMode()">{{ editModeButtonText }}</a>
+      </div>
+    </div>
+
+    <!-- page  title -->
+    <div class="contact__badge">
+      <div class="contact__badge-title">
+        <h1>{{ menu.menu_name }}</h1>
+      </div>
+      <div class="contact__badge-delete-menu-button">
+        <button class="action" mat-button [class.visible]="showEditTools" [class.hidden]="!showEditTools">
+          <i class="material-icons med-icon">remove_circle_outline</i>
+        </button>
+      </div>
+    </div>
+    <div class="toolbar">
+      <mat-toolbar>
+        <div><h2>Dishes</h2></div>
+        <div>
+          <button class="action add" (click)="onAddDish()"><i class="material-icons med-icon">add</i></button>
+        </div>
+      </mat-toolbar>
+    </div>
+    <div class="list">
+      <div class="list__item form" aria-label="edit the name of this menu" *ngIf="showEditForm">
+        <form class="list__item-edit-form">
+          <mat-form-field>
+            <input
+              type="text"
+              #inputName
+              matInput
+              class="input"
+              [formControl]="nameFormControl"
+              [errorStateMatcher]="matcher"
+              [(ngModel)]="nameValue"
+              placeholder="Menu name..."
+              required
+            />
+          </mat-form-field>
+
+          <button mat-button (click)="onUpdateMenuName(menu.id)">save</button>
+          <button mat-button (click)="toggleEditForm()">cancel</button>
+        </form>
+      </div>
+      <div class="list__item" aria-label="the details of this dish" *ngIf="showDetails">
+        <div class="item-title">Details</div>
+        <div class="list__item-details">
+          <li class="list__item-name">rating ***</li>
+          <li class="list__item-status">contributors</li>
+          <li class="list__item-margin">description</li>
+          <li class="list__item-status">Status: complete</li>
+        </div>
+      </div>
+      <mat-list-item *ngFor="let dish of dishesOnMenu">
+        <div class="list__item">
+          <div class="list__item-dish-icon">
+            <img
+              class="thumb"
+              src="https://lh3.googleusercontent.com/5t_U3Py2tbdEQ7aT-vC-2W2nZ9p7iBniM2bbqXcHJrATNGCOvsNWjY0dMHR8t0rdMj92C21zJzuAN18P76tbQTVKZlfXULQbY8V2ZnKTqiJ5Ool959pzCj_A8jgxe13cH7zWcX5v9CUfMDdBYyT0aeH9Ww4Fdvk3jMFPpWh3_G9P3FhFsJqRvoj5DYsKuatT7zGGO6J_WQJOCVBeWkRD52MHRpUyJ1G3-UHSh4t9PqT6tySD-vE0jQ_dYWvB1uDjL-HphOEZkGYVJ9yY6oAuu9uFVd7qRIhTNzB7qTpKD2JoJawN2fC-9aW3JlXJZbyN-nQtpBOjUzwqIfdV1xrjbLcI4UMAaxivZpoFXIq_Z3WtGWTs9wNSf4Fa-nzNZsHttVvN7H2WH2UU_zWkWybRRQgFyWs61fveSv7EwfXj4XbpzjAx17uRye5TKBtszL8kdIQI5Fdwq2WUpGUp9O3E7ghJlIvl7lRYZ8SqNEobsAXHUCDlM3foPYMu-rIokoWY8_Bctvs7Z1MHrUlDOXOYBavu7MwnW4I8WfxwB1gRTFckSPn-MGyyvxgdsaudqOpjfTb6fMnlon58wcUb16_p5oJDN8ktVYSsTQ8kp-QGZKpIJskImgqerVoqXckKxh1XjMBeB5KUGaqQH2SZP4Uic3QC=w927-h1158-no"
+              alt=""
+            />
+          </div>
+          <div class="list__item-details">
+            <li class="list__item-name">{{ dish.name }}</li>
+            <li class="list__item-retail">Retail: $12.99</li>
+            <li class="list__item-margin">Margin: 12%</li>
+            <li class="list__item-status status">Status: complete</li>
+          </div>
+          <button class="list__item-action" aria-label="navigate to this dish" (click)="onDishSelected(dish._id)">
+            <i class="fas fa-chevron-right med-icon"></i>
+          </button>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+    </div>
+  </section>
+</main>

@@ -3,10 +3,39 @@
 }
 
 .sidenav {
-  width: 200px;
+  width: 180px;
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+  bottom: 0;
+  padding-top: 92px;
 }
 
-.mat-toolbar.mat-primary {
-  position: sticky;
+.header {
+  position: fixed;
   top: 0;
+  /* transform: translateY(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.6, 1), opacity 0s 0.3s; */
+  width: 100%;
+  background-color: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  display: -ms-flexbox;
+  display: flex;
+  height: 72px;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  z-index: 4;
 }
+
+.header__left-nav {
+  flex: 1.1;
+}
+/* toggle display */
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: flex;
+}
+
+/*  mat-nav-list style see material-custom.css  */

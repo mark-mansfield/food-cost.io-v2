@@ -1,0 +1,38 @@
+<main class="main>">
+  <section class="section">
+    <div class="toolbar">
+      <a [routerLink]="['/suppliers/create']"><i class="material-icons med-icon">add</i></a>
+    </div>
+    <!-- page  title -->
+    <div class="contact__badge">
+      <div><h1>Suppliers</h1></div>
+      <button _ngcontent-c20="" class="fas fa-search xlarge-icon"></button> <br /><br />
+    </div>
+    <div class="spinner list"><mat-spinner *ngIf="isLoading"></mat-spinner></div>
+
+    <div class="list" *ngIf="suppliers.length > 0">
+      <mat-list-item *ngFor="let supplier of suppliers">
+        <div class="list__item">
+          <div class="contact__badge-container">
+            <div class="contact__badge-icon">
+              <h2>{{ getSupplierBadgeText(supplier.supplier_name) }}</h2>
+            </div>
+          </div>
+          <div class="list__item-details">
+            <li class="list__item-name">{{ supplier.supplier_name }}</li>
+            <li class="list__item-retail">{{ supplier.contact_number }}</li>
+            <li class="list__item-margin">{{ supplier.contact_email }}</li>
+          </div>
+          <button
+            class="list__item-action"
+            aria-label="edit the details for this supplier"
+            (click)="saveSupplierToLocal(supplier)"
+          >
+            <i class="fas fa-chevron-right med-icon"></i>
+          </button>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+    </div>
+  </section>
+</main>

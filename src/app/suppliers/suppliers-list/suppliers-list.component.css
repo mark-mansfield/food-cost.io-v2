@@ -1,0 +1,121 @@
+.section {
+  width: 100vw;
+  background-color: azure;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  width: 100vw;
+}
+
+.toolbar > a {
+  margin: 20px;
+  background-color: transparent;
+}
+
+.contact__badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact__badge-icon {
+  width: 40px;
+  height: 40px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(225, 225, 225, 0.87);
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+}
+
+.contact__badge-title {
+  margin-top: 10px;
+}
+
+.list {
+  height: 100%;
+  width: 100vw;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.list__item {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 80px;
+  width: 100vw;
+}
+
+.list__item-details {
+  width: 152px;
+}
+
+.list__item-details > li {
+  margin-top: 3px;
+  list-style-type: none;
+  text-align: left;
+  font-size: small;
+}
+
+.list__item-name {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+button {
+  background-color: white;
+}
+
+mat-list-item {
+  height: auto !important;
+  width: 100% !important;
+}
+
+@media (min-width: 40rem) {
+  .section {
+    width: 100%;
+  }
+
+  .toolbar {
+    width: 100%;
+  }
+
+  .list {
+    width: 100%;
+  }
+
+  .list__item {
+    justify-content: flex-start;
+    width: 100%;
+    height: 100px;
+    margin: 5px 0px;
+  }
+
+  .list .contact__badge-container {
+    margin-left: 20px;
+    flex: 1;
+  }
+  .list .list__item-details {
+    flex: 5;
+  }
+
+  .list .list__item-action {
+    width: 50px;
+    text-align: right;
+    margin-right: 20px;
+  }
+
+  .contact__badge-icon {
+    width: 70px;
+    height: 70px;
+  }
+}

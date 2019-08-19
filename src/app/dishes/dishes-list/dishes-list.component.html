@@ -1,70 +1,79 @@
-<main class="main">
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <section class="section" *ngIf='!isLoading'>
-    <div class="info-panel" *ngIf="mode !=='search' && dishes.length === 0">
-      <div>
-        <p class="">You have not created a dish yet</p>
-      </div>
+<main class="main>">
+  <section class="section">
+    <!-- <div class="toolbar">
+      <a [routerLink]="['/dish/create']"><i class="fas fa-plus sml-icon"></i></a>
+    </div> -->
+    <div class="page__title">
+      <div><h1>Dishes</h1></div>
+      <br /><br />
+      <button class="fas fa-search xlarge-icon" (click)="showSearch = true"></button> <br />
     </div>
-    <div class="info-panel">
-      <div>
-        <p class="inline-title">Create a Dish</p>
-      </div>
-      <a [routerLink]="['/dish/create']" href=""><i class="fa fa-plus"></i></a>
-    </div>
-
-    <br>
-    <div class="info-panel" *ngIf="dishes.length > 0">
-      <div>
-        <p>Select a dish from the list below or use the search box to find one.</p>
-      </div>
-    </div>
-    <div class="info-panel" *ngIf="dishCount ===  0">
-      <div>
-        <p>Your search return no results.</p>
-      </div>
-    </div>
-    <div class="search-container" *ngIf="dishCount ===  0">
-      <form action="">
-        <input class="input-field" type="text" id="dish-input-text" #searchinput [(ngModel)]="searchTerm" name="search"
-          placeholder="  search.....">
-        <button class="click-icon fas fa-search" (click)="search(searchTerm)"></button>
+    <div class="main__search-container">
+      <form class="main__search-form">
+        <input
+          type="text"
+          id="dish-input-text"
+          [ngClass]="{ hidden: !showSearch, visible: showSearch }"
+          #searchinput
+          [(ngModel)]="searchTerm"
+          name="search"
+          placeholder="  search....."
+        />
+        <button [ngClass]="{ hidden: !showSearch, visible: showSearch }" (click)="search(searchTerm)">Go</button>
       </form>
     </div>
-    <div class="search-container" *ngIf="dishes.length > 0">
-      <form action="">
-        <input class="input-field" type="text" id="dish-input-text" #searchinput [(ngModel)]="searchTerm" name="search"
-          placeholder="  search.....">
-        <button class="click-icon fas fa-search" (click)="search(searchTerm)"></button>
-      </form>
+    <br />
+    <div class="toolbar">
+      <mat-toolbar>
+        <div>
+          <h2>Dishes {{ dishCount }}</h2>
+        </div>
+        <div>
+          <button class="action add" [routerLink]="['/dish/create']"><i class="material-icons">add</i></button>
+        </div>
+      </mat-toolbar>
     </div>
+    <div class="spinner list"><mat-spinner *ngIf="isLoading"></mat-spinner></div>
+    <div class="list" *ngIf="dishes.length > 0">
+      <mat-divider></mat-divider>
 
-    <div class="link-list info-panel " *ngIf="linksList.length > 0">
-      <button class="link-list-link blue" (click)="searchByFirstletter(link)" *ngFor="let link of linksList" id="{{ link }}">{{
-        link }}</button>
-    </div>
-    <div class="info-panel" *ngIf="this.showRefresh">
-      <button class="link-list-link blue" (click)="refreshDishesList()"><i class="fas fa-sync"></i></button>
-    </div>
-    <div *ngIf="dishes.length > 0">
+      <mat-divider></mat-divider>
+      <mat-list-item *ngFor="let dish of dishes; let i = index">
+        <div class="list__item" aria-label="view the details of this dish">
+          <div *ngIf="hasImage" class="list__item-dish-icon">
+            <img
+              class="thumb"
+              src="https://lh3.googleusercontent.com/5t_U3Py2tbdEQ7aT-vC-2W2nZ9p7iBniM2bbqXcHJrATNGCOvsNWjY0dMHR8t0rdMj92C21zJzuAN18P76tbQTVKZlfXULQbY8V2ZnKTqiJ5Ool959pzCj_A8jgxe13cH7zWcX5v9CUfMDdBYyT0aeH9Ww4Fdvk3jMFPpWh3_G9P3FhFsJqRvoj5DYsKuatT7zGGO6J_WQJOCVBeWkRD52MHRpUyJ1G3-UHSh4t9PqT6tySD-vE0jQ_dYWvB1uDjL-HphOEZkGYVJ9yY6oAuu9uFVd7qRIhTNzB7qTpKD2JoJawN2fC-9aW3JlXJZbyN-nQtpBOjUzwqIfdV1xrjbLcI4UMAaxivZpoFXIq_Z3WtGWTs9wNSf4Fa-nzNZsHttVvN7H2WH2UU_zWkWybRRQgFyWs61fveSv7EwfXj4XbpzjAx17uRye5TKBtszL8kdIQI5Fdwq2WUpGUp9O3E7ghJlIvl7lRYZ8SqNEobsAXHUCDlM3foPYMu-rIokoWY8_Bctvs7Z1MHrUlDOXOYBavu7MwnW4I8WfxwB1gRTFckSPn-MGyyvxgdsaudqOpjfTb6fMnlon58wcUb16_p5oJDN8ktVYSsTQ8kp-QGZKpIJskImgqerVoqXckKxh1XjMBeB5KUGaqQH2SZP4Uic3QC=w927-h1158-no"
+              alt=""
+            />
+          </div>
+          <div *ngIf="!hasImage" class="list__item-dish-badge">
+            <div class="contact__badge-icon">
+              <h2>{{ badgeNames[i] }}</h2>
+            </div>
+          </div>
+          <div class="list__item-details">
+            <li class="list__item-name">{{ dish.name }}</li>
+            <li class="list__item-retail">Retail: ${{ dish.retail_price }}</li>
+            <li class="list__item-margin">Margin: 12%</li>
+            <li class="list__item-status status-incomplete">Status: incomplete</li>
+          </div>
+          <button class="list__item-action" aria-label="edit the details for this dish" (click)="saveDishToLocal(dish)">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
 
-      <button class="button" *ngFor="let dish of dishes" (click)="saveDishToLocal(dish)">
-        <div>{{ dish.name.toLocaleLowerCase() }}</div>
-        <i class="far fa-arrow-alt-circle-right white"></i>
-      </button>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+      <mat-paginator
+        class="paginator"
+        *ngIf="dishCount !== 0"
+        [pageSize]="postsPerPage"
+        [pageIndex]="pageIndex"
+        [length]="dishCount"
+        [pageSizeOptions]="[5, 10, 25]"
+        (page)="onChangedPage($event)"
+      ></mat-paginator>
     </div>
-    <!-- <button  class="button"  *ngFor="let dish of dishes$ | async"
-          [class.selected]="dish.id === selectedId"
-          [routerLink]="['/dish', dish.id]"><div>{{ dish.name }}</div>
-            <i class="far fa-arrow-alt-circle-right white" [routerLink]="['/dish', dish.id]"></i>
-        </button> -->
-    <mat-paginator *ngIf="dishCount !==  0" [pageSize]="postsPerPage" [pageIndex]="pageIndex" [length]="dishCount"
-      (page)="onChangedPage($event)"></mat-paginator>
-    <!-- <div class="pagination" *ngIf="dishes.length > 0">
-            <button class="previous click-icon"><i class="far fa-arrow-alt-circle-left click-icon"></i></button>
-            <button  #paginatorButton class="pagination-button">
-            <button class="next click-icon"><i class="far fa-arrow-alt-circle-right white"></i></button>
-        </div> -->
-
   </section>
 </main>

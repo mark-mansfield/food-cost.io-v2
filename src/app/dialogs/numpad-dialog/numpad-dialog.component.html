@@ -1,33 +1,17 @@
 <div class="number__pad" cdkTrapFocus role="dialog">
-  <mat-grid-list
-    cols="3"
-    gutterSize="5px"
-    rowHeight="100px"
-    role="grid"
-    aria-labelledby="select-a-number"
-    cdkFocusRegionStart
-  >
-    <mat-grid-tile
-      class="number__pad-grid-tile"
+  <div class="number__pad-read-out">{{ this.numberPad.numberString.join('') }}</div>
+  <div class="number__pad-buttons">
+    <button
+      class="number__pad-button"
       *ngFor="let tile of tiles; let i = index"
       role="button"
       tabindex="{{i+1}}"
       (click)="updateReadOut(tile.text)"
-      [colspan]="tile.cols"
-      [rowspan]="tile.rows"
       [style.background]="tile.color"
     >
       {{ tile.text }}
-    </mat-grid-tile>
-  </mat-grid-list>
-  <input
-    class="number__pad-read-out"
-    tabindex="13"
-    role="grid"
-    type="text"
-    readonly
-    value="{{ this.numberPad.numberString.join('') }}"
-  />
+    </button>
+  </div>
   <button
     cdkFocusRegionEnd
     role="button"
@@ -38,6 +22,6 @@
     #updateButton
     (click)="returnNumpadValue()"
   >
-    Update
+    Save
   </button>
 </div>

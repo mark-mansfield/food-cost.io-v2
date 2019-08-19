@@ -1,45 +1,179 @@
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav
-    #drawer
-    class="sidenav"
-    fixedInViewport="true"
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="!(isHandset$ | async)"
-  >
-    <mat-toolbar color="primary">Menu</mat-toolbar>
-
-    <mat-nav-list>
-      <!--
-        <a mat-list-item [routerLink]="['/home']" routerLinkActive="active" (click)="toggle()">home</a>
-        <a mat-list-item href="#">Link 2</a> <a mat-list-item href="#">Link 3</a>
-      -->
-
-      <a mat-list-item *ngIf="userIsAuthenticated" [routerLink]="['/home']" routerLinkActive="active">home</a>
-      <a mat-list-item *ngIf="userIsAuthenticated" [routerLink]="['/dishes']" routerLinkActive="active">dishes</a>
-      <a mat-list-item *ngIf="userIsAuthenticated" [routerLink]="['/ingredients/list']" routerLinkActive="active"
-        >ingredients</a
-      >
-      <a mat-list-item *ngIf="userIsAuthenticated" [routerLink]="['/logout']" (click)="onLogout()">logout</a>
-      <a mat-list-item *ngIf="!userIsAuthenticated" [routerLink]="['/login']" routerLinkActive="active">login</a>
-      <a mat-list-item *ngIf="!userIsAuthenticated" [routerLink]="['/signup']" routerLinkActive="active">sign up</a>
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-toolbar color="primary">
+<header class="header" *ngIf="userIsAuthenticated">
+  <mat-toolbar>
+    <div class="header__left-nav">
       <button
         type="button"
         aria-label="Toggle sidenav"
         mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="(isHandset$ | async)"
+        *ngIf="isHandset$ | async"
+        (click)="this.drawer.open()"
       >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>food-cost-io</span>
-    </mat-toolbar>
+      &nbsp; <span class="breadCrumbs">food-cost.io</span>
+    </div>
+    <div><a href="/help" alt="help information">help</a></div>
+  </mat-toolbar>
+</header>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    [ngClass]="{ visible: userIsAuthenticated, hidden: !userIsAuthenticated }"
+    #drawer
+    class="sidenav"
+    fixedInViewport="false"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="!(isHandset$ | async)"
+  >
+    <!-- because if using a handset we close the drawer -->
+    <mat-nav-list *ngIf="isHandset$ | async">
+      <a
+        class="main__nav-link"
+        mat-list-item
+        *ngIf="userIsAuthenticated"
+        routerLinkActive="active"
+        [routerLink]="['/homepage']"
+        (click)="this.drawer.close()"
+        >Home</a
+      >
+
+      <a
+        class="main__nav-link"
+        mat-list-item
+        *ngIf="userIsAuthenticated"
+        [routerLink]="['/dishes']"
+        routerLinkActive="active"
+        (click)="this.drawer.close()"
+        >Dishes</a
+      >
+      <a
+        class="main__nav-link"
+        mat-list-item
+        *ngIf="userIsAuthenticated"
+        [routerLink]="['/ingredients/list']"
+        routerLinkActive="active"
+        (click)="this.drawer.close()"
+        >Ingredients</a
+      >
+
+      <a
+        class="main__nav-link"
+        mat-list-item
+        *ngIf="userIsAuthenticated"
+        [routerLink]="['/menus/list']"
+        routerLinkActive="active"
+        (click)="this.drawer.close()"
+        >Menus</a
+      >
+      <a
+        class="main__nav-link"
+        aria-label="suppliers page link"
+        mat-list-item
+        *ngIf="userIsAuthenticated"
+        [routerLink]="['/suppliers/list']"
+        routerLinkActive="active"
+        (click)="this.drawer.close()"
+        >Suppliers</a
+      >
+      <a
+        class="main__nav-link"
+        mat-list-item
+        *ngIf="userIsAuthenticated"
+        [routerLink]="['/logout']"
+        (click)="onLogout(); this.drawer.close()"
+        >Logout</a
+      >
+      <a
+        class="main__nav-link"
+        mat-list-item
+        *ngIf="!userIsAuthenticated"
+        [routerLink]="['/login']"
+        routerLinkActive="active"
+        >Login</a
+      >
+      <a
+        class="main__nav-link"
+        mat-list-item
+        *ngIf="!userIsAuthenticated"
+        [routerLink]="['/signup']"
+        routerLinkActive="active"
+        >Sign up</a
+      >
+    </mat-nav-list>
+    <!-- using large screen we keep the side nav open -->
+    <mat-nav-list *ngIf="!(isHandset$ | async) && userIsAuthenticated">
+      <a
+        class="main__nav-link"
+        mat-list-item
+        *ngIf="userIsAuthenticated"
+        routerLinkActive="active"
+        [routerLink]="['/homepage']"
+        >Home</a
+      >
+      <a
+        class="main__nav-link"
+        mat-list-item
+        *ngIf="userIsAuthenticated"
+        [routerLink]="['/dishes']"
+        routerLinkActive="active"
+        >Dishes</a
+      >
+      <a
+        class="main__nav-link"
+        mat-list-item
+        *ngIf="userIsAuthenticated"
+        [routerLink]="['/ingredients/list']"
+        routerLinkActive="active"
+        >Ingredients</a
+      >
+      <a
+        class="main__nav-link"
+        mat-list-item
+        *ngIf="userIsAuthenticated"
+        [routerLink]="['/menus/list']"
+        routerLinkActive="active"
+        >Menus</a
+      >
+      <a
+        class="main__nav-link"
+        aria-label="suppliers page link"
+        mat-list-item
+        *ngIf="userIsAuthenticated"
+        [routerLink]="['/suppliers/list']"
+        routerLinkActive="active"
+        >Suppliers</a
+      >
+      <a
+        class="main__nav-link"
+        mat-list-item
+        *ngIf="userIsAuthenticated"
+        [routerLink]="['/logout']"
+        (click)="onLogout()"
+        >Logout</a
+      >
+      <a
+        class="main__nav-link"
+        mat-list-item
+        *ngIf="!userIsAuthenticated"
+        [routerLink]="['/login']"
+        routerLinkActive="active"
+        >Login</a
+      >
+      <a
+        class="main__nav-link"
+        mat-list-item
+        *ngIf="!userIsAuthenticated"
+        [routerLink]="['/signup']"
+        routerLinkActive="active"
+        >Sign up</a
+      >
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <!---->
     <!-- Add Content Here -->
+
     <router-outlet></router-outlet>
-    <app-footer></app-footer>
   </mat-sidenav-content>
 </mat-sidenav-container>

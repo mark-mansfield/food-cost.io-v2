@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '../angular-material';
 import { DishesRoutingModule } from './dishes-routing.module';
 
@@ -12,23 +12,16 @@ import { DishIngredientsListAddComponent } from './dish-ingredients-list-add/dis
 import { DishIngredientsListComponent } from './dish-ingredients-list/dish-ingredients-list.component';
 import { DishIngredientsEditComponent } from './dish-ingredients-edit/dish-ingredients-edit.component';
 
-
-
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    DishesRoutingModule,
-    AngularMaterialModule
-  ],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, DishesRoutingModule, AngularMaterialModule],
   declarations: [
-      DishDetailsComponent,
-      DishesListComponent,
-      DishCreateComponent,
-      EditFieldComponent,
-      DishIngredientsListAddComponent,
-      DishIngredientsListComponent,
-      DishIngredientsEditComponent
-    ]
+    DishDetailsComponent,
+    DishesListComponent,
+    DishCreateComponent,
+    EditFieldComponent,
+    DishIngredientsListAddComponent,
+    DishIngredientsListComponent,
+    DishIngredientsEditComponent
+  ]
 })
-export class DishesModule { }
+export class DishesModule {}

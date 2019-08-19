@@ -5,7 +5,7 @@
     <div class="form">
       <form (submit)="onAddIngredient(ingredientForm)" #ingredientForm="ngForm">
         <div class="form__node  dark-background">
-          <div class="form__node-label">name:</div>
+          <div class="form__node-label">Name:</div>
           <div class="form__node-input">
             <input
               class="input"
@@ -27,7 +27,7 @@
           </div>
         </div>
         <div class="form__node  dark-background">
-          <div class="form__node-label">price: {{ localCurrency }}</div>
+          <div class="form__node-label">Price: {{ localCurrency }}</div>
           <!-- <button mat-button (click)="onLaunchNumberPad()">set a price</button> -->
 
           <div class="form__node-input">
@@ -43,16 +43,13 @@
               name="ingredient_price"
               ngModel
               readonly
+              placeholder="price..."
               value="{{inputPrice}}"
               #ingredient_price="ngModel"
               [required]="priceRequired"
             />
-            <button
-              class="button input-half-size"
-              style="text-align:center"
-              (click)="onLaunchNumberPad('ingredient_price')"
-            >
-              <span> set price</span>
+            <button class="button input-half-size" (click)="onLaunchNumberPad('ingredient_price')">
+              <span> change</span>
             </button>
           </div>
           <div
@@ -63,7 +60,7 @@
           </div>
         </div>
         <div class="form__node  dark-background">
-          <div class="form__node-label">supplier:</div>
+          <div class="form__node-label">Supplier:</div>
           <div class="form__node-input">
             <select class="input" name="supplier" ngModel #supplier="ngModel" required>
               <option value="" disabled selected hidden>Choose a supplier</option>
@@ -75,7 +72,7 @@
           </div>
         </div>
         <div class="form__node  dark-background">
-          <div class="form__node-label">unit size:</div>
+          <div class="form__node-label">Unit Size:</div>
           <div class="form__node-input">
             <input
               class="input-half-size"
@@ -94,8 +91,8 @@
               placeholder="unit size..."
               [required]="unitAmountRequired"
             />
-            <button class="button input-half-size" style="text-align:center" (click)="onLaunchNumberPad('unit_amount')">
-              <span> set unit size</span>
+            <button class="button input-half-size" (click)="onLaunchNumberPad('unit_amount')">
+              <span> change</span>
             </button>
           </div>
           <div *ngIf="unit_amount.errors && (unit_amount.dirty || unit_amount.touched)" class="alert alert-danger">
@@ -103,7 +100,7 @@
           </div>
         </div>
         <div class="form__node  dark-background">
-          <div class="form__node-label">purchase quantity:</div>
+          <div class="form__node-label">Purchase Quantity:</div>
           <div class="form__node-input">
             <input
               class="input-half-size"
@@ -122,12 +119,8 @@
               placeholder="purchase qty..."
               [required]="purchaseAmountRequired"
             />
-            <button
-              class="button input-half-size"
-              style="text-align:center"
-              (click)="onLaunchNumberPad('purchase_amount')"
-            >
-              <span> set purchase quantity</span>
+            <button class="button input-half-size" (click)="onLaunchNumberPad('purchase_amount')">
+              <span> change</span>
             </button>
           </div>
           <div
@@ -138,9 +131,9 @@
           </div>
         </div>
         <div class="form__node  dark-background">
-          <div class="form__node-label">unit type:</div>
+          <div class="form__node-label">Unit Type:</div>
           <div class="form__node-input">
-            <select class="input" name="unit_type" ngModel #supplier="ngModel" required>
+            <select class="input" name="unit_type" ngModel #unit_type="ngModel" required>
               <option value="" disabled selected hidden>unit type</option>
               <option *ngFor="let type of unit_types" value="{{ type }}">{{ type }}</option>
             </select>
@@ -168,7 +161,14 @@
           </div>
         </div>
         <div class="form__node">
-          <button class="form__node-button " type="submit" [disabled]="!ingredientForm.form.valid">save</button>
+          <button
+            mat-raised-button
+            class="form__node-button "
+            [disabled]="!ingredientForm.form.valid"
+            click="onAddIngredient(#ingredientForm)"
+          >
+            save
+          </button>
         </div>
       </form>
     </div>

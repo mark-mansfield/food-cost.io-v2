@@ -12,9 +12,7 @@
     <div class="search-container" *ngIf="ingredientsList.length > 0">
       search by name
       <form action="">
-        <button class="click-icon fas fa-sync" (click)="refreshList()">
-          <i></i>
-        </button>
+        <button class="click-icon fas fa-sync" (click)="refreshList()"><i></i></button>
         <input
           class="input-field"
           type="text"
@@ -24,19 +22,12 @@
           name="search"
           placeholder="  search....."
         />
-        <button
-          class="click-icon fas fa-search"
-          (click)="search(searchTerm)"
-        ></button>
+        <button class="click-icon fas fa-search" (click)="search(searchTerm)"></button>
       </form>
     </div>
     <div class="info-panel filter-panel">
       filters
-      <mat-accordion
-        class="example-headers-align"
-        #accordion="matAccordion"
-        [multi]="multi"
-      >
+      <mat-accordion class="example-headers-align" #accordion="matAccordion" [multi]="multi">
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title> <a>categories</a> </mat-panel-title>
@@ -61,16 +52,9 @@
         </mat-expansion-panel>
       </mat-accordion>
     </div>
-    <button
-      class="button"
-      *ngFor="let ingredient of ingredientsList; let i = index"
-      [attr.data-index]="i"
-    >
+    <button class="button" *ngFor="let ingredient of ingredientsList; let i = index" [attr.data-index]="i">
       <div>{{ ingredient.ingredient_name }}</div>
-      <i
-        class="fa fa-plus"
-        (click)="onAddIngredient(ingredient.ingredient_name)"
-      ></i>
+      <i class="fa fa-plus" (click)="onAddIngredient(ingredient)"></i>
     </button>
   </section>
 </main>

@@ -1,21 +1,40 @@
-import { Component} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DishService } from '../dish.service';
-import { Dish } from '../dish.model';
+
 @Component({
   selector: 'app-dish-create',
   templateUrl: './dish-create.component.html',
   styleUrls: ['./dish-create.component.css']
 })
-export class DishCreateComponent {
+export class DishCreateComponent implements OnInit {
+  myForm: FormGroup;
+  isLoading = false;
+  submitButtonDisabled = true;
+  constructor(private service: DishService, private fb: FormBuilder) {}
 
-  dishName = '';
+  ngOnInit() {
+    this.isLoading = true;
+    this.myForm = this.fb.group({
+      dishName: ['', [Validators.required, Validators.minLength(3)]],
+      agree: [false]
+    });
+    this.isLoading = false;
+  }
 
-  constructor(  private service: DishService ) { }
+  get name() {
+    return this.myForm.get('dishName');
+  }
 
-  onAddDish() {
+  toggleSubmitDisabled() {
+    if (this.submitButtonDisabled) {
+      this.submitButtonDisabled = false;
+    } else {
+      this.submitButtonDisabled = true;
+    }
+  }
 
-    console.log(this.dishName);
-    this.service.addDish(null, this.dishName.toLocaleLowerCase());
-
+  onSubmitForm() {
+    this.service.addDish(null, this.myForm.get('dishName').value.toLocaleLowerCase());
   }
 }

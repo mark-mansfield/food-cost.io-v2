@@ -1,21 +1,25 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+// const Menu = require('../models/menu');
+// const Ingredient = require('../models/ingredients');
+// const async = require('async');
 
 exports.createUser = (req, res, next) => {
   const saltingRounds = 10;
   bcrypt.hash(req.body.password, saltingRounds).then(hash => {
-    const newUser = new User({
+    const user = new User({
       email: req.body.email,
-      password: hash
+      password: hash,
+      firstTime: true
     });
 
-    newUser
+    user
       .save()
       .then(result => {
         res.status(201).json({
           message: 'User Created',
-          result: result
+          userId: result._id
         });
       })
       .catch(err => {
@@ -25,6 +29,7 @@ exports.createUser = (req, res, next) => {
       });
   });
 };
+
 
 exports.loginUser = (req, res, next) => {
   let fetchedUser;
@@ -41,7 +46,7 @@ exports.loginUser = (req, res, next) => {
     .then(result => {
       if (!result) {
         return res.status(401).json({
-          message: 'Username or password is incorrect!'
+          message: 'password is incorrect!'
         });
       }
 
@@ -52,7 +57,8 @@ exports.loginUser = (req, res, next) => {
       res.status(200).json({
         expiresIn: 3600,
         token: token,
-        userId: fetchedUser._id
+        userId: fetchedUser._id,
+        firstTime: fetchedUser.firstTime
       });
     })
     .catch(err => {

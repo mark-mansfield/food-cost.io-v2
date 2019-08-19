@@ -1,8 +1,4 @@
-/* mat expansion styling in styles.css */
-.mat-expansion-panel {
-  background: transparent;
-  margin: 10px;
-}
+/* mat expansion styling in material-custom.css */
 
 .main > .section > div.filter-panel > mat-accordion {
   display: flex;

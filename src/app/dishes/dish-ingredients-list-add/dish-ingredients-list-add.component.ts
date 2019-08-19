@@ -65,18 +65,23 @@ export class DishIngredientsListAddComponent implements OnInit {
     }
   }
 
-  onAddIngredient(name) {
+  onAddIngredient(object) {
     const ingredient: DishIngredient = {
-      name: name.toLocaleLowerCase(),
+      id: object.id,
+      name: object.ingredient_name.toLocaleLowerCase(),
       qty: '0',
-      AP_weight: '1',
-      EP_weight: '0'
+      unit_price: '',
+      AP_weight: '',
+      EP_weight: '',
+      yield: '100',
+      cost: '',
+      real_cost: ''
     };
     // avoid expensive array object search
     const tpmStr = JSON.stringify(this.dish.ingredients);
-    this.ingredientIsOnList = tpmStr.includes(name);
+    this.ingredientIsOnList = tpmStr.includes(object.ingredient_name);
 
-    // because you should not be able to  add the same inredient twice to a recipe
+    // because you should not be able to add the same inredient twice to a recipe
     if (this.ingredientIsOnList) {
       alert('this ingredient is already a part of this dish');
     } else {

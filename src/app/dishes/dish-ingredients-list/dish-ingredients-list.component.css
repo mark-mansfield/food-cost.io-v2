@@ -1,88 +1,171 @@
-.main > .section > div.info-panel {
+mat-accordion {
+  width: 100vw;
+  background-color: white;
+}
+
+.mat-expansion-panel-header {
+  font-size: inherit;
+  border-bottom: 1px solid #e4e5e5;
+}
+/* .mat-expansion-panel-header.mat-expanded:hover {
+  background: #ccc !important;
+} */
+
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled='true']).cdk-keyboard-focused,
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled='true']).cdk-program-focused,
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled='true']):hover {
+  background: var(--hover-green);
+}
+
+.mat-expansion-panel-body {
+  padding: 0 20px 0px;
+}
+
+.mat-card:not([class*='mat-elevation-z']) {
+  box-shadow: none !important;
+}
+
+.mat-action-row {
+  padding: 20px !important;
+}
+
+.toolTip-custom {
+  margin-right: 25%;
+}
+.list {
+  width: 100%;
+}
+
+.mat-card-list {
+}
+
+.section {
+  width: 100vw;
+  background-color: azure;
+}
+
+.toolbar {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 95vw;
-  color: white;
-  background-color: rgba(45, 44, 44, 0.3);
-  box-shadow: 5px;
-  margin: 10px 0;
+  justify-content: space-between;
+  width: 100vw;
 }
 
-.main > .section > .info-panel > div > p {
+.toolbar > div.back-button {
+  flex: 2;
+  display: flex;
+  justify-content: flex-start;
   margin: 20px;
+  align-items: center;
 }
 
-.main > .section > button {
-  margin: 10px 0;
-  width: 95vw;
+.page__title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0px;
+}
+
+.page__title-badge-icon {
+  width: 80px;
   height: 80px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(225, 225, 225, 0.87);
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+}
+.page__title-toolbar {
+  display: flex;
+  justify-content: center;
 }
 
-.main > .section > button > i.far {
-  color: var(--blue);
+.page__title-toolbar-label,
+.page__title-toolbar-button {
+  margin: 10px;
 }
 
-.main > .section > button > i.far:hover {
-  color: black;
+.mat-toolbar-single-row {
+  line-height: 0;
+  justify-content: space-between;
+  padding: 0 20px;
 }
 
-.main > .section > button > i.far {
-  color: var(--light-text);
+.list {
+  height: 100%;
+  width: 100vw;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.button > i.far,
-.button > div > i.fa-search {
-  margin-right: 20px;
+.list__item {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
 }
 
-.far:hover {
-  color: black;
+.list__item-name {
+  text-align: left;
+  flex: 2;
 }
 
-.main > .section > .info-panel > div,
-.main > .section > .button > div {
-  margin-left: 20px;
+li {
+  list-style-type: none;
 }
-
 /* ipads and larger */
 @media (min-width: 40rem) {
-  body {
-    font-size: 1rem;
+  table {
+    width: 100%;
   }
 
-  .header__page-title {
-    font-size: 1.6rem;
+  tr.mat-header-row,
+  tr.mat-row {
+    height: 100px !important;
+  }
+  tr.mat-header-row {
+    font-weight: 500;
+  }
+  tr.mat-row:hover {
+    background-color: var(--hover-green);
+    cursor: pointer;
+  }
+  .mat-header-cell,
+  .mat-cell {
+    font-size: inherit;
+    font-weight: 500;
+    color: inherit;
+  }
+
+  td.mat-cell:first-of-type,
+  td.mat-footer-cell:first-of-type,
+  th.mat-header-cell:first-of-type {
+    padding-left: 100px !important;
+  }
+
+  td.mat-cell:last-of-type,
+  td.mat-footer-cell:last-of-type,
+  th.mat-header-cell:last-of-type {
+    padding-right: 20px;
+    text-align: right;
   }
 
   .section {
-    width: 30vw;
+    width: 100%;
   }
 
-  .main > .section > div.info-panel {
-    height: auto;
-    padding: 20px;
-    width: 500px;
-    font-size: 1.3rem;
+  .toolbar {
+    justify-content: space-evenly;
+    width: 100%;
   }
 
-  .main > .section > .info-panel > div {
-    padding: 20px;
-  }
-
-  .main > .section > button {
-    width: 500px;
-  }
-
-  .main > .section > .pagination {
-    width: 500px;
-  }
-
-  .main > .section > .pagination > div {
-    text-align: center;
-  }
-
-  .main > .section > .button > div.click-icon {
-    font-size: 1.5rem;
+  .list {
+    width: 100%;
   }
 }

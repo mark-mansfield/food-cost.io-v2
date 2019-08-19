@@ -1,208 +1,182 @@
-.main>.section>div.info-panel {
-
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 95vw;
-  color: white;
-  background-color: rgba(45, 44, 44, 0.3);
-  box-shadow: 5px;
-
-}
-
-.main>.section>.info-panel>div>p {
-  margin: 20px;
-}
-
-.main>.section>.search-container>form {
-  display: flex;
-}
-
-.main>.section>.search-container {
-  color: white;
-  border-radius: 5px;
-  background-color: rgba(92, 91, 91, 0.3);
-  width: 95vw;
-  margin: 10px 0;
-}
-
-.main>.section>.search-container>form>input {
-  width: 95%;
+mat-form-field {
+  width: auto;
   margin-left: 20px;
-  text-align: center;
-  height: 50px;
-  color: white;
-  background-color: rgba(92, 91, 91, 0.3);
-  margin: 10px;
-}
-
-.main>.section>.search-container>form>button {
-  margin-right: 10px;
-  background: transparent;
-}
-
-.main>.section>.search-container>form>input[type=text] {
-  -webkit-transition: all 0.30s ease-in-out;
-  -moz-transition: all 0.30s ease-in-out;
-  -ms-transition: all 0.30s ease-in-out;
-  -o-transition: all 0.30s ease-in-out;
-  transition: all 0.30s ease-in-out;
-  outline: none;
-  padding: 3px 0px 3px 3px;
-}
-
-.main>.section>.search-container>form>input[type=text]:focus {
-  box-shadow: 0 0 5px rgb(28, 28, 28);
-  padding: 3px 0px 3px 3px;
-  border: 1px solid rgba(81, 203, 238, 1);
-}
-
-.main>.section>div.link-list {
-  display: flex;
-  justify-content: space-around;
-}
-
-.main>.section>div.link-list>button {
-  height: 60px;
-  margin: 5px;
-}
-
-.main>.section>div>button {
-  margin: 10px 0;
-  width: 95vw;
-  height: 80px;
-}
-
-.main>.section>button>i.far {
-  color: var(--blue);
-}
-
-.main>.section>button>i.far:hover {
-  color: black;
-}
-
-.main>.section>.pagination, mat-paginator {
-  height: 80px;
-  display: flex;
-  justify-content: space-around;
-  align-items: stretch;
-  width: 95vw;
-  background-color: rgba(45, 44, 44, 0.3);
-  box-shadow: 5px;
-  font-size: 1rem;
-  color:white;
-}
-
-
-.main>.section>.pagination>button {
-  flex: 1;
-  border: 1px solid rgb(52, 51, 51);
-  background-color: rgb(70, 69, 69);
-}
-
-.main>.section>.pagination>button:hover {
-  cursor: pointer;
-  background-color: var(--hover-green);
-  color: black;
-}
-
-.main>.section>.pagination>button>i.far {
-  color: var(--blue);
-}
-
-.main>.section>.pagination>button>i.far:hover {
-  color: black;
-}
-
-/* .main>.section >.pagination > div > p {
-  margin-top: 32px
-}
-
-.main>.section >.pagination > div > i {
-  margin-top:24px
-} */
-
-.button>i.far,
-.button>div>i.fa-search {
   margin-right: 20px;
 }
 
-.far:hover {
-  color: black;
+.mat-list-item {
+  height: auto !important;
+  width: 100% !important;
 }
 
-
-
-.info-panel>div {
-  margin-left: 20px;
+.paginator {
+  width: 100%;
 }
 
-.button>div {
-  margin-left: 20px;
+.section {
+  width: 100vw;
+  background-color: azure;
 }
 
-.action-button {
+.toolbar {
   display: flex;
+  justify-content: flex-end;
+  width: 100vw;
+}
+
+.toolbar > a {
+  margin: 20px;
+  background-color: transparent;
+  color: var(--dark-text);
+}
+
+.mat-toolbar-single-row {
+  line-height: 0;
+  justify-content: space-between;
+}
+.page__title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0px;
+}
+
+.list {
+  height: 100%;
+  width: 100vw;
+  background-color: white;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.list__item {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  height: 100px;
+  width: 100vw;
+  font-size: small;
+  color: var(--dark-text);
+}
+
+.main__search-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.main__search-form {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
   justify-content: center;
 }
 
-h1 {
-  font-size: 1.3rem;
+.main__search-form > input {
+  width: 70%;
+  /* margin-left: 20px; */
+  text-align: center;
+  height: 50px;
+  border: 1px solid #ccc;
+  color: var(--dark-text);
+  background-color: white;
+  margin: 10px;
 }
 
-/* ipads and larger */
+.main__search-form > button {
+  height: 60px;
+}
+
+.list__item-dish-badge {
+  width: 60px;
+  height: 60px;
+  margin: auto 20px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(225, 225, 225, 0.87);
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+}
+
+.list__item-dish-icon {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.list__item-dish-icon .thumb {
+  width: 100%;
+  height: 100%;
+  border-right: 1px solid rgb(194, 193, 193);
+}
+
+.list__item-details {
+  flex: 1;
+  margin: 4px 20px;
+  height: 95%;
+}
+
+.list__item-details > li {
+  margin-top: 3px;
+  list-style-type: none;
+  text-align: left;
+}
+
+.list__item-details .list__item-name {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.list__item-action {
+  margin: 35px 20px;
+}
+
+button {
+  color: var(--dark-text);
+  background-color: transparent;
+}
+
+button:hover {
+  color: black;
+  cursor: pointer;
+}
+
+/* toggle display */
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: flex;
+}
+/* ipad pro and larger breakpoint 40 x 16 px */
 @media (min-width: 40rem) {
-
-  body {
-    font-size: 1rem;
-  }
-
-  .header__page-title {
-    font-size: 1.6rem;
-  }
-
   .section {
-    width: 30vw;
+    width: 100%;
   }
 
-  .main>.section>div.info-panel {
-    height: auto;
-    width: 500px;
-    font-size: 1.3rem;
+  .toolbar {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
   }
-
-  .main>.section>div.search-container {
-    width: 500px;
-    font-size: 1.5rem;
+  .list {
+    width: 100%;
   }
-
-  .main>.section>div>button {
-    width: 500px;
+  .list__item {
+    width: 100%;
   }
-
-  .main>.section>.button>div {
-    margin-left: 20px;
-  }
-
-  .main>.section>.pagination, mat-paginator {
-    width: 500px;
-  }
-
-  .main>.section>.pagination>div {
-    text-align: center;
-  }
-
-  .main>.section>.pagination>div>p {
-    margin-top: 32px
-  }
-
-  .main>.section>.pagination>div>i {
-    margin-top: 24px
-  }
-
-  .main>.section>.button>div.click-icon,
-  .main>.section>.pagination>div.click-icon {
-    font-size: 1.5rem;
-  }
-
 }

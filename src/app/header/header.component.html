@@ -1,13 +1,17 @@
 <header class="header">
   <div class="hamburger-button fas fa-bars" (click)="toggleSideNav()"></div>
-  <div *ngIf="userIsAuthenticated" class="header__back-button" (click)="backClicked()"><i class="far fa-arrow-alt-circle-left"></i></div>
+  <div *ngIf="userIsAuthenticated" class="header__back-button" (click)="backClicked()">
+    <i class="far fa-arrow-alt-circle-left"></i>
+  </div>
   <div class="header__brand">{{ title }} v 1.0</div>
   <nav class="nav">
-    <div *ngIf="userIsAuthenticated"><a [routerLink]="['/home']" routerLinkActive="active">home</a></div>
+    <div *ngIf="userIsAuthenticated"><a [routerLink]="['/homepage']" routerLinkActive="active">home</a></div>
     <div *ngIf="userIsAuthenticated"><a [routerLink]="['/dishes']" routerLinkActive="active">dishes</a></div>
-    <div *ngIf="userIsAuthenticated"><a [routerLink]="['/ingredients/list']" routerLinkActive="active">ingredients</a></div>
+    <div *ngIf="userIsAuthenticated">
+      <a [routerLink]="['/ingredients/list']" routerLinkActive="active">ingredients</a>
+    </div>
     <div *ngIf="!userIsAuthenticated"><a [routerLink]="['/login']" routerLinkActive="active">login</a></div>
     <div *ngIf="!userIsAuthenticated"><a [routerLink]="['/signup']" routerLinkActive="active">sign up</a></div>
-    <div *ngIf="userIsAuthenticated"><a  [routerLink]="['/logout']" (click)="onLogout()" >logout</a></div>
+    <div *ngIf="userIsAuthenticated"><a [routerLink]="['/logout']" (click)="onLogout()">logout</a></div>
   </nav>
 </header>

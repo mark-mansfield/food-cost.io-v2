@@ -1,0 +1,75 @@
+.toolbar {
+  margin: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.toolbar > ul {
+  list-style-type: none;
+}
+
+.page__title {
+  margin-top: 120px;
+}
+
+.page__cards {
+  width: 99%;
+  display: flex;
+  flex-flow: column;
+  margin: 10px 0;
+}
+
+.cards__card-item {
+  margin: 10px 0;
+  padding: 20px;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  background-color: azure;
+}
+
+.card-item-info {
+  margin: 10px 0;
+}
+
+.page__progress {
+  margin: 20px 0;
+  width: 99%;
+}
+
+.progress__category {
+  display: flex;
+  flex-flow: column;
+}
+
+.category-title {
+  margin: 20px 0;
+}
+
+.progress__item {
+  margin: 10px 0;
+  padding: 20px;
+  background-color: azure;
+}
+
+.category__item {
+  display: flex;
+  flex-flow: column;
+  margin: 10px 0;
+  padding: 20px;
+  background-color: azure;
+}
+
+@media (min-width: 40rem) {
+  .page {
+    margin: 100px;
+  }
+
+  .cards__card-item {
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

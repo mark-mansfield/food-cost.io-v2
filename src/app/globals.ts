@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class Globals {
   getCustomer() {
-    return JSON.parse(localStorage.getItem('customer'));
+    return JSON.parse(localStorage.getItem('iqf1efs'));
   }
 
   setCustomer(obj) {
@@ -12,6 +12,6 @@ export class Globals {
       id: obj.userId
     };
 
-    localStorage.setItem('customer', JSON.stringify(customer));
+    localStorage.setItem('iqf1efs', JSON.stringify(customer));
   }
 }

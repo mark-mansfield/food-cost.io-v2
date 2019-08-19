@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IngredientsService } from '../ingredients.service';
 import { IngredientCreateHelpDialogComponent } from '../../dialogs/ingredient-create-help-dialog/ingredient-create-help-dialog.component';
 import { NumpadDialogComponent } from '../../dialogs/numpad-dialog/numpad-dialog.component';
 import { MatDialog } from '@angular/material';
+
 @Component({
   selector: 'app-ingredients-create',
   templateUrl: './ingredients-create.component.html',
@@ -26,17 +27,15 @@ export class IngredientsCreateComponent implements OnInit {
   hasSubCategory = false;
   priceRequired = true;
   unitAmountRequired = true;
+  unitTypeRequired = true;
   purchaseAmountRequired = true;
   inputPrice = '';
   inputUnitAmount = '';
   inputPurchaseAmount = '';
   localCurrency = 'AUD';
+
   constructor(private ingredientsService: IngredientsService, public dialog: MatDialog) {}
 
-  // @Input()
-  // set ingredientPrice(ingredientPrice: string) {
-  //   this.ingredientPrice = ingredientPrice;
-  // }
   ngOnInit() {
     this.suppliers = this.ingredientsService.getSuppliers();
     this.unit_types = this.ingredientsService.getUnitTypes();
@@ -58,13 +57,14 @@ export class IngredientsCreateComponent implements OnInit {
       form.value.category,
       form.value.sub_category
     );
-    form.resetForm();
   }
+
   launchNumberPad(el: string) {
     const dialogRef = this.dialog.open(NumpadDialogComponent, {
       width: '548px',
       height: '700px'
     });
+
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log(el);
@@ -91,6 +91,7 @@ export class IngredientsCreateComponent implements OnInit {
       }
     });
   }
+
   openDialog(): void {
     const dialogRef = this.dialog.open(IngredientCreateHelpDialogComponent, {
       width: '80vw',
@@ -98,6 +99,7 @@ export class IngredientsCreateComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {});
   }
+
   onOpenDialog() {
     this.openDialog();
   }

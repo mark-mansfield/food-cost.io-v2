@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { IngredientsService } from '../ingredients.service';
 import { Ingredient } from '../ingredient.model';
@@ -34,16 +34,15 @@ export class IngredientsListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.service.getIngredients();
     this.isLoading = true;
-    this.ingredientsSub = this.service
-      .getIngredientsUpdateListener()
-      .subscribe((data: Ingredient[]) => {
-        this.subscriptionActive = true;
-        this.ingredients = data;
-        this.categories = this.service.ingredientsDoc.categories;
-        this.suppliers = this.service.ingredientsDoc.suppliers;
-        this.ingredientCount = this.ingredients.length;
-        this.isLoading = false;
-      });
+    this.ingredientsSub = this.service.getIngredientsUpdateListener().subscribe((data: Ingredient[]) => {
+      console.log(data);
+      this.subscriptionActive = true;
+      this.ingredients = data;
+      this.categories = this.service.ingredientsDoc.categories;
+      this.suppliers = this.service.ingredientsDoc.suppliers;
+      this.ingredientCount = this.ingredients.length;
+      this.isLoading = false;
+    });
 
     // const ingredientsDoc = this.service.loadLocalIngredientsData();
     // if (ingredientsDoc === null) {

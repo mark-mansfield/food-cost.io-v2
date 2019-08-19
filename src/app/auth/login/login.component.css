@@ -1,6 +1,24 @@
+.main {
+  height: 100vh;
+  background: #56ab2f; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #a8e063, #56ab2f); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to bottom,
+    #a8e063,
+    #56ab2f
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.section {
+  width: 80%;
+  height: 100%;
+  margin-top: 0px;
+  justify-content: center;
+}
+
 .login {
   height: auto;
-  width: 100vw;
+  width: 95%;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -9,4 +27,22 @@
 
 .input-password {
   width: 92%;
+}
+
+button {
+  background-color: #3b3a49;
+}
+
+.login-input {
+  color: white;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:active,
+input:-webkit-autofill:focus {
+  background-color: #3d5a14 !important;
+  color: #555 !important;
+  -webkit-box-shadow: 0 0 0 1000px #72b125 inset !important;
+  -webkit-text-fill-color: white !important;
+  padding: 10px;
 }

@@ -1,0 +1,94 @@
+<main class="main">
+  <section class="section">
+    <div class="spinner"><mat-spinner *ngIf="isLoading"></mat-spinner></div>
+
+    <div class="toolbar">
+      <div class="back-button">
+        <a [routerLink]="['/suppliers/list']"><i class="fas fa-chevron-left med-icon"></i></a>
+      </div>
+    </div>
+
+    <!-- page  title -->
+    <div class="main__title"><h1>Create Supplier</h1></div>
+
+    <mat-toolbar>
+      <div><h2>Supplier Details</h2></div>
+    </mat-toolbar>
+    <form [formGroup]="myForm" (ngSubmit)="onSubmitForm()">
+      <div class="list">
+        <div class="list__item details">
+          <mat-form-field>
+            <input
+              (change)="checkFormStatus()"
+              matInput
+              placeholder="supplier name"
+              formControlName="supplierName"
+              autocomplete="off"
+            />
+            <mat-error *ngIf="supplierName.invalid && supplierName.touched" class="has-text-danger">
+              This cannot be empty
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input
+              (change)="checkFormStatus()"
+              matInput
+              placeholder="contact name"
+              formControlName="contactName"
+              autocomplete="off"
+            />
+            <mat-error *ngIf="contactName.invalid && contactName.touched" class="has-text-danger">
+              This cannot be empty
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input
+              (change)="checkFormStatus()"
+              matInput
+              placeholder="contact number"
+              formControlName="contactNumber"
+              autocomplete="off"
+            />
+            <mat-error *ngIf="contactNumber.invalid && contactNumber.touched" class="has-text-danger">
+              Your contact must be numbers only and 10 digits long
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input
+              (change)="checkFormStatus()"
+              matInput
+              placeholder="email"
+              formControlName="email"
+              autocomplete="off"
+            />
+            <mat-error *ngIf="email.invalid && email.touched" class="has-text-danger">
+              Your email does not look right
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input
+              (change)="checkFormStatus()"
+              matInput
+              placeholder="website"
+              formControlName="website"
+              autocomplete="off"
+            />
+          </mat-form-field>
+
+          <mat-action-row *ngIf="myForm.status === 'VALID'">
+            <mat-toolbar class="form-controls-toolbar">
+              <mat-checkbox formControlName="agree" (change)="toggleSubmitDisabled()" color="accent"
+                >Are these details correct?</mat-checkbox
+              >
+              <button mat-button #submitButton [disabled]="submitButtonDisabled">save</button>
+            </mat-toolbar>
+          </mat-action-row>
+        </div>
+      </div>
+    </form>
+  </section>
+</main>

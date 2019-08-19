@@ -140,7 +140,7 @@ export class IngredientsImportComponent implements OnInit {
           };
           // update the variable
           this.reviewTableDataSource.push(object);
-          //  add teh variable to the MattableDataSource.data property
+          //  add the variable to the MattableDataSource.data property
           this.reviewTableData.data = this.reviewTableDataSource;
         });
       }

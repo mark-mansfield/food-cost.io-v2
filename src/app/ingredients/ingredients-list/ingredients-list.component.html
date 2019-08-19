@@ -1,5 +1,6 @@
 <main class="main">
   <mat-spinner *ngIf="isLoading"></mat-spinner>
+
   <section class="section" *ngIf="!isLoading">
     <div class="info-panel" *ngIf="ingredients.length === 0">
       <div><p class="">You have no ingredients in the system</p></div>

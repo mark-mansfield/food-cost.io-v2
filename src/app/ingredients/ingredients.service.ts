@@ -12,9 +12,10 @@ const BACKEND_URL = environment.apiUrl + 'ingredients';
 export class IngredientsService {
   public ingredient: Ingredient;
   public ingredientsList: any = [];
+  public ingredientsDoc;
+
   public ingredientsUpdated = new Subject<Ingredient[]>();
   public ingredientImportDataUpdated = new Subject<Ingredient[]>();
-  public ingredientsDoc;
   public mode = 'edit';
 
   importObject = {
@@ -22,6 +23,7 @@ export class IngredientsService {
     importDataStructure: [],
     cleanedData: []
   };
+
   constructor(private http: HttpClient, private router: Router, public globals: Globals) {}
 
   getIngredientsUpdateListener() {
@@ -44,11 +46,11 @@ export class IngredientsService {
   // ingredients list - ALL
   getIngredients() {
     const customer = this.globals.getCustomer();
-    this.http.get<{ ingredients: any[] }>(BACKEND_URL + '/' + customer.id).subscribe(transformedPosts => {
+    this.http.get<{ ingredients: any[] }>(BACKEND_URL + '/' + customer.id).subscribe(returnData => {
       // prevent too many round trips to the server
-      this.saveLocalIngredientsData(transformedPosts);
-      this.ingredientsDoc = transformedPosts;
-      console.log(this.ingredientsDoc);
+      console.log(returnData);
+      this.saveLocalIngredientsData(returnData);
+      this.ingredientsDoc = returnData;
       this.ingredientsUpdated.next([...this.ingredientsDoc.ingredients]);
     });
   }

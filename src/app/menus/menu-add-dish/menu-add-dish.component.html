@@ -1,0 +1,75 @@
+<main class="main">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <section class="section" *ngIf="!isLoading">
+    <div class="info-panel" *ngIf="dishCount === 0">
+      <div><p class="">You have not created a dish yet</p></div>
+      <div class="info-panel">
+        <div><p class="inline-title">Create a Dish</p></div>
+        <a [routerLink]="['/dish/create']" href=""><i class="fa fa-plus"></i></a>
+      </div>
+    </div>
+
+    <br />
+    <div class="info-panel" *ngIf="dishes.length > 0">
+      <div><p>To add a dish to your menu , select a dish from the list below.</p></div>
+    </div>
+    <div class="info-panel" *ngIf="dishCount === 0">
+      <div><p>Your search return no results.</p></div>
+    </div>
+    <div class="search-container" *ngIf="dishCount === 0">
+      <form action="">
+        <input
+          class="input-field"
+          type="text"
+          id="dish-input-text"
+          #searchinput
+          [(ngModel)]="searchTerm"
+          name="search"
+          placeholder="  search....."
+        />
+        <button class="click-icon fas fa-search" (click)="search(searchTerm)"></button>
+      </form>
+    </div>
+    <div class="search-container" *ngIf="dishCount > 0">
+      <form action="">
+        <input
+          class="input-field"
+          type="text"
+          id="dish-input-text"
+          #searchinput
+          [(ngModel)]="searchTerm"
+          name="search"
+          placeholder="  search....."
+        />
+        <button class="click-icon fas fa-search" (click)="search(searchTerm)"></button>
+      </form>
+    </div>
+
+    <div class="link-list info-panel " *ngIf="linksList.length > 0">
+      <button
+        class="link-list-link blue"
+        (click)="searchByFirstletter(link)"
+        *ngFor="let link of linksList"
+        id="{{ link }}"
+      >
+        {{ link }}
+      </button>
+    </div>
+    <div class="info-panel" *ngIf="this.showRefresh">
+      <button class="link-list-link blue" (click)="refreshDishesList()"><i class="fas fa-sync"></i></button>
+    </div>
+    <div *ngIf="dishes.length > 0">
+      <button class="button" *ngFor="let dish of dishes" (click)="onAddDishToMenu(dish._id)">
+        <div>{{ dish.name.toLocaleLowerCase() }}</div>
+      </button>
+    </div>
+
+    <mat-paginator
+      *ngIf="dishCount > 0"
+      [pageSize]="postsPerPage"
+      [pageIndex]="pageIndex"
+      [length]="dishCount"
+      (page)="onChangedPage($event)"
+    ></mat-paginator>
+  </section>
+</main>

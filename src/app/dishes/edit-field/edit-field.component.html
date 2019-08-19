@@ -1,16 +1,35 @@
 <main class="main">
-    <section class="section">
-        <div class="info-panel" id="info-text">
-            <div>
-                <p>Enter some data to update this item</p>
-            </div>
-        </div>
-
-        <input *ngIf="field_type === 'text'" class="input-field" type="text" id="dish-input-text" [(ngModel)]="this.field_value"  value="{{ this.field_value }}">
-        <textarea  *ngIf="field_type === 'text-area'" class="input_field" cols="81" rows="10" [(ngModel)]="this.field_value"  value="{{ this.field_value }}"></textarea>
-
-        <div class="action-button button hvr-ripple-out" (click)="upDateDish()">
-            <div>SAVE</div>
-        </div>
-    </section>
+  <section class="section">
+    <div class="spinner"><mat-spinner *ngIf="isLoading"></mat-spinner></div>
+    <div class="list" *ngIf="!isLoading">
+      <div class="list__item">
+        <h1 *ngIf="this.field === 'description'">Current Description</h1>
+        <h1 *ngIf="this.field === 'recipe_method'">Current Recipe Method</h1>
+        <h1 *ngIf="this.field === 'plating_guide'">Current Plating Guide</h1>
+        <p>{{ field_value }}</p>
+      </div>
+    </div>
+    <form>
+      <div class="list__item" *ngIf="this.field === 'description'"><h1>Edit Description</h1></div>
+      <div class="list__item" *ngIf="this.field === 'recipe_method'"><h1>Edit Recipe Method</h1></div>
+      <div class="list__item" *ngIf="this.field === 'plating_guide'"><h1>Edit Plating Guide</h1></div>
+      <mat-form-field class="input">
+        <textarea
+          matInput
+          placeholder="some text..."
+          [formControl]="nameFormControl"
+          [errorStateMatcher]="matcher"
+          [(ngModel)]="nameValue"
+          aria-label="enter new data  here"
+        ></textarea>
+        <mat-hint class="hint">describes the idea of the dish</mat-hint>
+        <mat-error *ngIf="nameFormControl.hasError('required')">Some text is required </mat-error>
+        <button mat-button *ngIf="nameValue" matSuffix mat-icon-button aria-label="Clear" (click)="nameValue = ''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <br /><br />
+      <button type="submit" mat-button aria-label="Save Newly named menu" (click)="onUpDateDish()">Save</button>
+    </form>
+  </section>
 </main>

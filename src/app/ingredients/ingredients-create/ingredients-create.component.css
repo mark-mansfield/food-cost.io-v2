@@ -51,11 +51,11 @@
   background-color: var(--blue);
 }
 
-.form__node-button:hover {
+/* .form__node-button:hover {
   cursor: pointer;
   background-color: var(--hover-green);
   color: black;
-}
+} */
 
 button {
   height: 100px;
@@ -64,6 +64,7 @@ button {
 
 .form__node-input {
   display: flex;
+  width: 90%;
 }
 
 .form__node-input > input.input-half-size,
@@ -86,10 +87,10 @@ select {
   margin-bottom: 10px;
 }
 
-.input.input-half-size {
+/* .input.input-half-size {
   background-color: rgba(92, 91, 91, 0.3);
   color: var(--light-text);
-}
+} */
 
 .input-half-size {
   height: 50px;

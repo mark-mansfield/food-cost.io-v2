@@ -1,8 +1,6 @@
 const Ingredients = require('../models/ingredients');
 const checkAuth = require('../middlewear/check-auth');
-const fs = require('fs');
-const csvtojsonV2 = require('csvtojson/v2');
-// const multer = require('multer');
+// / const multer = require('multer');
 
 // const MIME_TYPE_MAP = {
 //   'text/csv': 'csv',
@@ -37,9 +35,7 @@ checkAuth,
       if (ingredients) {
         res.status(200).json(ingredients);
       } else {
-        res
-          .status(404)
-          .json({ message: "Customer's ingredients Doc not found." });
+        res.status(404).json({ message: "Customer's ingredients Doc not found." });
       }
     })
     .catch(error => {
@@ -57,9 +53,7 @@ checkAuth,
     .then(result => {
       console.log(result);
       if (result.n > 0) {
-        res
-          .status(201)
-          .json({ message: 'Ingredients Doc updated successfully' });
+        res.status(201).json({ message: 'Ingredients Doc updated successfully' });
       } else {
         res.status(401).json({ message: 'Not Authorized!' });
       }
@@ -79,8 +73,6 @@ checkAuth,
   csv()
     .fromFile(csvFilePath)
     .then(jsonObj => {
-      res
-        .status(201)
-        .json({ message: 'file uploaded successfully', data: jsonObj });
+      res.status(201).json({ message: 'file uploaded successfully', data: jsonObj });
     });
 });

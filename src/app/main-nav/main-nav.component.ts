@@ -1,9 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AppComponent } from '../app.component';
-import { Location } from '@angular/common';
 import { AuthService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
 

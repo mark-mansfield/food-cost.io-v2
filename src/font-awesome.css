@@ -4,59 +4,33 @@
   margin-right: 10px;
 }
 
-.fa-bars {
-  font-size: var(--lge-icon);
-  cursor: pointer;
-  color: var(--blue);
-}
-
-.fa-plus-small-font {
-  font-size: small;
-  color: var(--blue);
-}
-
-.fa-minus-circle {
-  color: var(--red);
-  font-size: var(--xlge-icon);
-}
-
-.fa-minus-circle:hover {
-  color: var(--hover-green);
-  cursor: pointer;
-}
-
-.fa-sync,
-.fa-search,
-.fa-bars,
-.fa-plus,
-.fa-arrow-alt-circle-left,
-.fa-arrow-alt-circle-right,
-.fa-question-circle {
-  font-size: var(--lge-icon);
-  color: var(--blue);
-  cursor: pointer;
-}
-
-.fa-question-circle {
-  font-size: var(--medium-icon);
-}
-.fa-sync:hover,
-.fa-search:hover,
-.fa-bars:hover,
-.fa-arrow-alt-circle-left:hover,
-.fa-arrow-alt-circle-right:hover,
 .fa-plus:hover {
-  color: var(--hover-green);
+  color: black;
 }
 
+.fa-plus,
+.fa-sync,
+.fa-clone,
+.fa-search,
+.fa-minus-circle,
+.fa-chevron-right,
+.fa-chevron-left,
+.fa-question-circle,
+.fa-edit,
+.fa-info-circle,
 .fa-eye,
 .fa-eye-slash {
-  font-size: var(--medium-icon);
-  color: var(--blue);
-}
-
-.fa-eye:hover,
-.fa-eye-slash:hover {
-  color: var(--hover-green);
   cursor: pointer;
+  color: var(--dark-text);
+}
+.fa-plus:hover,
+.fa-sync:hover,
+.fa-search:hover,
+.fa-eye:hover,
+.fa-eye-slash:hover,
+.fa-chevron-right:hover,
+.fa-chevron-left:hover,
+.fa-plus:hover,
+.fa-question-circle:hover {
+  color: black;
 }

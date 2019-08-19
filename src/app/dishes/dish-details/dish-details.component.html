@@ -1,41 +1,223 @@
 <main class="main">
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <section class="section" *ngIf='!isLoading'>
-    <i class="fa fa-minus-circle lge-icon" tabIndex='auto' (click)="onDelete(dish._id)" aria-hidden="true"></i>
-    <div class="info-panel delete-tool">
-      <h1>{{ dish.name }}</h1>
+  <section class="section">
+    <div class="toolbar">
+      <div class="back-button">
+        <a [routerLink]="['/dishes']"><i class="fas fa-chevron-left med-icon"></i></a>
+      </div>
+
+      <!-- <div class="cancel-edit-mode" [class.visible]="showEditTools" [class.hidden]="!showEditTools">
+            <a (click)="toggleEditMode()">cancel</a>
+          </div> -->
+      <div class="launch-edit-mode">
+        <a (click)="toggleEditMode()">{{ editModeButtonText }}</a>
+      </div>
+    </div>
+    <div class="page__title">
+      <div class="page__title-badge-icon">
+        <h1>{{ iconBadgeText }}</h1>
+      </div>
+      <div class="page__title-toolbar">
+        <div class="page__title-toolbar-label">
+          <h1>{{ dish.name }}</h1>
+        </div>
+      </div>
+
+      <!-- <div>
+        <h1>{{ dish.name }}</h1>
+      </div>
+      <br /><br />
+      <button class="fas fa-search" (click)="showSearch = true"></button> -->
     </div>
 
-    <button class="button" [routerLink]="['/dish/edit-field/', selectedId , 'name', 'text']">
-      <div>Name: {{ dish.name }}</div>
-      <i class="far fa-arrow-alt-circle-right white"></i>
-    </button>
-
-    <button class="button" [routerLink]="['/dish/', selectedId , 'ingredients']">
-      <div>Ingredients: {{ ingredientTotal }}</div>
-      <i class="far fa-arrow-alt-circle-right white"></i>
-    </button>
-    <button class="button" [routerLink]="['/dish/edit-field/' ,selectedId,  'description', 'text-area']">
-      <div>Description: <small>{{ this.dish.description.substring(0, 15) + ' ...' }}</small></div>
-      <i class="far fa-arrow-alt-circle-right white"></i>
-    </button>
-    <button class="button" [routerLink]="['/dish/edit-field/' ,selectedId,  'recipe_method', 'text-area']">
-      <div>Method: <small>{{ this.method.substring(0, 15) + ' ...' }}</small></div>
-      <i class="far fa-arrow-alt-circle-right white"></i>
-    </button>
-    <button class="button" [routerLink]="['/dish/edit-field/' ,selectedId,  'plating_guide', 'text-area']">
-      <div>Plating: <small>{{ this.plating.substring(0, 15) + ' ...' }}</small></div>
-      <i class="far fa-arrow-alt-circle-right white"></i>
-    </button>
-    <button class="button" [routerLink]="['/dish/edit-field/', selectedId , 'retail_price', 'text']">
-      <div>Retail: ${{ dish.retail_price }}</div>
-      <i class="far fa-arrow-alt-circle-right white"></i>
-    </button>
-    <div class="info-panel">
-      <div>Cost: ${{ this.cost }}</div>
+    <div class="toolbar" [class.visible]="!showEditTools" [class.hidden]="showEditTools">
+      <mat-toolbar>
+        <div class="item-title">Created By:</div>
+        <div>{{ dish.uuid }}</div>
+      </mat-toolbar>
     </div>
-    <div class="info-panel">
-      <div>Margin: {{ this.margin }} %</div>
+    <div class="spinner"><mat-spinner *ngIf="isLoading"></mat-spinner></div>
+    <div class="form__list" [class.visible]="showEditTools" [class.hidden]="!showEditTools">
+      <!-- edit form -->
+
+      <div class="form__list-item" tabindex="4" aria-label="edit the name of this dish" *ngIf="showEditForm">
+        <mat-list-item>
+          <form [formGroup]="myForm">
+            <div><h2>Edit Dish Name</h2></div>
+            <div class="form__list-item-name"><h4>Dish Name</h4></div>
+            <div>
+              <input
+                (change)="this.showConfirmControls = true"
+                type="text"
+                #contactNameInput
+                formControlName="dishName"
+                value="{{ dish.name }}"
+              />
+
+              <mat-error *ngIf="dishName.invalid && dishName.touched" class="has-text-danger">
+                this cannot be empty
+              </mat-error>
+            </div>
+            <mat-divider [class.visible]="!showEditTools" [class.hidden]="showEditTools"></mat-divider>
+            <mat-action-row [class.visible]="showConfirmControls" [class.hidden]="!showConfirmControls">
+              <mat-toolbar class="form-controls-toolbar">
+                <mat-checkbox formControlName="agree" color="accent">Are these details correct?</mat-checkbox>
+                <button mat-button [disabled]="myForm.invalid">save</button>
+              </mat-toolbar>
+            </mat-action-row>
+            <!-- <mat-form-field>
+              <input
+                type="text"
+                #inputName
+                matInput
+                class="input"
+                [formControl]="nameFormControl"
+                [errorStateMatcher]="matcher"
+                [(ngModel)]="nameValue"
+                placeholder="dish name..."
+                required
+              />
+            </mat-form-field>
+            <button mat-button tabindex="5" aria-label="save new dish name" (click)="onUpdateDishName(dish._id)">
+              save
+            </button>
+            <button mat-button tabindex="6" aria-label="cancel this action" (click)="toggleEditForm()">cancel</button> -->
+          </form>
+        </mat-list-item>
+
+        <br />
+        <br />
+        <mat-list-item>
+          <h2>Delete this dish</h2>
+          <br />
+          <button class="action" mat-button [class.visible]="showEditTools" [class.hidden]="!showEditTools">
+            <i class="material-icons xlarge-icon">remove_circle_outline</i>
+          </button>
+        </mat-list-item>
+      </div>
+    </div>
+
+    <div class="list" [class.visible]="!showEditTools" [class.hidden]="showEditTools">
+      <!-- <div class="list__item-title details">
+          <div class="item-tool" aria-label="add dish to this dish" [routerLink]="['']">
+            <button><i class="fas fa-plus med-icon"></i></button>
+          </div>
+        <div class="item-title" tabindex="3" aria-label="dish name">{{ dish.name }}</div>
+        <div class="item-tool">
+          <button (click)="toggleEditForm()"><i class="far fa-edit med-icon"></i></button>
+        </div>
+          <div class="item-tool">
+            <button (click)="toggleDetails()"><i class="fas fa-info-circle med-icon"></i></button>
+          </div>
+      </div> -->
+
+      <!-- dish description -->
+      <mat-list-item>
+        <div
+          class="list__item"
+          tabindex="7"
+          aria-label="edit dish description"
+          [routerLink]="['/dish/edit-field/', selectedId, 'description', 'text-area']"
+        >
+          <div class="item-title colspan-1">Description:</div>
+          <div class="list__item-details colspan-2">
+            <li tabindex="8" aria-label="current dish description">{{ dish.description }}</li>
+          </div>
+          <button class="list__item-action colspan-2"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+
+      <!-- ingredients list -->
+      <mat-list-item>
+        <div
+          class="list__item"
+          tabindex="9"
+          aria-label="ingredients view the list"
+          [routerLink]="['/dish/', selectedId, 'ingredients']"
+        >
+          <div class="item-title colspan-1">Ingredients:</div>
+          <div class="list__item-details colspan-2">
+            <li class="list__item-name">{{ ingredientTotal }}</li>
+          </div>
+          <button class="list__item-action colspan-2"><i class="fas fa-chevron-right "></i></button>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+
+      <!-- cost  -->
+      <mat-list-item>
+        <div class="list__item">
+          <div class="item-title colspan-1">Cost:</div>
+          <div class="list__item-details colspan-2">
+            <li class="list__item-name" tabindex="10" aria-label="Dish Cost">{{ this.cost }}</li>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+
+      <!-- retail price -->
+      <mat-list-item>
+        <div
+          class="list__item"
+          (click)="onLaunchNumberPad()"
+          tabindex="11"
+          aria-label="edit retail using number pad dialog"
+        >
+          <div class="item-title colspan-1">Retail:</div>
+          <div class="list__item-details colspan-2">
+            <li class="list__item-name">${{ dish.retail_price }}</li>
+          </div>
+          <button class="list__item-action colspan-2"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+
+      <!-- margin -->
+      <mat-list-item>
+        <div class="list__item">
+          <div class="item-title colspan-1">Margin:</div>
+          <div class="list__item-details colspan-2">
+            <li class="list__item-name" tabindex="12" aria-label="the margin for this dish as a percentage">
+              {{ this.margin }} %
+            </li>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+
+      <!-- recipe method -->
+      <mat-list-item>
+        <div
+          class="list__item"
+          [routerLink]="['/dish/edit-field/', selectedId, 'recipe_method', 'text-area']"
+          tabindex="13"
+          aria-label="edit recipe method for this dish"
+        >
+          <div class="item-title colspan-1">Method:</div>
+          <div class="list__item-details colspan-2">
+            <li style="max-width: 100px">{{ this.dish.recipe_method.substring(0, 20) + ' ...' }}</li>
+          </div>
+          <button class="list__item-action colspan-2"><i class="fas fa-chevron-right "></i></button>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+
+      <!--  plating guide -->
+      <mat-list-item>
+        <div
+          class="list__item"
+          [routerLink]="['/dish/edit-field/', selectedId, 'plating_guide', 'text-area']"
+          tabindex="13"
+          aria-label="edit plating guide for this dish"
+        >
+          <div class="item-title colspan-1">Plating:</div>
+          <div class="list__item-details colspan-2">
+            <li style="max-width: 100px">{{ this.dish.plating_guide.substring(0, 20) + ' ...' }}</li>
+          </div>
+          <button class="list__item-action colspan-2"><i class="fas fa-chevron-right "></i></button>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-list-item>
     </div>
   </section>
 </main>

@@ -1,13 +1,14 @@
 .footer {
   position: fixed;
-  z-index: 2;
   bottom: 0px;
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 100vw;
+  flex: 1 1 auto;
+  font-size: small;
   height: 50px;
-  color: var(--light-text);
-  background-color: var(--info-panel-dark-background);
+  width: 100%;
+  z-index: -1;
+  color: var(--dark-text);
+  background-color: white;
 }

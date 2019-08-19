@@ -1,9 +1,7 @@
 import { Component, OnInit, Inject, ViewChild, HostListener } from '@angular/core';
 
-import { A11yModule } from '@angular/cdk/a11y';
-
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { FocusTrapFactory, FocusMonitor, ListKeyManager } from '@angular/cdk/a11y';
+import { FocusTrapFactory, FocusMonitor } from '@angular/cdk/a11y';
 export interface Tile {
   color: string;
   cols: number;
@@ -44,6 +42,7 @@ export class NumpadDialogComponent implements OnInit {
     { text: '1', cols: 1, rows: 1, color: '' },
     { text: '2', cols: 1, rows: 1, color: '' },
     { text: '3', cols: 1, rows: 1, color: '' },
+    { text: '4', cols: 1, rows: 1, color: '' },
     { text: '5', cols: 1, rows: 1, color: '' },
     { text: '6', cols: 1, rows: 1, color: '' },
     { text: '7', cols: 1, rows: 1, color: '' },
@@ -52,18 +51,18 @@ export class NumpadDialogComponent implements OnInit {
     { text: '0', cols: 1, rows: 1, color: '' },
     { text: '.', cols: 1, rows: 1, color: '' },
     { text: 'x', cols: 1, rows: 1, color: '' },
-    { text: 'clear', cols: 1, rows: 1, color: '' }
+    { text: 'AC', cols: 1, rows: 1, color: '#ff711e' }
   ];
 
-  // enables listenning for the enter key
-  @HostListener('document:keypress', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.key === 'Enter') {
-      // textContent adds whitespace to the beginning and end of its value
-      const numPadKey = event.srcElement.firstElementChild.textContent.trim();
-      this.updateReadOut(numPadKey);
-    }
-  }
+  // // enables listenning for the enter key
+  // @HostListener('document:keypress', ['$event'])
+  // handleKeyboardEvent(event: KeyboardEvent) {
+  //   if (event.key === 'Enter') {
+  //     // textContent adds whitespace to the beginning and end of its value
+  //     const numPadKey = event.srcElement.firstElementChild.textContent.trim();
+  //     this.updateReadOut(numPadKey);
+  //   }
+  // }
 
   constructor(
     private focusTrap: FocusTrapFactory,
