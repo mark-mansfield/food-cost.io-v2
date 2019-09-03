@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const customerDishesSchema = mongoose.Schema({
+const dishesSchema = mongoose.Schema({
   customerId: String,
   dishes: Array
 });
 
-module.exports = mongoose.model('CustomerDish', customerDishesSchema);
+module.exports = mongoose.model('Dish', dishesSchema);

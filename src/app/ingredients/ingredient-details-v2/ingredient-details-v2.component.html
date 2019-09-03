@@ -1,0 +1,383 @@
+<main class="main contact">
+  <section class="section" [class.edit-mode]="showEditTools">
+    <div class="toolbar">
+      <div>
+        <a [routerLink]="['/ingredients/list']"><i class="fas fa-chevron-left med-icon"></i></a>
+      </div>
+      <ng-container *ngIf="!createMode">
+        <div>
+          <a (click)="toggleEditMode()" [class.visible]="showEditTools" [class.hidden]="!showEditTools">cancel</a>
+        </div>
+        <div>
+          <a (click)="toggleEditMode()" [class.visible]="!showEditTools" [class.hidden]="showEditTools">Edit</a>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- ingredient create -->
+    <ng-container>
+      <div *ngIf="!createMode" class="contact__badge">
+        <div class="contact__badge-icon">
+          <h3>{{ iconBadgeText }}</h3>
+        </div>
+        <div class="contact__badge-title">
+          <h1>{{ ingredient.ingredient_name }}</h1>
+        </div>
+        <button
+          mat-mini-fab
+          class="delete"
+          (click)="onRemoveIngredient()"
+          [class.visible]="showEditTools"
+          [class.hidden]="!showEditTools"
+        >
+          <i class="fas fa-minus"></i>
+        </button>
+      </div>
+      <h1 *ngIf="createMode">New Ingredient</h1>
+
+      <form [formGroup]="myForm" (ngSubmit)="onSubmitform()" style="margin-top: 50px;">
+        <div class="list">
+          <div class="list__item details">
+            <div class="list__item-item">
+              <div class="list__item-name-description">
+                <h3>
+                  Ingredient Name:
+                </h3>
+                <div *ngIf="!createMode">Locked:</div>
+              </div>
+              <div *ngIf="ingredientName.valid && ingredientName.touched && showEditTools" class="accent-ok">
+                {{ fieldValueGoodText }}!
+              </div>
+              <div *ngIf="isDuplicate && showEditTools" class="accent-warn">
+                Your ingredient name must be unique
+              </div>
+              <div *ngIf="ingredientName.invalid && ingredientName.touched && showEditTools" class="accent-warn">
+                This cannot be empty.
+              </div>
+              <div *ngIf="ingredientName.invalid && showEditTools" class="accent-warn">{{ requiredText }}.</div>
+              <h3 *ngIf="!createMode">{{ ingredient.ingredient_name }}</h3>
+            </div>
+
+            <div class="list__item-item">
+              <div
+                class="list__item-input-toolbar-items"
+                [class.hidden]="showEditTools || !createMode"
+                [class.visible]="showEditTools && !createMode"
+              >
+                <input
+                  [class.hidden]="!createMode"
+                  [class.visible]="createMode"
+                  (change)="
+                    this.showConfirmControls = true; onUpdateIngredient('ingredientName', ingredientNameInput.value)
+                  "
+                  inputmode="text"
+                  type="text"
+                  #ingredientNameInput
+                  formControlName="ingredientName"
+                  value=""
+                />
+              </div>
+            </div>
+            <mat-divider *ngIf="!createMode && !showEditTools"></mat-divider>
+            <!-- Ingredient Price: -->
+            <div class="list__item-item">
+              <h3 class="list__item-name">Ingredient Price:</h3>
+              <span [class.hidden]="showEditTools" [class.visible]="!showEditTools">
+                {{ ingredient.ingredient_price }}
+              </span>
+
+              <div *ngIf="invalidIngredientPrice && showEditTools" class="accent-warn">
+                A valid price is required
+              </div>
+              <div
+                *ngIf="
+                  (ingredientPrice.invalid && ingredientPrice.touched && showEditTools) ||
+                  (ingredientPrice.invalid && showEditTools)
+                "
+                class="accent-warn"
+              >
+                {{ requiredText }}.
+              </div>
+              <div *ngIf="ingredientPrice.value > 0 && showEditTools" class="accent-ok">{{ fieldValueGoodText }}!</div>
+            </div>
+            <div class="list__item-item">
+              <div
+                class="list__item-input-toolbar-items"
+                [class.hidden]="!showEditTools || !createMode"
+                [class.visible]="showEditTools || createMode"
+              >
+                <input
+                  *ngIf="isHandset$ | async"
+                  (change)="
+                    this.showConfirmControls = true; onUpdateIngredient('ingredientPrice', ingredientPriceInput.value)
+                  "
+                  inputmode="decimal"
+                  type="text"
+                  #ingredientPriceInput
+                  formControlName="ingredientPrice"
+                  value=""
+                />
+                <div *ngIf="!(isHandset$ | async)" class="space-between">
+                  <input
+                    (change)="
+                      this.showConfirmControls = true; onUpdateIngredient('ingredientPrice', ingredientPriceInput.value)
+                    "
+                    disabled
+                    type="text"
+                    style="width: 60%"
+                    #ingredientPriceInput
+                    formControlName="ingredientPrice"
+                    value=""
+                  />
+
+                  <button
+                    type="button"
+                    mat-button
+                    class="launch-numpad"
+                    (click)="launchNumberPad('ingredient_price')"
+                    style="margin: 0!important"
+                  >
+                    edit
+                  </button>
+                </div>
+              </div>
+            </div>
+            <mat-divider *ngIf="!createMode && !showEditTools"></mat-divider>
+            <!-- Supplier -->
+            <div class="list__item-item">
+              <h3 class="list__item-name">Supplier:</h3>
+              <div [class.hidden]="showEditTools" [class.visible]="!showEditTools">
+                {{ ingredient.supplier }}
+              </div>
+              <div *ngIf="supplier.valid && showEditTools" class="accent-ok">{{ fieldValueGoodText }}!</div>
+              <div
+                *ngIf="(supplier.invalid && supplier.touched && showEditTools) || (supplier.invalid && showEditTools)"
+                class="accent-warn"
+              >
+                {{ requiredText }}.
+              </div>
+            </div>
+            <div class="list__item-item">
+              <div
+                class="list__item-input-toolbar-items"
+                [class.hidden]="!showEditTools || !createMode"
+                [class.visible]="showEditTools || createMode"
+              >
+                <mat-select
+                  formControlName="supplier"
+                  class="custom-select"
+                  id="supplier"
+                  (selectionChange)="onSelectUpdated($event)"
+                >
+                  <mat-option *ngFor="let supplier of suppliers" [value]="supplier.supplier_name">
+                    {{ supplier.supplier_name }}
+                  </mat-option>
+                </mat-select>
+              </div>
+            </div>
+            <mat-divider *ngIf="!createMode && !showEditTools"></mat-divider>
+            <!-- category -->
+            <div class="list__item-item">
+              <div class="list__item-name-description">
+                <h3>
+                  Category:
+                </h3>
+                <div>This enhances search...</div>
+              </div>
+              <div [class.hidden]="showEditTools" [class.visible]="!showEditTools">
+                {{ ingredient.category }}
+              </div>
+              <div *ngIf="!category.value && showEditTools">
+                {{ optionalTextMsg }}
+              </div>
+              <div *ngIf="category.value && showEditTools" class="accent-ok">{{ fieldValueGoodText }}!</div>
+            </div>
+            <div class="list__item-item">
+              <div
+                class="list__item-input-toolbar-items"
+                [class.hidden]="!showEditTools || !createMode"
+                [class.visible]="showEditTools || createMode"
+              >
+                <mat-select
+                  formControlName="category"
+                  class="custom-select"
+                  id="category"
+                  (selectionChange)="onSelectUpdated($event)"
+                >
+                  <mat-option *ngFor="let category of categories" [value]="category">
+                    {{ category }}
+                  </mat-option>
+                </mat-select>
+              </div>
+            </div>
+            <mat-divider *ngIf="!createMode && !showEditTools"></mat-divider>
+            <!-- sub cat -->
+            <div class="list__item-item">
+              <div class="list__item-name-description">
+                <h3>
+                  Sub-Category:
+                </h3>
+                <div>This enhances search...</div>
+              </div>
+              <div [class.hidden]="showEditTools" [class.visible]="!showEditTools">
+                {{ ingredient.sub_category }}
+              </div>
+              <div *ngIf="!subCategory.value && showEditTools">
+                {{ optionalTextMsg }}
+              </div>
+
+              <div *ngIf="subCategory.value && showEditTools" class="accent-ok">
+                {{ fieldValueGoodText }}
+              </div>
+            </div>
+            <div class="list__item-item">
+              <div
+                class="list__item-input-toolbar-items"
+                [class.hidden]="!showEditTools || !createMode"
+                [class.visible]="showEditTools || createMode"
+              >
+                <mat-select
+                  formControlName="subCategory"
+                  class="custom-select"
+                  id="subCategory"
+                  (selectionChange)="onSelectUpdated($event)"
+                >
+                  <mat-option *ngFor="let sub_cat of sub_categories" [value]="sub_cat">
+                    {{ sub_cat }}
+                  </mat-option>
+                </mat-select>
+              </div>
+            </div>
+            <mat-divider *ngIf="!createMode && !showEditTools"></mat-divider>
+            <!-- Unit type -->
+            <div class="list__item-item">
+              <div class="list__item-name-description">
+                <h3>
+                  Unit Type:
+                </h3>
+                <div style="text-align: left">
+                  How is the item purchased? <br />box, kg, punnet, bunches, single item etc...
+                </div>
+              </div>
+              <div [class.hidden]="showEditTools" [class.visible]="!showEditTools && !createMode">
+                {{ ingredient.unit_type }}
+              </div>
+              <div *ngIf="unitType.valid && showEditTools" class="accent-ok">{{ fieldValueGoodText }}!</div>
+              <div
+                *ngIf="(unitType.invalid && unitType.touched && showEditTools) || (unitType.invalid && showEditTools)"
+                class="accent-warn"
+              >
+                {{ requiredText }}
+              </div>
+            </div>
+            <div class="list__item-item">
+              <div
+                class="list__item-input-toolbar-items"
+                [class.hidden]="!showEditTools || !createMode"
+                [class.visible]="showEditTools || createMode"
+              >
+                <mat-select
+                  formControlName="unitType"
+                  class="custom-select"
+                  id="unitType"
+                  (selectionChange)="onSelectUpdated($event)"
+                >
+                  <mat-option *ngFor="let unitType of unit_types" [value]="unitType">
+                    {{ unitType }}
+                  </mat-option>
+                </mat-select>
+              </div>
+            </div>
+            <mat-divider *ngIf="!createMode && !showEditTools"></mat-divider>
+            <!-- Unit amount -->
+            <div class="list__item-item">
+              <div class="list__item-name-description">
+                <h3>
+                  Unit Amount:
+                </h3>
+                <div style="text-align: left">
+                  What quantity does it come in? <br />12 in a box , 20kg , 5 litres etc..
+                </div>
+              </div>
+              <div [class.hidden]="showEditTools" [class.visible]="!showEditTools && !createMode">
+                {{ ingredient.unit_amount }}
+              </div>
+              <div *ngIf="unitAmount.valid && showEditTools" class="accent-ok">{{ fieldValueGoodText }}!</div>
+              <div
+                *ngIf="
+                  (unitAmount.invalid && unitAmount.touched && showEditTools) || (unitAmount.invalid && showEditTools)
+                "
+                class="accent-warn"
+              >
+                {{ requiredText }}
+              </div>
+            </div>
+            <div class="list__item-item">
+              <div
+                class="list__item-input-toolbar-items"
+                [class.hidden]="!showEditTools || !createMode"
+                [class.visible]="showEditTools || createMode"
+              >
+                <input
+                  *ngIf="isHandset$ | async"
+                  (change)="this.showConfirmControls = true; onUpdateIngredient('unitAmount', unitAmountInput.value)"
+                  inputmode="decimal"
+                  type="text"
+                  #unitAmountInput
+                  formControlName="unitAmount"
+                  value=""
+                />
+                <div *ngIf="!(isHandset$ | async)" class="space-between">
+                  <input
+                    disabled
+                    type="text"
+                    style="width: 60%"
+                    #unitAmountInput
+                    formControlName="unitAmount"
+                    value=""
+                  />
+
+                  <button
+                    mat-button
+                    type="button"
+                    class="launch-numpad"
+                    (click)="launchNumberPad('unit_amount')"
+                    style="margin: 0!important"
+                  >
+                    edit
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <mat-divider *ngIf="!createMode && !showEditTools"></mat-divider>
+
+            <!-- ingredient cost -->
+            <div class="list__item-item">
+              <div class="list__item-name">
+                <h3>
+                  Ingredient Unit Cost:
+                </h3>
+              </div>
+              <div class="list__item-value">
+                {{ ingredient.unit_cost }}
+              </div>
+            </div>
+            <mat-divider *ngIf="!createMode && !showEditTools"></mat-divider>
+
+            <!-- confirm controls -->
+
+            <mat-action-row [class.visible]="showConfirmControls" [class.hidden]="!showConfirmControls">
+              <mat-toolbar class="form-controls-toolbar">
+                <mat-checkbox color="accent" (change)="onToggleSubmitDisabled($event)"
+                  >Are these details correct?</mat-checkbox
+                >
+                <button mat-button type="submit" [disabled]="submitButtonDisabled">save</button>
+              </mat-toolbar>
+            </mat-action-row>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </section>
+</main>

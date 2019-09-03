@@ -46,6 +46,12 @@
   align-items: center;
 }
 
+/* error */
+.mat-error {
+  flex: 0!important;
+  margin: auto 10px!important;
+}
+
 
 /* mat-spinner */
 .mat-spinner {

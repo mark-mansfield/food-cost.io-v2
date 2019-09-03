@@ -23,7 +23,7 @@ import { Supplier } from '../supplier.model';
 export class SupplierDetailsComponent implements OnInit {
   isLoading = false;
   showEditTools = false;
-  showInputs = false;
+  // showInputs = false;
   show_contact_name_input = false;
   show_contact_number_input = false;
   show_email_address_input = false;
@@ -109,10 +109,6 @@ export class SupplierDetailsComponent implements OnInit {
     } else {
       this[input] = false;
     }
-  }
-
-  onSubmitform() {
-    console.log(this.supplier);
   }
 
   onUpdateSupplier(prop, value) {

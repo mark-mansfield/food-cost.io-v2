@@ -1,3 +1,81 @@
-<p>
-  ingredients-list-v2 works!
-</p>
+<main class="main>">
+  <section class="section">
+    <!-- <div class="toolbar">
+        <a [routerLink]="['/dish/create']"><i class="fas fa-plus sml-icon"></i></a>
+      </div> -->
+    <div class="page__title">
+      <div><h1>Ingredients</h1></div>
+      <br /><br />
+      <button class="fas fa-search xlarge-icon" (click)="showSearch = true"></button> <br />
+    </div>
+    <div class="main__search-container">
+      <form class="main__search-form">
+        <input
+          type="text"
+          id="dish-input-text"
+          [ngClass]="{ hidden: !showSearch, visible: showSearch }"
+          #searchinput
+          [(ngModel)]="searchTerm"
+          name="search"
+          placeholder="  search....."
+        />
+        <button [ngClass]="{ hidden: !showSearch, visible: showSearch }" (click)="search(searchTerm)">Go</button>
+      </form>
+    </div>
+    <br />
+    <div class="toolbar">
+      <mat-toolbar>
+        <div>
+          <h2>Ingredients {{ ingredientCount }}</h2>
+        </div>
+        <div>
+          <button class="action add" [routerLink]="['/ingredient/create']"><i class="material-icons">add</i></button>
+        </div>
+      </mat-toolbar>
+    </div>
+    <!-- <div class="spinner list"><mat-spinner *ngIf="isLoading"></mat-spinner></div> -->
+    <div class="list" *ngIf="ingredients.length > 0">
+      <mat-divider></mat-divider>
+
+      <mat-divider></mat-divider>
+      <mat-list-item *ngFor="let ingredient of ingredients; let i = index">
+        <div class="list__item" aria-label="view the details of this dish">
+          <div *ngIf="hasImage" class="list__item-dish-icon">
+            <img
+              class="thumb"
+              src="https://lh3.googleusercontent.com/5t_U3Py2tbdEQ7aT-vC-2W2nZ9p7iBniM2bbqXcHJrATNGCOvsNWjY0dMHR8t0rdMj92C21zJzuAN18P76tbQTVKZlfXULQbY8V2ZnKTqiJ5Ool959pzCj_A8jgxe13cH7zWcX5v9CUfMDdBYyT0aeH9Ww4Fdvk3jMFPpWh3_G9P3FhFsJqRvoj5DYsKuatT7zGGO6J_WQJOCVBeWkRD52MHRpUyJ1G3-UHSh4t9PqT6tySD-vE0jQ_dYWvB1uDjL-HphOEZkGYVJ9yY6oAuu9uFVd7qRIhTNzB7qTpKD2JoJawN2fC-9aW3JlXJZbyN-nQtpBOjUzwqIfdV1xrjbLcI4UMAaxivZpoFXIq_Z3WtGWTs9wNSf4Fa-nzNZsHttVvN7H2WH2UU_zWkWybRRQgFyWs61fveSv7EwfXj4XbpzjAx17uRye5TKBtszL8kdIQI5Fdwq2WUpGUp9O3E7ghJlIvl7lRYZ8SqNEobsAXHUCDlM3foPYMu-rIokoWY8_Bctvs7Z1MHrUlDOXOYBavu7MwnW4I8WfxwB1gRTFckSPn-MGyyvxgdsaudqOpjfTb6fMnlon58wcUb16_p5oJDN8ktVYSsTQ8kp-QGZKpIJskImgqerVoqXckKxh1XjMBeB5KUGaqQH2SZP4Uic3QC=w927-h1158-no"
+              alt=""
+            />
+          </div>
+          <div *ngIf="!hasImage" class="list__item-dish-badge">
+            <div class="contact__badge-icon">
+              <h2>{{ badgeNames[i] }}</h2>
+            </div>
+          </div>
+          <div class="list__item-details">
+            <li class="list__item-name">{{ ingredient.ingredient_name }}</li>
+            <li class="list__item-retail">price: ${{ ingredient.ingredient_price }}</li>
+          </div>
+          <button
+            class="list__item-action"
+            aria-label="edit the details for this item"
+            (click)="saveIngredientToLocal(ingredient)"
+          >
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+
+        <mat-divider></mat-divider>
+      </mat-list-item>
+      <mat-paginator
+        class="paginator"
+        *ngIf="ingredientCount !== 0"
+        [pageSize]="postsPerPage"
+        [pageIndex]="pageIndex"
+        [length]="ingredientCount"
+        [pageSizeOptions]="[5, 10, 25]"
+        (page)="onChangedPage($event)"
+      ></mat-paginator>
+    </div>
+  </section>
+</main>

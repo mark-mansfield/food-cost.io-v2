@@ -4,6 +4,7 @@ import { Ingredient } from './ingredient.model';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { MatSnackBar } from '@angular/material';
 import { Globals } from '../globals';
 import { v4 as uuid } from 'uuid';
 const BACKEND_URL = environment.apiUrl + 'ingredients';
@@ -13,7 +14,7 @@ export class IngredientsService {
   public ingredient: Ingredient;
   public ingredientsList: any = [];
   public ingredientsDoc;
-
+  public ingredientCountUpdated = new Subject<number>();
   public ingredientsUpdated = new Subject<Ingredient[]>();
   public ingredientImportDataUpdated = new Subject<Ingredient[]>();
   public mode = 'edit';
@@ -24,10 +25,19 @@ export class IngredientsService {
     cleanedData: []
   };
 
-  constructor(private http: HttpClient, private router: Router, public globals: Globals) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    public globals: Globals,
+    private messageSnackBar: MatSnackBar
+  ) {}
 
   getIngredientsUpdateListener() {
     return this.ingredientsUpdated.asObservable();
+  }
+
+  getIngredientsCountUpdateListener() {
+    return this.ingredientCountUpdated.asObservable();
   }
 
   getIngredientsImportDataUpdateListener() {
@@ -39,10 +49,36 @@ export class IngredientsService {
     return ingredientsData.suppliers;
   }
 
+  // pagination
+  paginate(index, pageCount) {
+    const sliceStart = index * pageCount;
+    const sliceLength = sliceStart + pageCount;
+    return this.ingredientsDoc.ingredients.slice(sliceStart, sliceLength);
+  }
+
+  paginateOnChange(index, pageCount) {
+    this.ingredientsUpdated.next([...this.paginate(index, pageCount)]);
+  }
+
   getUnitTypes() {
     const ingredientsData = this.loadLocalIngredientsData();
     return ingredientsData.unit_types;
   }
+
+  // ingredients list - Paginated
+  getIngredientsAndPaginate(index, postsPerPage) {
+    const customer = this.globals.getCustomer();
+    this.http.get<{ ingredients: any[] }>(BACKEND_URL + '/' + customer.id).subscribe(returnData => {
+      // prevent too many round trips to the server
+      console.log(returnData);
+      this.saveLocalIngredientsData(returnData);
+      this.ingredientsDoc = returnData;
+      this.ingredientCountUpdated.next(this.ingredientsDoc.ingredients.length);
+      const tmpArr = this.paginate(index, postsPerPage);
+      this.ingredientsUpdated.next([...tmpArr]);
+    });
+  }
+
   // ingredients list - ALL
   getIngredients() {
     const customer = this.globals.getCustomer();
@@ -55,16 +91,21 @@ export class IngredientsService {
     });
   }
 
-  createIngredient(
-    ingredient_name: string,
-    ingredient_price: string,
-    unit_amount: string,
-    purchase_amount: string,
-    unit_type: string,
-    supplier: string,
-    category: string,
-    sub_category: string
-  ) {
+  createIngredient(ingredient) {
+    const {
+      hash_key,
+      id,
+      ingredient_name,
+      ingredient_price,
+      unit_amount,
+      purchase_amount,
+      unit_type,
+      unit_cost,
+      supplier,
+      category,
+      sub_category
+    } = ingredient;
+
     const customer = this.globals.getCustomer();
     this.ingredientsDoc = this.loadLocalIngredientsData();
     const obj: Ingredient = {
@@ -75,14 +116,86 @@ export class IngredientsService {
       unit_amount: unit_amount,
       purchase_amount: purchase_amount,
       unit_type: unit_type,
+      unit_cost: unit_cost,
       supplier: supplier,
       category: category,
       sub_category: sub_category
     };
-    this.ingredientsDoc.ingredients.push(obj);
-    this.updateIngredient(obj, this.ingredientsDoc);
+
+    this.http
+      .post<{ message: string; nModified: number }>(BACKEND_URL + '/' + customer.id + '/add', ingredient)
+      .subscribe(returnedData => {
+        console.log(returnedData);
+        if (returnedData.nModified > 0) {
+          this.openSnackBar('ingredient added');
+          this.ingredientsDoc.ingredients.push(obj);
+          this.saveLocalIngredientsData(this.ingredientsDoc);
+        }
+
+        if (returnedData.nModified === 0) {
+          this.openSnackBar('there was an error locating your document');
+          console.log(
+            // tslint:disable-next-line: max-line-length
+            'could not find item in Database collection to update, check syntax, query params, and check document fields ,match teh api query'
+          );
+        }
+      });
+
+    // this.updateIngredientsDocumentV2(obj);
   }
 
+  // update serer with single ingredient object
+
+  updateIngredientsDocumentV2(ingredient) {
+    const customer = this.globals.getCustomer();
+    this.http
+      .put<{ message: string; n: number }>(BACKEND_URL + '/' + customer.id + '/update', ingredient)
+      .subscribe(returnedData => {
+        console.log(returnedData);
+        if (returnedData.n !== 0) {
+          this.openSnackBar(returnedData.message);
+        }
+
+        if (returnedData.n === 0) {
+          this.openSnackBar(returnedData.message);
+          console.log(
+            // tslint:disable-next-line: max-line-length
+            'could not find item in Database collection to update, check syntax, query params, and check document fields ,match teh api query'
+          );
+        }
+      });
+  }
+
+  updateIngredient(ingredient) {
+    // const updated = updateLocalIngredientsDoc(ingredient);
+    // const updatedOnServer = updateIngredientsDocument(updated)
+    // showSnackBarMessage(updateOnserver);
+    // this.router.navigate(['']);
+  }
+
+  updateIngredientsOnServer(ingredient) {}
+
+  // returns 0 for an error, 1 for success
+  updateLocalIngredientsDoc(ingredient) {
+    const hashKey = ingredient.hash_key;
+    const idx = this.ingredientExists(hashKey);
+    if (idx === -1) {
+      return 0;
+    }
+    const ingredientsDoc = this.loadLocalIngredientsData();
+    ingredientsDoc[idx] = ingredient;
+    this.saveLocalIngredientsData(ingredientsDoc);
+    console.log(`saving local ingredients data ${ingredientsDoc}`);
+    return 1;
+  }
+
+  ingredientExists(hashKey) {
+    const ingredientsDoc = this.loadLocalIngredientsData();
+    const searchResults = ingredientsDoc.ingredients.findIndex(item => item.hash_key === hashKey);
+    return searchResults;
+  }
+
+  //  import helper method
   removeDuplicateIngredients(arr) {
     const seenIngredients = Object.create(null);
     const deDupedIngredients = arr.filter((item, index) => {
@@ -91,7 +204,7 @@ export class IngredientsService {
       if (seenIngredients[key]) {
         return false;
       }
-      // otherwise we havent see it before and now we flag it
+      // otherwise we havent seen it before and now we flag it
       seenIngredients[key] = true;
       console.log('ingredient seen');
       return true;
@@ -158,7 +271,7 @@ export class IngredientsService {
 
   // update ingredients doc [ add ,edit, delete ]
   // this document is never deleted only the contents of it get changed
-  updateIngredient(ingredient, ingredientsDoc) {
+  updateIngredientsDocument(ingredient, ingredientsDoc) {
     const customer = this.globals.getCustomer();
     this.http.put<{ message: string }>(BACKEND_URL + '/' + customer.id, ingredientsDoc).subscribe(returnedData => {
       console.log('update status: ' + returnedData.message);
@@ -325,5 +438,11 @@ export class IngredientsService {
       }
     });
     return tmpArr;
+  }
+
+  openSnackBar(message) {
+    this.messageSnackBar.open(message, '', {
+      duration: 2000
+    });
   }
 }

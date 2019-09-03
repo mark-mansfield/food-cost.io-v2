@@ -35,40 +35,16 @@ export class DishService {
     return this.dishUpdated.asObservable();
   }
 
-  //  use interceptor , function to run on any outgoing http request
-  //  we manipulate the request to add our token.
-  // + '/' + this.globals.custID
   getDishes(index, postsPerPage) {
     const customer = this.globals.getCustomer();
-    this.http
-      .get<{ dishes: any }>(BACKEND_URL + '/' + customer.id)
-      .pipe(
-        map(postData => {
-          return postData.dishes.map(dish => {
-            return {
-              customerId: customer.id,
-              _id: dish._id,
-              uuid: dish.uuid,
-              name: dish.name,
-              ingredients: dish.ingredients,
-              retail_price: dish.retail_price,
-              cost: dish.cost,
-              margin: dish.margin,
-              description: dish.description,
-              recipe_method: dish.recipe_method,
-              plating_guide: dish.plating_guide,
-              progress: dish.progress
-            };
-          });
-        })
-      )
-      .subscribe(transformedPosts => {
-        this.dishes = transformedPosts.reverse();
-        this.dishCount = this.dishes.length;
-        this.saveLocalDishesData(this.dishes);
-        const tmpArr = this.paginate(index, postsPerPage);
-        this.dishesUpdated.next([...tmpArr]);
-      });
+    this.http.get<{ dishes: any[] }>(BACKEND_URL + '/' + customer.id).subscribe(returnedData => {
+      console.log(returnedData);
+      this.dishes = returnedData.dishes.reverse();
+      this.dishCount = this.dishes.length;
+      this.saveLocalDishesData(this.dishes);
+      const tmpArr = this.paginate(index, postsPerPage);
+      this.dishesUpdated.next([...tmpArr]);
+    });
   }
 
   // consumed by other services
@@ -161,7 +137,7 @@ export class DishService {
     };
 
     this.http
-      .post<{ message: string; dish: Dish }>('http://localhost:3000/api/dishes', dishData)
+      .post<{ message: string; dish: Dish }>(BACKEND_URL + '/' + customer.id, dishData)
       .subscribe(returnedData => {
         console.log(returnedData.message);
         this.dishes.push(returnedData.dish);

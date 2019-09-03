@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../auth/auth.guard';
 // import { IngredientsListComponent } from './ingredients-list/ingredients-list.component';
-import { IngredientsDetailsComponent } from './ingredients-details/ingredients-details.component';
-import { IngredientsCreateComponent } from './ingredients-create/ingredients-create.component';
+// import { IngredientsDetailsComponent } from './ingredients-details/ingredients-details.component';
+// import { IngredientEditFieldComponent } from './ingredient-edit-field/ingredient-edit-field.component';
+import { IngredientDetailsV2Component } from './ingredient-details-v2/ingredient-details-v2.component';
+
 import { IngredientsImportComponent } from './ingredients-import/ingredients-import.component';
-import { IngredientEditFieldComponent } from './ingredient-edit-field/ingredient-edit-field.component';
 import { IngredientsListV2Component } from './ingredients-list-v2/ingredients-list-v2.component';
 const ingredientsRoutes: Routes = [
   //  list all ingredients
@@ -16,8 +17,8 @@ const ingredientsRoutes: Routes = [
   },
   // add ingredient
   {
-    path: 'ingredients/create',
-    component: IngredientsCreateComponent,
+    path: 'ingredient/:mode',
+    component: IngredientDetailsV2Component,
     canActivate: [AuthGuard]
   },
   // import ingredients
@@ -28,16 +29,16 @@ const ingredientsRoutes: Routes = [
   },
   // ingredient details
   {
-    path: 'ingredients/:id',
-    component: IngredientsDetailsComponent,
-    canActivate: [AuthGuard]
-  },
-  // editing root level properties on an ingredient we re-use the same component and pass in :field_name and :field_type
-  {
-    path: 'ingredient/edit-field/:field_name/:field_type',
-    component: IngredientEditFieldComponent,
+    path: 'ingredient/:mode',
+    component: IngredientDetailsV2Component,
     canActivate: [AuthGuard]
   }
+  // editing root level properties on an ingredient we re-use the same component and pass in :field_name and :field_type
+  // {
+  //   path: 'ingredient/edit-field/:field_name/:field_type',
+  //   component: IngredientEditFieldComponent,
+  //   canActivate: [AuthGuard]
+  // }
 ];
 @NgModule({
   imports: [RouterModule.forChild(ingredientsRoutes)],

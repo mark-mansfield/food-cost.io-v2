@@ -126,6 +126,10 @@ mat-form-field {
   flex: 1;
   margin: 4px 20px;
   height: 95%;
+  display: flex;
+  align-items: flex-start;
+  flex-flow: column;
+  justify-content: center;
 }
 
 .list__item-details > li {

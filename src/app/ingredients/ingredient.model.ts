@@ -6,6 +6,7 @@ export class Ingredient {
   unit_amount: string;
   purchase_amount: string;
   unit_type: string;
+  unit_cost: number;
   supplier: string;
   category: string;
   sub_category: string;

@@ -16,6 +16,7 @@
 .toolbar > div {
   margin: 20px;
 }
+
 .contact__badge {
   margin: 20px 0px;
   display: flex;
@@ -43,6 +44,7 @@
 form {
   width: 100%;
 }
+
 .list {
   height: 100%;
   width: 100vw;
@@ -57,18 +59,40 @@ form {
   width: 95%;
 }
 
+.list__item-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 20px;
+}
+
+.list__item-content {
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+}
+
 .list__item-name {
-  font-size: small;
   flex: 1.6;
   text-align: left;
-  margin: 15px;
+  margin: 20px 0;
+}
+
+.list__item-name-description {
+  display: flex;
+  flex: 2;
+  flex-flow: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 20px 0;
+  text-align: start;
 }
 
 .list__item-value {
   display: flex;
-  font-size: small;
-  flex: 2;
-  text-align: left;
+  font-size: var(--default-text-size);
+
+  text-align: right;
 }
 
 .list__item-input {
@@ -155,10 +179,12 @@ mat-action-row {
   justify-content: space-around;
 }
 
-input {
+input,
+.mat-select {
   color: var(--dark-text) !important;
   border: 1px solid rgb(235, 230, 230);
   padding: 10px;
+  text-align: left;
   flex: 1;
 }
 
@@ -188,6 +214,17 @@ button:hover {
 
   .toolbar {
     width: 100%;
+  }
+
+  .space-between {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: grey;
+  }
+
+  .launch-numpad {
+    margin: auto 20px;
   }
 
   /* .list__item-edit-tools {

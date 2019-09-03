@@ -16,6 +16,7 @@ export class IngredientsCreateComponent implements OnInit {
   unit_amount = '';
   purchase_amount = '';
   unit_type = '';
+  unit_cost = '0';
   supplier = '';
   category = '';
   sub_category = '';
@@ -47,16 +48,17 @@ export class IngredientsCreateComponent implements OnInit {
       return;
     }
 
-    this.ingredientsService.createIngredient(
-      form.value.ingredient_name,
-      this.inputPrice,
-      this.inputUnitAmount,
-      this.inputPurchaseAmount,
-      form.value.unit_type,
-      form.value.supplier,
-      form.value.category,
-      form.value.sub_category
-    );
+    // this.ingredientsService.createIngredient(
+    //   form.value.ingredient_name,
+    //   this.inputPrice,
+    //   this.inputUnitAmount,
+    //   this.unit_cost,
+    //   this.inputPurchaseAmount,
+    //   form.value.unit_type,
+    //   form.value.supplier,
+    //   form.value.category,
+    //   form.value.sub_category
+    // );
   }
 
   launchNumberPad(el: string) {

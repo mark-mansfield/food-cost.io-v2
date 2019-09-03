@@ -18,7 +18,8 @@
   --default-text-color: var(--dark-text);
 
   /* status colors */
-  --complete: var(--blue);
+  --complete: rgb(42, 203, 21);
+  --ok: rgb(42, 203, 21);
   --accent: #ff177f;
 
   /* hover colors */
@@ -103,6 +104,7 @@ a:hover,
   color: var(--hover--blue);
   text-decoration: none;
 }
+
 .link-list-link {
   cursor: pointer;
   background-color: transparent;
@@ -120,36 +122,49 @@ h1,
 h2,
 h3,
 h4,
-h5,
-h6 {
+h5 {
   color: var(--dark-text);
 }
 
-/* breakpoint some regular sizes */
-/* 600px, 900px, 1200px, and 1800px  */
-/* 600 phones */
-/* 900 tablet portrait */
-/* 1200 tablet landscape */
-/* 1800 desktop */
+.accent-warn {
+  color: var(--accent);
+}
 
-/* TODO: css breakpoints based on content */
+.accent-ok {
+  color: var(--ok);
+}
 
-@media (min-width: 40rem) {
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2.25rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.125rem;
+}
+
+@media screen and (max-width: 480px) {
   h1 {
+    font-size: 2rem;
   }
 
   h2 {
+    font-size: 1.6rem;
   }
 
   h3 {
+    font-size: 1.3rem;
   }
+
   h4 {
-  }
-
-  h5 {
-  }
-
-  h6 {
+    font-size: 1.125rem;
   }
 }
 /* icon sizes */
@@ -176,6 +191,7 @@ input {
   width: 100%;
   color: white;
   border-color: black;
+  font-size: 1rem;
 }
 
 button,
@@ -202,4 +218,8 @@ button,
 
 .status-incomplete {
   color: var(--incomplete);
+}
+
+.mat-divider {
+  height: 2px !important;
 }

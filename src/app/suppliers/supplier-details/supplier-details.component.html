@@ -58,7 +58,7 @@
                   value="{{ supplier.contact_name }}"
                 />
 
-                <mat-error *ngIf="contactName.invalid && contactName.touched" class="has-text-danger">
+                <mat-error *ngIf="contactName.invalid && contactName.touched" class="accent-warn">
                   Your name does not look right
                 </mat-error>
               </div>
@@ -88,7 +88,7 @@
                   value="{{ supplier.contact_number }}"
                 />
 
-                <mat-error *ngIf="contactNumber.invalid && contactNumber.touched" class="has-text-danger">
+                <mat-error *ngIf="contactNumber.invalid && contactNumber.touched" class="accent-warn">
                   Your number is invalid
                 </mat-error>
               </div>
@@ -116,7 +116,7 @@
                   value="{{ supplier.contact_email }}"
                 />
 
-                <mat-error *ngIf="email.invalid && email.touched" class="has-text-danger">
+                <mat-error *ngIf="email.invalid && email.touched" class="accent-warn">
                   Your email does not look right
                 </mat-error>
               </div>

@@ -134,6 +134,7 @@ export class IngredientsImportComponent implements OnInit {
             unit_amount: '',
             purchase_amount: '',
             unit_type: '',
+            unit_cost: 0,
             supplier: '',
             category: '',
             sub_category: ''
