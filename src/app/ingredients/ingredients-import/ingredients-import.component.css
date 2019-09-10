@@ -27,6 +27,10 @@
   margin: 100px 0;
 }
 
+.panel-accent {
+  background-color: var(--accent);
+}
+
 /* svg green tick */
 
 .animation-ctn {

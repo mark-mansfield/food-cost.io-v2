@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { NgModule } from '@angular/core';
@@ -18,6 +18,7 @@ import { DishesModule } from './dishes/dishes.module';
 import { IngredientsModule } from './ingredients/ingredients.module';
 import { SuppliersModule } from './suppliers/suppliers.module';
 
+
 import { MainComponent } from './main/main.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -31,8 +32,11 @@ import { IngredientCreateHelpDialogComponent } from './dialogs/ingredient-create
 import { NumpadDialogComponent } from './dialogs/numpad-dialog/numpad-dialog.component';
 import { ErrorComponent } from './error/error.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
-
 import { AuthService } from './auth/auth.service';
+
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,11 +51,11 @@ import { AuthService } from './auth/auth.service';
     IngredientCreateHelpDialogComponent,
     NumpadDialogComponent,
     ErrorComponent,
-    MainNavComponent
+    MainNavComponent,
   ],
   imports: [
+    NoopAnimationsModule,
     BrowserModule,
-    BrowserAnimationsModule,
     MatSidenavModule,
     MatDialogModule,
     HttpClientModule,
@@ -65,7 +69,8 @@ import { AuthService } from './auth/auth.service';
     MatButtonModule,
     MatIconModule,
     MatListModule,
-    SuppliersModule
+    SuppliersModule,
+
   ],
   entryComponents: [DialogLargeComponent, IngredientCreateHelpDialogComponent, NumpadDialogComponent, ErrorComponent],
   providers: [
@@ -76,4 +81,4 @@ import { AuthService } from './auth/auth.service';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

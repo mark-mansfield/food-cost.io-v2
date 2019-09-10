@@ -47,8 +47,8 @@ export class EditFieldComponent implements OnInit {
 
   onUpDateDish() {
     this.dish[this.field] = this.nameValue;
-    console.log(this.field);
-    this.dishService.updateDish(this.dish, this.field_value);
-    this.router.navigate(['/dish/' + this.dish._id]);
+    console.log(this.dish);
+    // this.dishService.updateDish(this.dish, this.field_value);
+    // this.router.navigate(['/dish/' + this.dish._id]);
   }
 }

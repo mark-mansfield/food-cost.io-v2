@@ -15,7 +15,7 @@ const ingredientsRoutes: Routes = [
     component: IngredientsListV2Component,
     canActivate: [AuthGuard]
   },
-  // add ingredient
+  // add / edit ingredient
   {
     path: 'ingredient/:mode',
     component: IngredientDetailsV2Component,
@@ -26,13 +26,13 @@ const ingredientsRoutes: Routes = [
     path: 'ingredients/import',
     component: IngredientsImportComponent,
     canActivate: [AuthGuard]
-  },
-  // ingredient details
-  {
-    path: 'ingredient/:mode',
-    component: IngredientDetailsV2Component,
-    canActivate: [AuthGuard]
   }
+  // // ingredient details
+  // {
+  //   path: 'ingredient/:mode',
+  //   component: IngredientDetailsV2Component,
+  //   canActivate: [AuthGuard]
+  // }
   // editing root level properties on an ingredient we re-use the same component and pass in :field_name and :field_type
   // {
   //   path: 'ingredient/edit-field/:field_name/:field_type',

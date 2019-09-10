@@ -18,14 +18,13 @@ export class DishService {
   ingredients = [];
   public dishesUpdated = new Subject<Dish[]>();
   public dishUpdated = new Subject<Dish>();
-  public dishCount: number;
   public ingredientsData;
   constructor(
     private http: HttpClient,
     private router: Router,
     private globals: Globals,
     private messageSnackBar: MatSnackBar
-  ) {}
+  ) { }
 
   getDishesUpdateListener() {
     return this.dishesUpdated.asObservable();
@@ -40,7 +39,6 @@ export class DishService {
     this.http.get<{ dishes: any[] }>(BACKEND_URL + '/' + customer.id).subscribe(returnedData => {
       console.log(returnedData);
       this.dishes = returnedData.dishes.reverse();
-      this.dishCount = this.dishes.length;
       this.saveLocalDishesData(this.dishes);
       const tmpArr = this.paginate(index, postsPerPage);
       this.dishesUpdated.next([...tmpArr]);
@@ -87,7 +85,6 @@ export class DishService {
   deleteDish(id: String) {
     this.http.delete(BACKEND_URL + '/' + id).subscribe(result => {
       this.dishes = this.dishes.filter(dish => dish._id !== id);
-      this.dishCount = this.dishes.length;
       this.saveLocalDishesData(this.dishes);
       this.dishesUpdated.next([...this.dishes]);
     });
@@ -120,52 +117,84 @@ export class DishService {
       });
   }
 
-  addDish(id: null, name: string /*, description: string, image: File*/) {
+  makeUUID() {
+    return uuid();
+  }
+
+
+  addDish(dish) {
     const customer = this.globals.getCustomer();
-    const dishData = {
-      customerId: customer.id,
-      name: name,
-      uuid: uuid(),
-      ingredients: [],
-      retail_price: '0.00',
-      cost: '0.00',
-      margin: '0',
-      description: 'not set',
-      recipe_method: 'not set',
-      plating_guide: 'not set',
-      progress: 0
-    };
-
+    dish.customerId = customer.id;
     this.http
-      .post<{ message: string; dish: Dish }>(BACKEND_URL + '/' + customer.id, dishData)
+      .post<{ nModified: number }>(BACKEND_URL + '/' + customer.id, dish)
       .subscribe(returnedData => {
-        console.log(returnedData.message);
-        this.dishes.push(returnedData.dish);
-        this.dishesUpdated.next([...this.dishes]); // inform UI
-        this.router.navigate(['/dishes']);
-      });
-  }
-
-  updateDish(dish: Dish, property: string) {
-    this.http
-      .put<{ message: string; dish: Dish }>('http://localhost:3000/api/dishes/' + dish._id, dish)
-      .subscribe(returnedData => {
-        const storedDishIndex = this.dishes.findIndex(p => p._id === dish._id);
-        this.dishes[storedDishIndex] = returnedData.dish;
-        this.saveLocalDishData(this.dishes[storedDishIndex]);
-        this.saveLocalDishesData(this.dishes);
-        this.dishesUpdated.next([...this.dishes]); // inform UI
-        this.dishUpdated.next(this.dishes[storedDishIndex]); // inform UI
-        // because updating a root level property should take us back to the start of the view stack
-        // updating a nested array of objects should take us back to the second view in the view stack
-        this.openSnackBar(returnedData.message);
-        if (property === 'ingredients') {
-          this.router.navigate(['/dish/' + dish._id + '/ingredients']);
-        } else {
-          this.router.navigate(['/dish/' + dish._id]);
+        if (returnedData.nModified > 0) {
+          this.openSnackBar('Dish Added');
+          this.dishes.push(dish);
+          this.dishesUpdated.next([...this.dishes]); // inform UI
+          this.router.navigate(['/dishes/list']);
+          this.openSnackBar('Dish Added');
+          return;
         }
+        this.openSnackBar('Dish Not added due to a technical error');
+        console.log(
+          // tslint:disable-next-line: max-line-length
+          'could not find item in Database collection to update, check syntax, query params, and check document fields ,match the api query'
+        );
+
       });
   }
+
+
+  updateDishIngredients(dish) {
+    const customer = this.globals.getCustomer();
+    this.http.put<{ nModified: number }>(BACKEND_URL + '/' + customer.id + '/update', dish).subscribe(returnedData => {
+      console.log(returnedData);
+      if (returnedData.nModified > 0) {
+        this.dishes.forEach((item, index) => {
+          if (item.uuid === dish.uuid) {
+            this.dishes[index] = dish;
+          }
+        });
+        this.saveLocalDishData(dish);
+        this.saveLocalDishesData(this.dishes);
+        this.openSnackBar('Dish Updated');
+        this.router.navigate(['dish/' + dish.id + '/ingredients']);
+      } else {
+        this.openSnackBar('Dish Not Updated due to a technical error');
+        console.log(
+          // tslint:disable-next-line: max-line-length
+          'could not find item in Database collection to update, check syntax, query params, and check document fields ,match teh api query'
+        );
+      }
+
+    });
+  }
+
+
+  updateDish(dish) {
+    const customer = this.globals.getCustomer();
+    this.http.put<{ nModified: number }>(BACKEND_URL + '/' + customer.id + '/update', dish).subscribe(returnedData => {
+      console.log(returnedData);
+      if (returnedData.nModified > 0) {
+        this.dishes.forEach((item, index) => {
+          if (item.uuid === dish.uuid) {
+            this.dishes[index] = dish;
+          }
+        });
+        this.saveLocalDishData(dish);
+        this.saveLocalDishesData(this.dishes);
+        this.openSnackBar('Dish Updated');
+
+      } else {
+        this.openSnackBar('Dish Not Updated due to a technical error');
+        console.log(
+          // tslint:disable-next-line: max-line-length
+          'could not find item in Database collection to update, check syntax, query params, and check document fields ,match the api query');
+      }
+    });
+  }
+
 
   // ** costing functions **
 
@@ -301,8 +330,11 @@ export class DishService {
   }
 
   openSnackBar(message) {
-    this.messageSnackBar.open(message, '', {
-      duration: 2000
+    this.messageSnackBar.open(message, null, {
+      verticalPosition: 'bottom',
+      horizontalPosition: 'left',
+      panelClass: 'fadeIn',
+      duration: 1
     });
   }
 }

@@ -42,7 +42,7 @@
         class="main__nav-link"
         mat-list-item
         *ngIf="userIsAuthenticated"
-        [routerLink]="['/dishes']"
+        [routerLink]="['/dishes/list']"
         routerLinkActive="active"
         (click)="this.drawer.close()"
         >Dishes</a
@@ -115,7 +115,7 @@
         class="main__nav-link"
         mat-list-item
         *ngIf="userIsAuthenticated"
-        [routerLink]="['/dishes']"
+        [routerLink]="['/dishes/list']"
         routerLinkActive="active"
         >Dishes</a
       >

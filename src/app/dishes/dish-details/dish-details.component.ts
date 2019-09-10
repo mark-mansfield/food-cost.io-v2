@@ -105,7 +105,7 @@ export class DishDetailsComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
         this.dish.retail_price = result;
-        this.service.updateDish(this.dish, null);
+        this.service.updateDish(this.dish);
       }
     });
   }

@@ -91,8 +91,8 @@ exports.deleteCustomerIngredient =
       });
   });
 
-exports.importCustomerIngredients =
-  ('/:custId/import',
+exports.uploadCsvFile =
+  ('/:custId/uploadCsv',
   checkAuth,
   (req, res, next) => {
     const csvFilePath = req.file.path;
@@ -101,5 +101,24 @@ exports.importCustomerIngredients =
       .fromFile(csvFilePath)
       .then(jsonObj => {
         res.status(201).json({ message: 'file uploaded successfully', data: jsonObj });
+      });
+  });
+
+exports.importCustomerIngredients =
+  ('/:custId/import',
+  checkAuth,
+  (req, res, next) => {
+    const ingredients = req.body.ingredients;
+    console.log(req.body);
+    Ingredients.update({ customerId: req.params.custId }, { $set: { ingredients: ingredients } })
+      .then(result => {
+        console.log(result);
+        res.status(200).json({ nModified: result.nModified });
+      })
+      .catch(error => {
+        res.status(500).json({
+          message: error,
+          nModified: result.nModified
+        });
       });
   });

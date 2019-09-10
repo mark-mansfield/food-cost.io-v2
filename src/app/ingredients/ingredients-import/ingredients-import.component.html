@@ -27,6 +27,7 @@
 
 <main class="main">
   <section class="section">
+
     <div class="info-panel" style="display:flex; flex-direction: row; justify-content: flex-start; align-items: center">
       <a
         style="cursor:pointer; margin-left: 20px "
@@ -43,6 +44,8 @@
           <!-- reactive forms approach -->
           <form [formGroup]="form" (submit)="onSubmit()" #uploadForm="ngForm">
             <h1>Import from CSV file</h1>
+            <button (click)="onImport()">test has dupes: Option 1</button><br />
+            <button (click)="onImport()">test has dupes: Option 2</button><br />
             <br /><br />
             <h2>Upload File</h2>
             <br /><br />
@@ -63,31 +66,39 @@
         </mat-card>
       </mat-step>
       <mat-step [completed]="false">
-        <ng-template matStepLabel>Step 2. set first column name</ng-template>
+        <ng-template matStepLabel>Step 2. Connect Ingredient Name </ng-template>
         <mat-card class="matt-card">
           <table mat-table [dataSource]="previewDataSource[0]" class="mat-elevation-z8">
             <ng-container matColumnDef="title">
               <th mat-header-cell *matHeaderCellDef>
                 <br /><br />
-                <h1 style="text-align: center">select a column name for this data</h1>
+                <h4>Connect to your ingredient names</h4>
+                <span style="text-align: center"
+                  >Use column names dropdown below.<br />
+                  Connect the ingredient name to your import data.</span
+                >
                 <br /><br />
-                column names
-                <select
+                <h4>Column names</h4>
+                <br /><br />
+                <mat-select
                   required
                   placeholder="Choose an option"
                   #select
-                  (change)="setColumnName(0, select.value); this.next2.disabled = false; this.showTick = true"
+                  (selectionChange)="setColumnName(0, select.value); this.next2.disabled = false; this.showTick = true"
+
                 >
-                  <option *ngFor="let keyName of columnKeys; let i = index" [disabled]="keyName[1]" [value]="i">{{
+                  <mat-option *ngFor="let keyName of columnKeys; let i = index" [disabled]="keyName[1]" [value]="i">{{
                     keyName[0]
-                  }}</option>
-                </select>
+                  }}</mat-option>
+                </mat-select>
                 <div *ngIf="showTick"><ng-container *ngTemplateOutlet="greenTick"></ng-container></div>
                 <br /><br />
                 <div style="text-align: center">
                   <button mat-button matStepperPrevious>Back</button>
                   <button mat-button matStepperNext #next2 disabled (click)="this.showTick = false">Next</button>
                 </div>
+                <br /><br />
+                <h4>Data for this column</h4>
                 <br /><br />
               </th>
               <td mat-cell *matCellDef="let element">{{ element }}</td>
@@ -232,6 +243,13 @@
             <ng-container matColumnDef="purchase_amount">
               <th mat-header-cell *matHeaderCellDef>purchase amount</th>
               <td mat-cell *matCellDef="let element">{{ element.purchase_amount }}</td>
+            </ng-container>
+
+            <!-- 3. ingredient unit cost column -->
+
+            <ng-container matColumnDef="init_cost">
+              <th mat-header-cell *matHeaderCellDef>unit cost</th>
+              <td mat-cell *matCellDef="let element">{{ element.unit_cost }}</td>
             </ng-container>
 
             <!-- Ingredient Category Column -->

@@ -1,7 +1,7 @@
 export class Dish {
   customerId: string;
   _id: 'null';
-  uuid: string;
+  uuid: number;
   name: string;
   ingredients: any[] = [];
   retail_price: string;

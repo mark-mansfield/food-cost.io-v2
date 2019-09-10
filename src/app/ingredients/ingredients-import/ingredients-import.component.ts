@@ -62,6 +62,7 @@ export class IngredientsImportComponent implements OnInit {
     purchase_amount: false,
     unit_type: false,
     supplier: false,
+    unit_cost: false,
     category: false,
     sub_category: false
   };
@@ -150,71 +151,12 @@ export class IngredientsImportComponent implements OnInit {
     });
   }
 
-  // open dialog
-  openDialog(): void {
-    const dialogRef = this.dialog.open(DialogLargeComponent, { disableClose: true });
-    dialogRef.afterClosed().subscribe(result => {
-      switch (result) {
-        case 'overwrite':
-          console.log('overwriting exisitng items and adding new items');
-          this.overWriteDupedIngredThenImport();
-          break;
-        default:
-          console.log('removeing duplicates only adding new items');
-          this.removeDupeIngredientsThenImport();
-          break;
-      }
-    });
-  }
-
-  // check for dupes in import and current data
-  onCheckForDupes() {
-    const hasDupes = this.ingredientsService.hasDupes(this.reviewTableDataSource);
-    return hasDupes;
-  }
-
-  // merge all import and existing ingredients together
-  mergeIngredients() {
-    const ingredientsDoc = this.ingredientsService.loadLocalIngredientsData();
-    this.reviewTableDataSource.forEach(item => {
-      ingredientsDoc.ingredients.push(item);
-    });
-    return ingredientsDoc;
-  }
-
-  // adds new data to old data then imports
-  mergeThenImport() {
-    const ingredientsDocMerged = this.mergeIngredients();
-    this.ingredientsService.importIngredients(ingredientsDocMerged);
-  }
-
-  // keeps existing and adds new
-  removeDupeIngredientsThenImport() {
-    const ingredientsDoc = this.mergeIngredients();
-    ingredientsDoc.ingredients = this.ingredientsService.removeDuplicateIngredients(ingredientsDoc.ingredients);
-    this.ingredientsService.importIngredients(ingredientsDoc);
-  }
-
-  // overwrites exisiting ingredients and adds new ingredients
-  overWriteDupedIngredThenImport() {
-    const ingredientsDoc = this.ingredientsService.overwriteAndAddNewIngredients(this.reviewTableDataSource);
-    this.ingredientsService.importIngredients(ingredientsDoc);
-  }
-
-  onImport() {
-    //  perform dupe checking and upload
-    if (this.onCheckForDupes()) {
-      this.openDialog();
-    } else {
-      // just import the data direct
-      this.mergeThenImport();
-    }
-  }
   //  bind selected column name property to ingredient import column
   setColumnName(colNum, idx) {
     //  so we can't select a column name twice from the select list
     this.columnKeys[idx][1] = true;
-    // bind property selected column name to the users column data
+
+    // so we can scan for dupes later using a hash of the 2 unique props combined.
     const propertyName = this.columnKeys[idx][0];
     let addNameToHashKey = false;
     let addSupplierToHashKey = false;
@@ -230,6 +172,8 @@ export class IngredientsImportComponent implements OnInit {
       default:
         break;
     }
+
+    // bind selected column name property to the users column data
     this.uploadedData[colNum].forEach((item, index) => {
       if (addNameToHashKey) {
         this.reviewTableDataSource[index].hash_key = item;
@@ -242,6 +186,103 @@ export class IngredientsImportComponent implements OnInit {
     });
     console.log(this.reviewTableDataSource);
     this.stepper.selected.completed = true;
+  }
+
+  // start the import process
+  onImport() {
+    //  perform dupe checking and upload
+    // this.reviewTableDataSource = [
+    //   {
+    //     id: 'f7ad03f5-b8a1-4d50-a5ee-274834676fde',
+    //     hash_key: 'sunflower kernels kg**two providores',
+    //     ingredient_name: 'sunflower kernels kg',
+    //     ingredient_price: '6.4',
+    //     unit_amount: '',
+    //     purchase_amount: '',
+    //     unit_type: '',
+    //     unit_cost: 0,
+    //     supplier: 'two providores',
+    //     category: 'drygoods',
+    //     sub_category: ''
+    //   },
+    //   {
+    //     id: 'f7ad03f5-b8a1-4d50-a5ee-274834676fde',
+    //     hash_key: 'pumpkin seeds kg**two providores',
+    //     ingredient_name: 'pumpkin seeds kg',
+    //     ingredient_price: '5',
+    //     unit_amount: '',
+    //     purchase_amount: '',
+    //     unit_type: '',
+    //     unit_cost: 0,
+    //     supplier: 'two providores',
+    //     category: 'drygoods',
+    //     sub_category: ''
+    //   },
+    //   {
+    //     id: 'f7ad03f5-b8a1-4d50-a5ee-274834676fde',
+    //     hash_key: 'sesame seeds kg**two providores',
+    //     ingredient_name: 'sesame seeds kg',
+    //     ingredient_price: '6.7',
+    //     unit_amount: '',
+    //     purchase_amount: '',
+    //     unit_type: '',
+    //     unit_cost: 0,
+    //     supplier: 'two providores',
+    //     category: 'drygoods',
+    //     sub_category: ''
+    //   }
+    // ];
+
+    const dupes = this.ingredientsService.hasDupes(this.reviewTableDataSource);
+    if (dupes) {
+      console.log('dupes found, showing options dialog');
+      this.openDialog();
+    } else {
+      console.log('no dupes found, importing');
+      this.mergeThenImport();
+    }
+  }
+
+  // // check for dupes in import and current data
+  // onCheckForDupes() {
+  //   const hasDupes = this.ingredientsService.hasDupes(this.reviewTableDataSource);
+  //   return hasDupes;
+  // }
+
+  // open dialog
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogLargeComponent, { disableClose: true });
+    dialogRef.afterClosed().subscribe(result => {
+      switch (result) {
+        case 'overwrite':
+          console.log('Update exisitng items and adding new items');
+          this.updateExisitngThenAddNew();
+          break;
+        default:
+          console.log('only add new items');
+          this.removeDupesAndAddNewRecords();
+          break;
+      }
+    });
+  }
+
+  // removes duplicates from import /  adds new ingredients
+  removeDupesAndAddNewRecords() {
+    const ingredientsDoc = this.ingredientsService.removeDuplicateIngredients(this.reviewTableDataSource);
+    this.ingredientsService.importIngredients(ingredientsDoc);
+  }
+
+  // overwrites duplicates in import / adds new ingredients
+  updateExisitngThenAddNew() {
+    const ingredientsDoc = this.ingredientsService.overwriteAndAddNewIngredients(this.reviewTableDataSource);
+    this.ingredientsService.importIngredients(ingredientsDoc.ingredients);
+  }
+
+  // adds new data to old data then imports
+  mergeThenImport() {
+    const ingredientsDoc = this.ingredientsService.loadLocalIngredientsData();
+    ingredientsDoc.ingredients.concat(this.reviewTableDataSource);
+    this.ingredientsService.importIngredients(ingredientsDoc);
   }
 
   // get the file and validate it

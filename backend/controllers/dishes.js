@@ -41,6 +41,7 @@ exports.updateCustomerDish =
   checkAuth,
   (req, res, next) => {
     const dish = req.body;
+    console.log(dish);
     Dish.updateOne(
       { customerId: req.params.custId } /* finds the document */,
       { $set: { 'dishes.$[elem]': dish } } /* sets the nested target document's new value */,
@@ -96,7 +97,7 @@ exports.addCustomerDish =
     Dish.update({ customerId: req.params.custId }, { $push: { dishes: dish } })
       .then(result => {
         console.log(result);
-        res.status(200).json(result);
+        res.status(200).json({ nModified: result.nModified });
       })
       .catch(error => {
         res.status(500).json({

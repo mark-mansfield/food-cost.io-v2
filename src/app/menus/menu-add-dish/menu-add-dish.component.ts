@@ -35,7 +35,7 @@ export class MenuAddDishComponent implements OnInit, OnDestroy {
     private router: Router,
     public snackBar: MatSnackBar,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
@@ -47,7 +47,7 @@ export class MenuAddDishComponent implements OnInit, OnDestroy {
         this.dishesService.getDishes(this.pageIndex, this.postsPerPage);
 
         this.dishesSub = this.dishesService.getDishesUpdateListener().subscribe((dishes: Dish[]) => {
-          this.dishCount = this.dishesService.dishCount;
+          this.dishCount = this.dishes.length;
           this.dishes = dishes;
           this.linksList = [];
           this.buildLinksList();
@@ -125,5 +125,5 @@ export class MenuAddDishComponent implements OnInit, OnDestroy {
     this.showRefresh = true;
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() { }
 }

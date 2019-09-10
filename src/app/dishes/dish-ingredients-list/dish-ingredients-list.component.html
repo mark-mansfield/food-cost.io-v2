@@ -3,10 +3,10 @@
   <section class="section">
     <div class="toolbar">
       <div class="back-button">
-        <a [routerLink]="['/dish/' + id]"><i class="fas fa-chevron-left med-icon"></i></a>
+        <a [routerLink]="['/dish/edit/showEditTools']"><i class="fas fa-chevron-left med-icon"></i></a>
       </div>
 
-      <div *ngIf="(isHandset$ | async)" class="page__title-toolbar-label">
+      <div *ngIf="isHandset$ | async" class="page__title-toolbar-label">
         <h1>{{ dish.name }}</h1>
       </div>
       <!-- <div class="launch-edit-mode"><a (click)="toggleEditMode()">{{ editModeButtonText }}</a></div> -->
@@ -35,7 +35,7 @@
     <div class="spinner"><mat-spinner *ngIf="isLoading"></mat-spinner></div>
     <div class="list">
       <!-- handset -->
-      <mat-accordion *ngIf="(isHandset$ | async)">
+      <mat-accordion *ngIf="isHandset$ | async">
         <mat-expansion-panel class=" mat-elevation-z0 " *ngFor="let ingredient of reviewTableDataSource">
           <mat-expansion-panel-header>
             <mat-panel-title>{{ ingredient.name }}</mat-panel-title>
@@ -73,7 +73,7 @@
             </div>
           </mat-card>
           <mat-action-row>
-            <button mat-button color="accent" [routerLink]="['/dish/', this.id, 'ingredient', ingredient.name]">
+            <button mat-button color="accent" [routerLink]="['/dish/', dish.uuid, 'ingredient', ingredient.name]">
               Edit
             </button>
           </mat-action-row>
@@ -131,7 +131,7 @@
           [matTooltipPosition]="toolTipPosition"
           aria-label="Click to edit this ingredient"
           *matRowDef="let row; columns: reviewDataDisplayedColumnDefs"
-          [routerLink]="['/dish/', this.id, 'ingredient', row.name]"
+          [routerLink]="['/dish/', dish.uuid, 'ingredient', row.name]"
         ></tr>
       </table>
 

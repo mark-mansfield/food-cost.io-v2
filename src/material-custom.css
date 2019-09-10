@@ -14,6 +14,27 @@
 }
 
 
+/* mat-select */
+
+.mat-select {
+  padding: 8px;
+  height: 50px;
+  background-color: var(--accent);
+}
+
+
+.mat-select-content, .mat-select-panel-done-animating {
+  background: #c2185b;
+ color: white;
+  background-color: rgb(194, 24, 91);
+}
+
+/* mat-option */
+.mat-option.mat-option-disabled , .mat-option, .mat-option.mat-active, .mat-select-value , .mat-select-placeholder{
+  color: var(--light-text)!important;
+}
+
+
 
 /* mat-stepper */
 
@@ -101,6 +122,7 @@
 .mat-cell,
 .mat-footer-cell,
 .mat-header-cell {
+  font-size: 1rem!important;
   text-align: left;
   width: 100px;
   min-height: inherit;
@@ -195,13 +217,13 @@ mat-nav-list .main__dish-list-tools > div.main__dish-list-tool-item {
 .mat-raised-button.mat-primary,
 .mat-raised-button.mat-warn,
 .mat-raised-button {
-  color: var(--dark-text);
+  color: var(--light-text)!important;
   text-decoration: none;
-  background-color: #ccc;
+  background-color: var(--accent);
 }
 
 .mat-button:hover {
-  color: var(--accent);
+  color: var(--light-text);
 }
 /* disabled styles */
 .mat-button[disabled],

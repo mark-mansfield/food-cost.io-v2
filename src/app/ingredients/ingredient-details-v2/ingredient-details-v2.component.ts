@@ -50,7 +50,6 @@ export class IngredientDetailsV2Component implements OnInit, OnDestroy {
   showEditTools = false;
   showConfirmControls = false;
   createMode = false;
-  formMode = '';
   iconBadgeText = '';
   supplierName = '';
   requiredText = 'This is required';

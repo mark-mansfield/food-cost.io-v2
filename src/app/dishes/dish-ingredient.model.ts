@@ -8,4 +8,5 @@ export class DishIngredient {
   unit_price: string;
   cost: string;
   real_cost: string;
+  complete: boolean;
 }

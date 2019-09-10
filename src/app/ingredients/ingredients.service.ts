@@ -13,9 +13,11 @@ const BACKEND_URL = environment.apiUrl + 'ingredients';
 export class IngredientsService {
   public ingredient: Ingredient;
   public ingredientsList: any = [];
+  public tmpArray: any = [];
   public ingredientsDoc;
   public ingredientCountUpdated = new Subject<number>();
   public ingredientsUpdated = new Subject<Ingredient[]>();
+  public noSearcResultsFound = new Subject<boolean>();
   public ingredientImportDataUpdated = new Subject<Ingredient[]>();
   public mode = 'edit';
 
@@ -30,9 +32,10 @@ export class IngredientsService {
     private router: Router,
     public globals: Globals,
     private messageSnackBar: MatSnackBar
-  ) {}
+  ) { }
 
   getIngredientsUpdateListener() {
+
     return this.ingredientsUpdated.asObservable();
   }
 
@@ -44,9 +47,18 @@ export class IngredientsService {
     return this.ingredientImportDataUpdated.asObservable();
   }
 
+  getNoSearchResultsUpdatedListener() {
+    return this.noSearcResultsFound.asObservable();
+  }
+
   getSuppliers() {
     const ingredientsData = this.loadLocalIngredientsData();
     return ingredientsData.suppliers;
+  }
+
+  getUnitTypes() {
+    const ingredientsData = this.loadLocalIngredientsData();
+    return ingredientsData.unit_types;
   }
 
   // pagination
@@ -60,13 +72,11 @@ export class IngredientsService {
     this.ingredientsUpdated.next([...this.paginate(index, pageCount)]);
   }
 
-  getUnitTypes() {
-    const ingredientsData = this.loadLocalIngredientsData();
-    return ingredientsData.unit_types;
-  }
+
 
   // ingredients list - Paginated
   getIngredientsAndPaginate(index, postsPerPage) {
+    
     const customer = this.globals.getCustomer();
     this.http.get<{ ingredients: any[] }>(BACKEND_URL + '/' + customer.id).subscribe(returnData => {
       // prevent too many round trips to the server
@@ -149,31 +159,20 @@ export class IngredientsService {
   updateIngredientsDocumentV2(ingredient) {
     const customer = this.globals.getCustomer();
     this.http
-      .put<{ message: string; n: number }>(BACKEND_URL + '/' + customer.id + '/update', ingredient)
+      .put<{ nModified: number }>(BACKEND_URL + '/' + customer.id + '/update', ingredient)
       .subscribe(returnedData => {
         console.log(returnedData);
-        if (returnedData.n !== 0) {
-          this.openSnackBar(returnedData.message);
+        if (returnedData.nModified > 0) {
+          this.openSnackBar('Ingredient Updated');
+          return;
         }
-
-        if (returnedData.n === 0) {
-          this.openSnackBar(returnedData.message);
-          console.log(
-            // tslint:disable-next-line: max-line-length
-            'could not find item in Database collection to update, check syntax, query params, and check document fields ,match teh api query'
-          );
-        }
+        this.openSnackBar('Ingredient Not Updated due to a technical error');
+        console.log(
+          // tslint:disable-next-line: max-line-length
+          'could not find item in Database collection to update, check syntax, query params, and check document fields ,match teh api query'
+        );
       });
   }
-
-  updateIngredient(ingredient) {
-    // const updated = updateLocalIngredientsDoc(ingredient);
-    // const updatedOnServer = updateIngredientsDocument(updated)
-    // showSnackBarMessage(updateOnserver);
-    // this.router.navigate(['']);
-  }
-
-  updateIngredientsOnServer(ingredient) {}
 
   // returns 0 for an error, 1 for success
   updateLocalIngredientsDoc(ingredient) {
@@ -195,26 +194,53 @@ export class IngredientsService {
     return searchResults;
   }
 
-  //  import helper method
-  removeDuplicateIngredients(arr) {
-    const seenIngredients = Object.create(null);
-    const deDupedIngredients = arr.filter((item, index) => {
-      const key = item.ingredient_name + '**' + item.supplier;
-      // if we have seen it before omit
-      if (seenIngredients[key]) {
-        return false;
-      }
-      // otherwise we havent seen it before and now we flag it
-      seenIngredients[key] = true;
-      console.log('ingredient seen');
-      return true;
-    });
-    return deDupedIngredients;
+  // removes duplicate records/ imports only uniqus
+  removeDupeIngredientsThenImport(importData) {
+    console.log(importData);
+    // removeDupeIngredientsThenImport
+    // this.importIngredients(ingredientsDoc);
   }
 
-  // hasDupes check if the current inport dat ahas an item
-  //  that already exists in the stsyem.
+  removeDuplicateIngredients(importData) {
+    const ingredientsDoc = this.loadLocalIngredientsData();
+    // console.log(ingredientsDoc);
+
+    // add both datas together
+    const concat = ingredientsDoc.ingredients.concat(importData);
+    console.log(concat);
+    // create unique set
+    const uniqueItems = Array.from(new Set(concat.map(a => a.hash_key))).map(hash_key => {
+      return concat.find(a => a.hash_key === hash_key);
+    });
+    return uniqueItems;
+  }
+
+  // overwrite existing ingredients and add new
+  overwriteAndAddNewIngredients(importData) {
+    // edge cases
+    // all ingredients exist on current list
+    // some ingredients exist on current list
+    // no ingredients exist on current list
+    const ingredientsDoc = this.loadLocalIngredientsData();
+    const hashTable = this.buildHashTable(ingredientsDoc.ingredients);
+    importData.forEach((item, index) => {
+      const foundIndex = hashTable.indexOf(item.hash_key);
+      // ingredient exists , overwrite
+      if (foundIndex !== -1) {
+        ingredientsDoc.ingredients[foundIndex] = item;
+      } else {
+        // ingredient not found add new
+        ingredientsDoc.ingredients.push(item);
+      }
+    });
+
+    return ingredientsDoc;
+  }
+
+  // hasDupes check if the current import data a has an item
+  // that already exists in the stsyem.
   hasDupes(arr) {
+    console.log(arr);
     const ingredientsDoc = this.loadLocalIngredientsData();
     const hashTable = this.buildHashTable(ingredientsDoc.ingredients);
     let found = false;
@@ -239,34 +265,21 @@ export class IngredientsService {
     return hashTable;
   }
 
-  // overwrite existing ingredients and add new
-  overwriteAndAddNewIngredients(arr) {
-    // all ingredients exisit on current list
-    // some ingredients exist on current list
-    // no ingredients exist on current list
-    const ingredientsDoc = this.loadLocalIngredientsData();
-    const hashTable = this.buildHashTable(ingredientsDoc.ingredients);
-    arr.forEach((item, index) => {
-      const foundIndex = hashTable.indexOf(item.hash_key);
-      // ingredient exists , overwrite
-      if (foundIndex !== -1) {
-        ingredientsDoc.ingredients[foundIndex] = item;
-      } else {
-        // ingredient not found add new
-        ingredientsDoc.ingredients.push(item);
-      }
-    });
-    return ingredientsDoc;
-  }
-
   importIngredients(ingredientsDoc) {
     const customer = this.globals.getCustomer();
-    this.http.put<{ message: string }>(BACKEND_URL + '/' + customer.id, ingredientsDoc).subscribe(returnedData => {
-      console.log('update status: ' + returnedData.message);
-      this.saveLocalIngredientsData(ingredientsDoc);
-      this.ingredientsUpdated.next([this.ingredientsList]); // inform UI
-      this.router.navigate(['/ingredients/list/']);
-    });
+
+    const ingredients = {
+      ingredients: ingredientsDoc
+    };
+    console.log(ingredients);
+    this.http
+      .post<{ message: string }>(BACKEND_URL + '/' + customer.id + '/import', ingredients)
+      .subscribe(returnedData => {
+        console.log('update status: ' + returnedData.message);
+        this.saveLocalIngredientsData(ingredientsDoc);
+
+        this.router.navigate(['/ingredients/list/']);
+      });
   }
 
   // update ingredients doc [ add ,edit, delete ]
@@ -312,8 +325,15 @@ export class IngredientsService {
     const searchResults = ingredientsList.ingredients.filter(item =>
       item.ingredient_name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    console.log(searchResults);
-    this.ingredientsUpdated.next(searchResults);
+    console.log(searchResults.length);
+    if (searchResults.length === 0) {
+      this.noSearcResultsFound.next(true);
+      this.ingredientsUpdated.next(searchResults);
+    } else {
+      this.noSearcResultsFound.next(false);
+      this.ingredientsUpdated.next(searchResults);
+    }
+
   }
 
   // search by category
@@ -337,7 +357,7 @@ export class IngredientsService {
     formData.append('file', file, file.name);
 
     this.http
-      .post<{ message: string; data: any }>(BACKEND_URL + '/' + customer.id + '/import', formData)
+      .post<{ message: string; data: any }>(BACKEND_URL + '/' + customer.id + '/uploadCsvFile', formData)
       .subscribe(returnedData => {
         console.log(returnedData);
         const data = returnedData.data;
@@ -365,6 +385,7 @@ export class IngredientsService {
         this.importObject.cleanColsArr = [...this.importObject.importDataStructure];
 
         // delete empty cells if a whole row is empty
+        // eg { 0,0,0,0,0,0,0}
         const emptyCellItems = Object.entries(emptyCellIndexObj);
         this.importObject.cleanedData = this.removeBlankRows(emptyCellItems, colCount);
         this.ingredientImportDataUpdated.next([...this.importObject.cleanedData]);
@@ -394,13 +415,13 @@ export class IngredientsService {
     return tmpArray;
   }
 
-  /**  scanImportForEmptyCells()
-   * params: { columnCount : int }
-   * loop over a 2d array by column(n) rows(n) and look look for empty row cell
-   * A row cell is defined by its [col][rowIndex]
-   * if [col][rowindex] === '' add rowIndex to tmp array
-   * create an array of empty cell indexes
-   */
+  //  scanImportForEmptyCells()
+  //  * params: { columnCount : int }
+  //  * loop over a 2d array by column(n) rows(n) and look look for empty row cells
+  //  * A row cell is defined by its [col][rowIndex]
+  //  * if [col][rowindex] === '' add rowIndex to tmp array
+  //  * create an array of empty cell indexes
+
   scanImportForEmptyCells(columnCount) {
     const rowCount = this.importObject.importDataStructure[0].length;
     const arr = [];
@@ -416,7 +437,7 @@ export class IngredientsService {
   }
 
   countItemFrequnecy(arr) {
-    const tmpArr = arr.reduce(function(allItems, name) {
+    const tmpArr = arr.reduce(function (allItems, name) {
       if (name in allItems) {
         allItems[name]++;
       } else {

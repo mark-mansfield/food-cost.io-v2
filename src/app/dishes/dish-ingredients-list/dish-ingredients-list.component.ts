@@ -40,13 +40,15 @@ export class DishIngredientsListComponent implements OnInit {
     private globalService: GlobalService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.reviewTableDataSource = [];
     this.isLoading = true;
-    this.id = this.route.snapshot.paramMap.get('_id');
+    // this.id = this.route.snapshot.paramMap.get('_id');
     this.dish = this.service.getDish();
+
+
     if (this.dish) {
       this.iconBadgeText = this.globalService.getIconBadgeText(this.dish.name);
       this.ingredients = this.dish.ingredients;
@@ -60,7 +62,8 @@ export class DishIngredientsListComponent implements OnInit {
           real_cost: '',
           AP_weight: item.AP_weight,
           EP_weight: item.EP_weight,
-          yield: item.yield
+          yield: item.yield,
+          complete: item.complete
         };
         // because these values need to be inserted after the object is created
         object.unit_price = this.service.getIngredientUnitCost(item.id);
@@ -77,8 +80,9 @@ export class DishIngredientsListComponent implements OnInit {
     }
   }
 
+
   onDeleteDishIngredient(ingredientName) {
     this.dish.ingredients = this.ingredients.filter(item => item.name !== ingredientName);
-    this.service.updateDish(this.dish, 'ingredients');
+    this.service.updateDish(this.dish);
   }
 }

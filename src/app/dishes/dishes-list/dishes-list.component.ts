@@ -20,6 +20,7 @@ export class DishesListComponent implements OnInit, OnDestroy {
   linkListValue: string;
   mode = 'list';
 
+  searchFoundNothing = false;
   showRefresh = false;
   isLoading = false;
   showSearch = false;
@@ -35,14 +36,15 @@ export class DishesListComponent implements OnInit, OnDestroy {
     public dishesService: DishService,
     private router: Router,
     public igredientsService: IngredientsService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.isLoading = true;
     this.igredientsService.getIngredients();
     this.dishesService.getDishes(this.pageIndex, this.postsPerPage);
-    this.dishesSub = this.dishesService.getDishesUpdateListener().subscribe((dishes: Dish[]) => {
-      this.dishCount = this.dishesService.dishCount;
+    this.dishesSub = this.dishesService.getDishesUpdateListener().subscribe((dishes) => {
+      this.dishCount = dishes.length;
+      this.dishCount > 0 ? this.showSearch = true : this.showSearch = false;
       this.dishes = dishes;
       this.dishes.forEach(item => {
         this.badgeNames.push(this.globalService.getIconBadgeText(item.name));
@@ -62,7 +64,7 @@ export class DishesListComponent implements OnInit, OnDestroy {
 
   saveDishToLocal(dish) {
     this.dishesService.saveLocalDishData(dish);
-    this.router.navigate(['dish/' + dish._id]);
+    this.router.navigate(['dish/edit']);
   }
 
   refreshDishesList() {

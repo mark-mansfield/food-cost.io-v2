@@ -1,8 +1,12 @@
-<main class="main>">
-  <section class="section">
-    <!-- <div class="toolbar">
+<ng-container *ngIf="isLoading">
+  <app-loader></app-loader>
+</ng-container>
+
+<!-- <div class="toolbar">
         <a [routerLink]="['/dish/create']"><i class="fas fa-plus sml-icon"></i></a>
       </div> -->
+<ng-container *ngIf="!isLoading">
+  <section class="section fadeIn">
     <div class="page__title">
       <div><h1>Ingredients</h1></div>
       <br /><br />
@@ -23,7 +27,7 @@
       </form>
     </div>
     <br />
-    <div class="toolbar">
+    <div class="toolbar" *ngIf="!searchFoundNothing">
       <mat-toolbar>
         <div>
           <h2>Ingredients {{ ingredientCount }}</h2>
@@ -33,10 +37,15 @@
         </div>
       </mat-toolbar>
     </div>
+    <div class="toolbar" *ngIf="searchFoundNothing">
+      <mat-toolbar style="background: var(--accent) ;">
+        <div>
+          <h2 style="color: white;">Your search found 0 results</h2>
+        </div>
+      </mat-toolbar>
+    </div>
     <!-- <div class="spinner list"><mat-spinner *ngIf="isLoading"></mat-spinner></div> -->
     <div class="list" *ngIf="ingredients.length > 0">
-      <mat-divider></mat-divider>
-
       <mat-divider></mat-divider>
       <mat-list-item *ngFor="let ingredient of ingredients; let i = index">
         <div class="list__item" aria-label="view the details of this dish">
@@ -49,7 +58,7 @@
           </div>
           <div *ngIf="!hasImage" class="list__item-dish-badge">
             <div class="contact__badge-icon">
-              <h2>{{ badgeNames[i] }}</h2>
+              <h4>{{ badgeNames[i] }}</h4>
             </div>
           </div>
           <div class="list__item-details">
@@ -78,4 +87,4 @@
       ></mat-paginator>
     </div>
   </section>
-</main>
+</ng-container>

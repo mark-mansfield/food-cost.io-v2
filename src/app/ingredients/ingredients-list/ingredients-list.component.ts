@@ -44,27 +44,7 @@ export class IngredientsListComponent implements OnInit, OnDestroy {
       this.isLoading = false;
     });
 
-    // const ingredientsDoc = this.service.loadLocalIngredientsData();
-    // if (ingredientsDoc === null) {
-    //   this.service.getIngredients();
-    //   this.isLoading = true;
-    //   this.ingredientsSub = this.service
-    //     .getIngredientsUpdateListener()
-    //     .subscribe((data: Ingredient[]) => {
-    //       this.subscriptionActive = true;
-    //       this.ingredients = data;
-    //       this.categories = this.service.ingredientsDoc.categories;
-    //       this.suppliers = this.service.ingredientsDoc.suppliers;
-    //       this.ingredientCount = this.ingredients.length;
-    //       this.isLoading = false;
-    //     });
-    // } else {
-    //   this.ingredients = ingredientsDoc.ingredients;
-    //   this.categories = ingredientsDoc.categories;
-    //   this.suppliers = ingredientsDoc.suppliers;
-    //   this.ingredientCount = this.ingredients.length;
-    //   this.isLoading = false;
-    // }
+
   }
 
   refreshList() {

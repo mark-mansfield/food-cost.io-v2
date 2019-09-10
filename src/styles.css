@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300');
 @import url('./material-custom.css');
 @import url('./font-awesome.css');
+@import url('./assets/fadeIn.css');
+
 :root {
   /* backgrounds */
 
@@ -222,4 +224,9 @@ button,
 
 .mat-divider {
   height: 2px !important;
+}
+
+.mat-snack-bar-container {
+  position: relative;
+  bottom: 20px;
 }

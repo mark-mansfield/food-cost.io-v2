@@ -11,7 +11,7 @@ export class DishCreateComponent implements OnInit {
   myForm: FormGroup;
   isLoading = false;
   submitButtonDisabled = true;
-  constructor(private service: DishService, private fb: FormBuilder) {}
+  constructor(private service: DishService, private fb: FormBuilder) { }
 
   ngOnInit() {
     this.isLoading = true;
@@ -35,6 +35,6 @@ export class DishCreateComponent implements OnInit {
   }
 
   onSubmitForm() {
-    this.service.addDish(null, this.myForm.get('dishName').value.toLocaleLowerCase());
+    // this.service.addDish(null, this.myForm.get('dishName').value.toLocaleLowerCase());
   }
 }

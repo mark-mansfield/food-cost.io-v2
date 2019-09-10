@@ -4,25 +4,25 @@
 </div>
 <div style="display: flex; flex-direction: row; justify-content: space-around; align-items: center">
   <div style="display: flex; flex-direction: column; width: 30%">
-    <mat-dialog-content>
-      <h1>1</h1>
-      only add new items <small>(does not replace existing)</small>
+    <mat-dialog-content style="color: white">
+      <h1>Option 1</h1>
+      Only add the new items <small>(this does not replace existing data)</small>
     </mat-dialog-content>
     <br /><br />
     <mat-dialog-actions>
-      <button mat-raised-button (click)="onSave('default')">Only add new</button>
+      <button mat-raised-button (click)="onSave('default')">Go for it!</button>
     </mat-dialog-actions>
   </div>
 
   <div style="display: flex; flex-direction: column;  width: 30%">
-    <mat-dialog-content
-      ><h1>2</h1>
-      update and add new items <small>(power feature)</small> <br />
+    <mat-dialog-content style="color: white"
+      ><h1>Option 2:</h1>
+      Update existing data with matched data , and add new items <small>(power feature)</small> <br />
     </mat-dialog-content>
     <br /><br />
     <mat-dialog-actions>
       <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
-      <button mat-raised-button (click)="onSave('overwrite')">Update</button>
+      <button mat-raised-button (click)="onSave('overwrite')">Go for it!</button>
     </mat-dialog-actions>
   </div>
 </div>

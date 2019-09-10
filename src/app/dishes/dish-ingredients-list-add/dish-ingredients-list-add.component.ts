@@ -33,7 +33,7 @@ export class DishIngredientsListAddComponent implements OnInit {
     private route: ActivatedRoute,
     public router: Router,
     public ingredientService: IngredientsService
-  ) {}
+  ) { }
 
   @ViewChild('accordion')
   accordion: MatAccordion;
@@ -69,13 +69,14 @@ export class DishIngredientsListAddComponent implements OnInit {
     const ingredient: DishIngredient = {
       id: object.id,
       name: object.ingredient_name.toLocaleLowerCase(),
-      qty: '0',
+      qty: '',
       unit_price: '',
       AP_weight: '',
       EP_weight: '',
-      yield: '100',
+      yield: '',
       cost: '',
-      real_cost: ''
+      real_cost: '',
+      complete: false
     };
     // avoid expensive array object search
     const tpmStr = JSON.stringify(this.dish.ingredients);
@@ -84,11 +85,13 @@ export class DishIngredientsListAddComponent implements OnInit {
     // because you should not be able to add the same inredient twice to a recipe
     if (this.ingredientIsOnList) {
       alert('this ingredient is already a part of this dish');
-    } else {
-      this.dish.ingredients.unshift(ingredient);
-      this.dishesService.updateDish(this.dish, 'ingredients');
+      return;
     }
+
+    this.dish.ingredients.unshift(ingredient);
+    this.dishesService.updateDishIngredients(this.dish);
   }
+
 
   search(searchValue) {
     if (searchValue) {

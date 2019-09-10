@@ -1,4 +1,8 @@
-<main class="main>">
+<ng-container *ngIf="isLoading">
+  <app-loader></app-loader>
+</ng-container>
+
+<ng-container *ngIf="!isLoading">
   <section class="section">
     <!-- <div class="toolbar">
       <a [routerLink]="['/dish/create']"><i class="fas fa-plus sml-icon"></i></a>
@@ -6,7 +10,7 @@
     <div class="page__title">
       <div><h1>Dishes</h1></div>
       <br /><br />
-      <button class="fas fa-search xlarge-icon" (click)="showSearch = true"></button> <br />
+      <button *ngIf="dishes.length > 0" class="fas fa-search xlarge-icon" (click)="showSearch = true"></button> <br />
     </div>
     <div class="main__search-container">
       <form class="main__search-form">
@@ -19,11 +23,25 @@
           name="search"
           placeholder="  search....."
         />
-        <button [ngClass]="{ hidden: !showSearch, visible: showSearch }" (click)="search(searchTerm)">Go</button>
+        <button [ngClass]="{ hidden: !showSearch, visible: showSearch }" (click)="search(searchTerm)">
+          Go
+        </button>
       </form>
     </div>
     <br />
-    <div class="toolbar">
+    <div class="toolbar" *ngIf="!isLoading && dishes.length === 0">
+      <mat-toolbar style="background: var(--accent) ;">
+        <div>
+          <h2 style="color: white;">Your have no dishes in the system.</h2>
+        </div>
+        <div>
+          <button class="action add" [routerLink]="['/dish/create']">
+            <i class="material-icons" style="color: white">add</i>
+          </button>
+        </div>
+      </mat-toolbar>
+    </div>
+    <div class="toolbar" *ngIf="!searchFoundNothing && dishes.length > 0">
       <mat-toolbar>
         <div>
           <h2>Dishes {{ dishCount }}</h2>
@@ -33,7 +51,15 @@
         </div>
       </mat-toolbar>
     </div>
-    <div class="spinner list"><mat-spinner *ngIf="isLoading"></mat-spinner></div>
+
+    <div class="toolbar" *ngIf="searchFoundNothing">
+      <mat-toolbar style="background: var(--accent) ;">
+        <div>
+          <h2 style="color: white;">Your search found 0 results</h2>
+        </div>
+      </mat-toolbar>
+    </div>
+
     <div class="list" *ngIf="dishes.length > 0">
       <mat-divider></mat-divider>
 
@@ -49,7 +75,7 @@
           </div>
           <div *ngIf="!hasImage" class="list__item-dish-badge">
             <div class="contact__badge-icon">
-              <h2>{{ badgeNames[i] }}</h2>
+              <h4>{{ badgeNames[i] }}</h4>
             </div>
           </div>
           <div class="list__item-details">
@@ -76,4 +102,4 @@
       ></mat-paginator>
     </div>
   </section>
-</main>
+</ng-container>

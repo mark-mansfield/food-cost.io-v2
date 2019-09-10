@@ -1,24 +1,154 @@
 <main class="main">
   <section class="section">
-    <div id="info-text">
-      <p>Update quantity for this ingredient.</p>
-    </div>
-    <form>
-      <input type="text" name="focus" value="{{ this.ingredient.qty }}" [(ngModel)]="this.ingredient.qty" (input)="qtyChange(this.ingredient.qty)"
-        required placeholder="Enter ingredient quantity" />
-      <button class="close-icon" type="reset"></button>
-    </form>
-    <div class="info-panel" id="info-text">
-      <div>Edible portion after preparing.</div> <span id="slider-value" style="font-weight:bold;color:red">{{
-        this.ingredient.EP_weight }} %</span>
-    </div>
-    <div class="slidecontainer">
-      <input type="range" min="1" max="100" value="{{ this.EP_weight }}" #slider class="slider" (input)="sliderChange(slider)"
-        id="myRange">
-    </div>
-    <button type="submit" class="action-button button hvr-ripple-out" (click)="updateIngredient()">
-      SAVE
-    </button>
+    <div class="toolbar">
+      <div class="back-button">
+        <a [routerLink]="['/dish/', dish.uuid, 'ingredients']"><i class="fas fa-chevron-left med-icon"></i></a>
+      </div>
 
+      <div *ngIf="isHandset$ | async" class="page__title-toolbar-label">
+        <h1>{{ dish.name }}</h1>
+      </div>
+      <!-- <div class="launch-edit-mode"><a (click)="toggleEditMode()">{{ editModeButtonText }}</a></div> -->
+    </div>
+    <div class="page__title" *ngIf="!(isHandset$ | async)">
+      <div class="page__title-toolbar">
+        <div class="page__title-toolbar-label">
+          <h1>{{ dish.name }}</h1>
+        </div>
+      </div>
+    </div>
+
+    <form [formGroup]="myForm" (ngSubmit)="onSubmitForm()" style="margin-top: 50px;">
+      <div class="list">
+        <div class="toolbar">
+          <mat-toolbar>
+            <div class="list__item-item" style="width:100%">
+              <div class="item-title">Ingredient:</div>
+              <div>
+                {{ this.ingredient.name }}
+              </div>
+            </div>
+          </mat-toolbar>
+        </div>
+        <div class="list__item details">
+          <!-- quantity -->
+          <div class="list__item-item">
+            <div class="list__item-name-description">
+              <h4>
+                Quantity Used:
+              </h4>
+              <div>Counted in units of how it was purchased</div>
+            </div>
+            <div *ngIf="quantity.valid" class="accent-ok">{{ fieldValueGoodText }}!</div>
+
+            <div *ngIf="quantity.invalid" class="accent-warn">{{ requiredQtyText }} !</div>
+          </div>
+          <div class="list__item-item">
+            <div class="list__item-input-toolbar-items">
+              <input
+                *ngIf="isHandset$ | async"
+                (change)="onUpdateIngredientProp('quantity', quantityInput)"
+                inputmode="decimal"
+                type="text"
+                #quantityInput
+                formControlName="quantity"
+                value=""
+              />
+              <div *ngIf="!(isHandset$ | async)" class="space-between">
+                <input
+                  (change)="onUpdateIngredientProp('quantity', quantityInput)"
+                  disabled
+                  type="text"
+                  style="width: 60%; border:none"
+                  #quantityInput
+                  formControlName="quantity"
+                  value=""
+                />
+
+                <button
+                  type="button"
+                  mat-button
+                  class="launch-numpad"
+                  (click)="launchNumberPad('quantity')"
+                  style="margin: 0!important"
+                >
+                  edit
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Edible portion weight -->
+          <div class="list__item-item">
+            <div class="list__item-name-description">
+              <h4>
+                Edible portion after prepping
+              </h4>
+              <div>How much is left (as a decimal) after prepping?<br />eg. 1kg start: 750 gm after prep = 0.75</div>
+            </div>
+            <div *ngIf="epWeight.valid" class="accent-ok">{{ fieldValueGoodText }}!</div>
+
+            <div *ngIf="epWeight.invalid" class="accent-warn">{{ requiredEpWeightText }} !</div>
+          </div>
+          <div class="list__item-item">
+            <div class="list__item-input-toolbar-items">
+              <input
+                *ngIf="isHandset$ | async"
+                (change)="onUpdateIngredientProp('epWeight', epWeightInput)"
+                inputmode="decimal"
+                type="text"
+                #epWeightInput
+                formControlName="epWeight"
+                value=""
+              />
+              <div *ngIf="!(isHandset$ | async)" class="space-between">
+                <input
+                  (change)="onUpdateIngredientProp('epWeight', epWeightInput)"
+                  disabled
+                  type="text"
+                  style="width: 60%; border:none"
+                  #epWeightInput
+                  formControlName="epWeight"
+                  value=""
+                />
+
+                <button
+                  type="button"
+                  mat-button
+                  class="launch-numpad"
+                  (click)="launchNumberPad('epWeight')"
+                  style="margin: 0!important"
+                >
+                  edit
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- complete -->
+          <div class="list__item-item">
+            <div class="list__item-name-description">
+              <h4>
+                Complete ?
+              </h4>
+              <div>Are the details for this ingredient complete? Mark this ingredient as complete</div>
+            </div>
+
+            <mat-checkbox labelPosition="before" color="accent" (change)="onUpdateIngredientProp('complete', complete)">
+              <span *ngIf="this.ingredient.complete" class="accent-ok" style="flex: 2">complete</span>
+              <span *ngIf="!this.ingredient.complete" class="accent-warn">incomplete</span>
+            </mat-checkbox>
+          </div>
+
+          <mat-action-row [class.visible]="this.myForm.valid" [class.hidden]="!this.myForm.valid">
+            <mat-toolbar class="form-controls-toolbar">
+              <mat-checkbox color="accent" (change)="onToggleSubmitDisabled($event)"
+                >Are these details correct?</mat-checkbox
+              >
+              <button mat-button type="submit" [disabled]="submitButtonDisabled">save</button>
+            </mat-toolbar>
+          </mat-action-row>
+        </div>
+      </div>
+    </form>
   </section>
 </main>

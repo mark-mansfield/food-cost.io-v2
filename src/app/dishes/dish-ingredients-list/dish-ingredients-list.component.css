@@ -103,13 +103,13 @@ mat-accordion {
   align-items: center;
 }
 
-.list__item {
+/* .list__item {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-}
+} */
 
 .list__item-name {
   text-align: left;

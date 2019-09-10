@@ -1,0 +1,277 @@
+<main class="main contact">
+  <section class="section" [class.edit-mode]="showEditTools">
+    <div class="toolbar">
+      <div>
+        <a [routerLink]="['/dishes/list']"><i class="fas fa-chevron-left med-icon"></i></a>
+      </div>
+      <ng-container *ngIf="!createMode">
+        <div>
+          <a (click)="toggleEditMode()" [class.visible]="showEditTools" [class.hidden]="!showEditTools">cancel</a>
+        </div>
+        <div>
+          <a (click)="toggleEditMode()" [class.visible]="!showEditTools" [class.hidden]="showEditTools">Edit</a>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- dish create -->
+    <ng-container>
+      <div *ngIf="!createMode" class="contact__badge">
+        <div class="contact__badge-icon">
+          <h4>{{ iconBadgeText }}</h4>
+        </div>
+        <div class="contact__badge-title">
+          <h1>{{ dish.name }}</h1>
+        </div>
+        <button
+          mat-mini-fab
+          class="delete"
+          (click)="onRemoveIngredient()"
+          [class.visible]="showEditTools"
+          [class.hidden]="!showEditTools"
+        >
+          <i class="fas fa-minus"></i>
+        </button>
+      </div>
+      <h1 *ngIf="createMode">New Dish</h1>
+
+      <form [formGroup]="myForm" (ngSubmit)="onSubmitform()" style="margin-top: 50px;">
+        <div class="list">
+          <div class="list__item details">
+            <div class="list__item-item">
+              <div class="list__item-name-description">
+                <h4>
+                  Dish Name:
+                </h4>
+                <div *ngIf="!createMode">Locked:</div>
+              </div>
+              <div *ngIf="dishName.valid && dishName.touched && showEditTools" class="accent-ok">
+                {{ fieldValueGoodText }}!
+              </div>
+              <div *ngIf="isDuplicate && showEditTools" class="accent-warn">
+                Your dish name must be unique
+              </div>
+              <div *ngIf="dishName.invalid && dishName.touched && showEditTools" class="accent-warn">
+                This cannot be empty.
+              </div>
+              <div *ngIf="dishName.invalid && showEditTools" class="accent-warn">{{ requiredText }}.</div>
+              <h4 *ngIf="!createMode">{{ dish.name }}</h4>
+            </div>
+
+            <div class="list__item-item">
+              <div
+                class="list__item-input-toolbar-items"
+                [class.hidden]="showEditTools || !createMode"
+                [class.visible]="showEditTools && !createMode"
+              >
+                <input
+                  [class.hidden]="!createMode"
+                  [class.visible]="createMode"
+                  (change)="this.showConfirmControls = true; onUpdateDish('dishName', dishNameInput.value)"
+                  inputmode="text"
+                  type="text"
+                  #dishNameInput
+                  formControlName="dishName"
+                  value=""
+                />
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+
+            <!-- Ingredients -->
+            <div class="list__item-item">
+              <div class="list__item-name-description">
+                <h4>Ingredients:</h4>
+              </div>
+              <div [class.hidden]="showEditTools" [class.visible]="showEditTools">
+                {{ dish.ingredients.length }}
+              </div>
+              <button
+                [class.hidden]="!showEditTools"
+                [class.visible]="showEditTools || createMode"
+                style="padding: 20px; text-align: right; margin-left: 20px"
+                [routerLink]="['/dish/', dish.uuid, 'ingredients']"
+                class="list__item-action colspan-2"
+              >
+                <i class="fas fa-chevron-right "></i>
+              </button>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <!-- Retail Price: -->
+            <div class="list__item-item">
+              <h4 class="list__item-name">Retail Price:</h4>
+              <span *ngIf="!createMode" [class.hidden]="showEditTools" [class.visible]="!showEditTools || !createMode">
+                {{ dish.retail_price }}
+              </span>
+
+              <div *ngIf="invalidRetailPrice && showEditTools" class="accent-warn">
+                A valid price is required
+              </div>
+              <div
+                *ngIf="
+                  (retail_price.invalid && retail_price.touched && showEditTools) ||
+                  (retail_price.invalid && showEditTools)
+                "
+                class="accent-warn"
+              >
+                {{ requiredText }}.
+              </div>
+              <div *ngIf="retail_price.value > 0 && showEditTools" class="accent-ok">{{ fieldValueGoodText }}!</div>
+            </div>
+            <div class="list__item-item">
+              <div
+                class="list__item-input-toolbar-items"
+                [class.hidden]="!showEditTools || !createMode"
+                [class.visible]="showEditTools || createMode"
+              >
+                <input
+                  *ngIf="isHandset$ | async"
+                  (change)="this.showConfirmControls = true; onUpdateDish('retail_price', retailPriceInput.value)"
+                  inputmode="decimal"
+                  type="text"
+                  #retailPriceInput
+                  formControlName="retail_price"
+                  value=""
+                />
+                <div *ngIf="!(isHandset$ | async)" class="space-between">
+                  <input
+                    (change)="this.showConfirmControls = true; onUpdateDish('retail_price', retailPriceInput.value)"
+                    disabled
+                    type="text"
+                    style="width: 60%; border:none"
+                    #retailPriceInput
+                    formControlName="retail_price"
+                    value=""
+                  />
+
+                  <button
+                    type="button"
+                    mat-button
+                    class="launch-numpad"
+                    (click)="launchNumberPad('retail_price')"
+                    style="margin: 0!important"
+                  >
+                    edit
+                  </button>
+                </div>
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+
+            <!-- Total Cost -->
+            <div class="list__item-item">
+              <h4 class="list__item-name">
+                Total Cost:
+              </h4>
+              <div>ingredientsTotal</div>
+            </div>
+            <mat-divider></mat-divider>
+
+            <!-- Progress -->
+            <div class="list__item-item">
+              <h4 class="list__item-name">
+                Progress:
+              </h4>
+              <div style="width: 50%">determined by how many ingredients have been finalised</div>
+              <div style="width:25%"><mat-progress-bar mode="determinate" [value]="60"></mat-progress-bar></div>
+            </div>
+            <mat-divider></mat-divider>
+
+            <!-- Margin -->
+            <div class="list__item-item">
+              <h4 class="list__item-name">
+                Margin:
+              </h4>
+              <div>dish.margin</div>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <!-- Description -->
+            <div class="list__item-item">
+              <h4 class="list__item-name">
+                Description:
+              </h4>
+
+              <span [class.hidden]="showEditTools" [class.visible]="!showEditTools">
+                dish.description
+              </span>
+            </div>
+            <div class="list__item-item">
+              <div
+                class="list__item-input-toolbar-items"
+                [class.hidden]="!showEditTools || !createMode"
+                [class.visible]="showEditTools || createMode"
+              >
+                <div style="width: 100%">
+                  <textarea value="dish.description"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <!-- Plating Guide -->
+            <div class="list__item-item">
+              <h4 class="list__item-name">
+                Plating Guide:
+              </h4>
+              <span [class.hidden]="showEditTools" [class.visible]="!showEditTools">
+                dish.plating_guide
+              </span>
+            </div>
+            <div class="list__item-item">
+              <div
+                class="list__item-input-toolbar-items"
+                [class.hidden]="!showEditTools || !createMode"
+                [class.visible]="showEditTools || createMode"
+              >
+                <div style="width: 100%">
+                  <textarea value="dish.plating_guide"></textarea>
+                </div>
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+
+            <!-- Recipe Method -->
+            <div class="list__item-item">
+              <h4 class="list__item-name">
+                Recipe Method:
+              </h4>
+              <span [class.hidden]="showEditTools" [class.visible]="!showEditTools">
+                dish.recipe_method
+              </span>
+            </div>
+            <div class="list__item-item">
+              <div
+                class="list__item-input-toolbar-items"
+                [class.hidden]="!showEditTools || !createMode"
+                [class.visible]="showEditTools || createMode"
+              >
+                <div style="width: 100%">
+                  <textarea value="dish.recipe_method"></textarea>
+                </div>
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+
+            <mat-divider></mat-divider>
+
+            <!-- confirm controls -->
+
+            <mat-action-row [class.visible]="showConfirmControls" [class.hidden]="!showConfirmControls">
+              <mat-toolbar class="form-controls-toolbar">
+                <mat-checkbox color="accent" (change)="onToggleSubmitDisabled($event)"
+                  >Are these details correct?</mat-checkbox
+                >
+                <button mat-button type="submit" [disabled]="submitButtonDisabled">save</button>
+              </mat-toolbar>
+            </mat-action-row>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </section>
+</main>
