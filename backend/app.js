@@ -16,7 +16,9 @@ const accountRoutes = require('./routes/accounts');
 // mongodb+srv://mark:<PASSWORD>@food-cost-cluster-zlgfs.mongodb.net/test?retryWrites=true
 // jlFtdiE5nKIF7i9z
 mongoose
-  .connect('mongodb+srv://mark:jlFtdiE5nKIF7i9z@food-cost-cluster-zlgfs.mongodb.net/food-cost-cluster')
+  .connect(
+    'mongodb+srv://mark:' + process.env.MONGO_ATLAS_PASSWORD + '@food-cost-cluster-zlgfs.mongodb.net/food-cost-cluster'
+  )
   .then(() => {
     console.log('connected to database');
   })

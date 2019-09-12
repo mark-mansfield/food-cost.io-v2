@@ -42,7 +42,6 @@ export class IngredientsListV2Component implements OnInit, OnDestroy {
       this.suppliers = this.service.ingredientsDoc.suppliers;
 
       this.ingredients.forEach(item => {
-
         this.badgeNames.push(this.globalService.getIconBadgeText(item.supplier));
       });
       this.isLoading = false;

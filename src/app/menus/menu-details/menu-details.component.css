@@ -10,6 +10,17 @@
   background-color: azure;
 }
 
+.page__title[_ngcontent-c18] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0px;
+}
+
+.edit-mode {
+  background-color: #2e2b2b;
+}
+
 .toolbar {
   display: flex;
   justify-content: space-between;
@@ -42,13 +53,46 @@
 .contact__badge {
   margin: 20px 0px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
 }
 
-.contact__badge-delete-menu-button {
-  margin-left: 20px;
+.contact__badge-icon {
+  width: 80px;
+  height: 80px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(225, 225, 225, 0.87);
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
 }
+
+.contact__badge-title {
+  margin-top: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: flex;
+}
+
+.delete {
+  background-color: var(--dark-text);
+  color: white;
+}
+
+button {
+  display: flex;
+  justify-content: center;
+  text-align: center !important;
+}
+
 button.action {
   font-size: 1.5rem;
   color: var(--dark-text);

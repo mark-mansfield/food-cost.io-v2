@@ -11,12 +11,12 @@ export class MenuCreateComponent implements OnInit {
   myForm: FormGroup;
   isLoading = false;
   submitButtonDisabled = true;
-  constructor(private service: MenusService, private fb: FormBuilder) {}
+  constructor(private service: MenusService, private fb: FormBuilder) { }
 
   ngOnInit() {
     this.isLoading = true;
     this.myForm = this.fb.group({
-      menuName: ['', [Validators.required, Validators.minLength(3)]],
+      menuName: ['test menu 1', [Validators.required, Validators.minLength(3)]],
       agree: [false]
     });
     this.isLoading = false;
@@ -35,6 +35,6 @@ export class MenuCreateComponent implements OnInit {
   }
 
   onSubmitForm() {
-    this.service.createMenu(this.myForm.get('menuName').value.toLowerCase());
+    this.service.addMenu(this.myForm.get('menuName').value.toLowerCase());
   }
 }

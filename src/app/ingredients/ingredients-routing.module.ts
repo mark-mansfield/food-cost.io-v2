@@ -5,7 +5,6 @@ import { AuthGuard } from '../auth/auth.guard';
 // import { IngredientsDetailsComponent } from './ingredients-details/ingredients-details.component';
 // import { IngredientEditFieldComponent } from './ingredient-edit-field/ingredient-edit-field.component';
 import { IngredientDetailsV2Component } from './ingredient-details-v2/ingredient-details-v2.component';
-
 import { IngredientsImportComponent } from './ingredients-import/ingredients-import.component';
 import { IngredientsListV2Component } from './ingredients-list-v2/ingredients-list-v2.component';
 const ingredientsRoutes: Routes = [
@@ -45,4 +44,4 @@ const ingredientsRoutes: Routes = [
 
   exports: [RouterModule]
 })
-export class IngredientsRoutingModule {}
+export class IngredientsRoutingModule { }

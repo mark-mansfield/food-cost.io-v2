@@ -70,7 +70,7 @@ export class IngredientDetailsV2Component implements OnInit, OnDestroy {
     private globalService: GlobalService,
     private route: ActivatedRoute,
     public dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.routeSub = this.route.params.subscribe(params => {
@@ -78,6 +78,7 @@ export class IngredientDetailsV2Component implements OnInit, OnDestroy {
       if (params.mode === 'edit') {
         this.ingredient = JSON.parse(localStorage.getItem('ingredient'));
         this.supplierName = this.ingredient.supplier;
+        console.log(this.supplierName);
         this.myForm = this.fb.group({
           ingredientName: [this.ingredient.ingredient_name, [Validators.required]],
           ingredientPrice: [this.ingredient.ingredient_price, [Validators.required]],
@@ -118,6 +119,8 @@ export class IngredientDetailsV2Component implements OnInit, OnDestroy {
 
     this.suppliersSub = this.supplierService.getSuppliersUpdateListener().subscribe((data: Supplier[]) => {
       this.suppliers = data;
+
+      console.log(this.suppliers);
       if (!this.createMode && data.length > 0) {
         this.initFormSelectsWithSelectedValues();
       }
@@ -247,8 +250,8 @@ export class IngredientDetailsV2Component implements OnInit, OnDestroy {
         result === '0'
           ? (this.ingredient.unit_cost = +this.ingredient.ingredient_price)
           : (this.ingredient.unit_cost =
-              parseFloat(this.myForm.controls.ingredientPrice.value) /
-              parseFloat(this.myForm.controls.unitAmount.value));
+            parseFloat(this.myForm.controls.ingredientPrice.value) /
+            parseFloat(this.myForm.controls.unitAmount.value));
       }
     });
   }

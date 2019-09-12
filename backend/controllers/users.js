@@ -30,7 +30,6 @@ exports.createUser = (req, res, next) => {
   });
 };
 
-
 exports.loginUser = (req, res, next) => {
   let fetchedUser;
   User.findOne({ email: req.body.email })
@@ -50,7 +49,7 @@ exports.loginUser = (req, res, next) => {
         });
       }
 
-      const token = jwt.sign({ email: fetchedUser.email, userId: fetchedUser._id }, 'this_should_be_longer', {
+      const token = jwt.sign({ email: fetchedUser.email, userId: fetchedUser._id }, process.env.JWT_KEY, {
         expiresIn: '1h'
       });
       // send token to front end

@@ -1,30 +1,57 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import { MenusService } from '../menus.service';
-import { Menu } from '../menu.model';
 import { Subscription } from 'rxjs';
+import { PageEvent } from '@angular/material/paginator';
+import { Router } from '@angular/router';
+import { Menu } from '../menu.model';
+
+import { MenusService } from '../menus.service';
 
 @Component({
   selector: 'app-menus-list',
   templateUrl: './menus-list.component.html',
-  styleUrls: ['./menus-list.component.css']
+  styleUrls: ['../../css/list-layout.css']
 })
 export class MenusListComponent implements OnInit, OnDestroy {
   private menusSub: Subscription;
   public menus: Menu[] = [];
   public clonedItem: Menu[] = [];
+  public searchTerm: string;
+  menuCount: number;
   badgeNames = [];
   isLoading = false;
   hasImage = false;
-  constructor(private service: MenusService, private router: Router) {}
+  postsPerPage = 10;
+  pageIndex = 0;
+  pageSizeOptions: number[] = [5, 10, 25];
+  searchFoundNothing = false;
+  noMenusFound = false;
+
+  public noSearchResultsSub: Subscription;
+  public noMenusFoundSub: Subscription;
+  constructor(private service: MenusService, private router: Router) { }
 
   ngOnInit() {
-    this.service.getMenus();
+    this.service.getMenusAndPaginate(this.pageIndex, this.postsPerPage);
     this.isLoading = true;
     this.menusSub = this.service.getMenusUpdateListener().subscribe((data: Menu[]) => {
       this.menus = data;
+      this.menuCount = data.length;
       this.isLoading = false;
     });
+
+    this.noSearchResultsSub = this.service.getNoSearchResultsUpdatedListener().subscribe(result => {
+      this.searchFoundNothing = result;
+      this.isLoading = false;
+    });
+
+    this.noMenusFoundSub = this.service.getNoMenusUpdatedListener().subscribe(result => {
+      this.noMenusFound = result;
+      this.isLoading = false;
+    });
+  }
+
+  onChangedPage(pageData: PageEvent) {
+    // this.service.paginateOnChange(pageData.pageIndex, pageData.pageSize);
   }
 
   saveMenuToLocal(menu) {
@@ -32,9 +59,7 @@ export class MenusListComponent implements OnInit, OnDestroy {
     this.router.navigate(['menus/' + menu.id + '/details']);
   }
 
-  onRemoveMenu(menuId) {
-    this.service.deleteMenuItem(menuId);
-  }
+
 
   onCloneMenu(menu) {
     const menuData = {
@@ -48,6 +73,12 @@ export class MenusListComponent implements OnInit, OnDestroy {
     menuDoc.menus.push(menuData);
     this.menus = menuDoc.menus;
     this.service.cloneMenu(menuDoc);
+  }
+
+  search(searchValue) {
+    if (searchValue) {
+      this.service.searchMenuByName(searchValue);
+    }
   }
 
   ngOnDestroy() {

@@ -14,10 +14,58 @@
   background-color: transparent;
 }
 
+.mat-toolbar-single-row {
+  line-height: 0;
+  justify-content: space-between;
+}
+
+.page__title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0px;
+}
+
 .contact__badge {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.main__search-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.main__search-form {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.main__search-form > input {
+  width: 70%;
+  /* margin-left: 20px; */
+  text-align: center;
+  height: 50px;
+  border: 1px solid #ccc;
+  color: var(--dark-text);
+  background-color: white;
+  margin: 10px;
+}
+
+.main__search-form > button {
+  height: 60px;
+}
+
+button {
+  color: var(--dark-text);
+  background-color: transparent;
 }
 
 .contact__badge-icon {
@@ -35,6 +83,14 @@
 
 .contact__badge-title {
   margin-top: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: flex;
 }
 
 .list {
@@ -69,10 +125,6 @@
 .list__item-name {
   font-size: 1rem;
   font-weight: bold;
-}
-
-button {
-  background-color: white;
 }
 
 mat-list-item {

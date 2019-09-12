@@ -71,13 +71,13 @@ exports.deleteCustomerDish =
   checkAuth,
   (req, res, next) => {
     const dish = req.body;
-    Dish.update({ customerId: req.params.custId }, { $pull: { dishes: { uuid: dish.uuid } } }, { multi: false })
+    Dish.update({ customerId: req.params.custId }, { $pull: { dishes: { uuid: req.body.uuid } } }, { multi: false })
       .then(result => {
         console.log(result);
         if (result.nModified === 0) {
-          res.status(406).json({ message: 'couldnt find the dish to delete it', nModified: result.nModified });
+          res.status(406).json({ nModified: result.nModified });
         }
-        res.status(200).json({ message: 'dish deleted', nModified: result.nModified });
+        res.status(200).json({ nModified: result.nModified });
       })
       .catch(error => {
         res.status(500).json({
@@ -105,15 +105,3 @@ exports.addCustomerDish =
         });
       });
   });
-
-// ('/:custID',
-// checkAuth,
-// (req, res, next) => {
-//   const dish = new CustomerDish(req.body);
-//   dish.save().then(result => {
-//     res.status(200).json({
-//       message: 'Dish added successfully',
-//       dish: dish
-//     });
-//   });
-// });

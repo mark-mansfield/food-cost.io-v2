@@ -3,15 +3,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AngularMaterialModule } from '../angular-material';
 import { SuppliersRoutingModule } from './suppliers-routing.module';
-
+import { SharedComponentsModule } from '../shared-components/shared-components.module';
 import { SuppliersService } from './suppliers.service';
 import { SuppliersListComponent } from './suppliers-list/suppliers-list.component';
 import { SupplierCreateComponent } from './supplier-create/supplier-create.component';
 import { SupplierDetailsComponent } from './supplier-details/supplier-details.component';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, AngularMaterialModule, SuppliersRoutingModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, AngularMaterialModule, SuppliersRoutingModule, SharedComponentsModule],
   providers: [SuppliersService],
   declarations: [SuppliersListComponent, SupplierCreateComponent, SupplierDetailsComponent]
 })
-export class SuppliersModule {}
+export class SuppliersModule { }

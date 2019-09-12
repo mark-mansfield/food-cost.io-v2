@@ -73,7 +73,7 @@ export class MenuAddDishComponent implements OnInit, OnDestroy {
       const localMenusData = JSON.parse(localStorage.getItem('menus'));
       const idx = localMenusData.menus.findIndex(obj => obj.id === this.menu.id);
       localMenusData.menus[idx] = this.menu;
-      this.menuService.updateMenus(localMenusData, '/menus/' + this.selectedId + '/details');
+      this.menuService.updateMenus(localMenusData);
     }
   }
 

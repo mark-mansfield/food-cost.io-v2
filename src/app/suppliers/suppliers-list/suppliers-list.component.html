@@ -1,21 +1,61 @@
-<main class="main>">
+<ng-container *ngIf="isLoading">
+  <app-loader></app-loader>
+</ng-container>
+<ng-container *ngIf="!isLoading">
   <section class="section">
-    <div class="toolbar">
-      <a [routerLink]="['/suppliers/create']"><i class="material-icons med-icon">add</i></a>
-    </div>
     <!-- page  title -->
-    <div class="contact__badge">
+    <div class="page__title">
       <div><h1>Suppliers</h1></div>
-      <button _ngcontent-c20="" class="fas fa-search xlarge-icon"></button> <br /><br />
+      <br /><br />
+      <button class="fas fa-search xlarge-icon" (click)="showSearch = true"></button> <br />
     </div>
-    <div class="spinner list"><mat-spinner *ngIf="isLoading"></mat-spinner></div>
-
+    <!-- search -->
+    <div class="main__search-container">
+      <form class="main__search-form">
+        <input
+          type="text"
+          id="dish-input-text"
+          [ngClass]="{ hidden: !showSearch, visible: showSearch }"
+          #searchinput
+          [(ngModel)]="searchTerm"
+          name="search"
+          placeholder="  search....."
+        />
+        <button [ngClass]="{ hidden: !showSearch, visible: showSearch }" (click)="search(searchTerm)">Go</button>
+      </form>
+    </div>
+    <!-- search finds nothing -->
+    <div class="toolbar" *ngIf="searchFoundNothing">
+      <mat-toolbar style="background: var(--accent) ;">
+        <div>
+          <h2 style="color: white;">Your search found 0 results</h2>
+        </div>
+      </mat-toolbar>
+    </div>
+    <!-- no suppliers set up -->
+    <div class="toolbar" *ngIf="noSuppliersFound">
+      <mat-toolbar style="background: var(--accent) ;">
+        <div>
+          <h2 style="color: white;">Your Have no suppliers set up.</h2>
+        </div>
+      </mat-toolbar>
+    </div>
+    <div class="toolbar">
+      <mat-toolbar>
+        <div><h2>Suppliers</h2></div>
+        <div>
+          <button class="action add" [routerLink]="['/suppliers/create']" href="">
+            <i class="material-icons">add</i>
+          </button>
+        </div>
+      </mat-toolbar>
+    </div>
     <div class="list" *ngIf="suppliers.length > 0">
       <mat-list-item *ngFor="let supplier of suppliers">
         <div class="list__item">
           <div class="contact__badge-container">
             <div class="contact__badge-icon">
-              <h2>{{ getSupplierBadgeText(supplier.supplier_name) }}</h2>
+              <h4>{{ getSupplierBadgeText(supplier.supplier_name) }}</h4>
             </div>
           </div>
           <div class="list__item-details">
@@ -26,13 +66,22 @@
           <button
             class="list__item-action"
             aria-label="edit the details for this supplier"
-            (click)="saveSupplierToLocal(supplier)"
+            (click)="editSupplier(supplier)"
           >
             <i class="fas fa-chevron-right med-icon"></i>
           </button>
         </div>
         <mat-divider></mat-divider>
       </mat-list-item>
+      <mat-paginator
+        class="paginator"
+        *ngIf="supplierCount !== 0"
+        [pageSize]="postsPerPage"
+        [pageIndex]="pageIndex"
+        [length]="supplierCount"
+        [pageSizeOptions]="[5, 10, 25]"
+        (page)="onChangedPage($event)"
+      ></mat-paginator>
     </div>
   </section>
-</main>
+</ng-container>

@@ -1,33 +1,37 @@
 <main class="main>">
-  <section class="section">
-    <div class="spinner"><mat-spinner *ngIf="isLoading"></mat-spinner></div>
+  <section class="section" [class.edit-mode]="showEditTools">
     <div class="toolbar">
-      <div class="back-button">
-        <a [routerLink]="['/menus/list']"><i class="fas fa-chevron-left med-icon"></i></a>
+      <div>
+        <a [routerLink]="['/suppliers/list']"><i class="fas fa-chevron-left med-icon"></i></a>
       </div>
-
-      <!-- <div class="cancel-edit-mode" [class.visible]="showEditTools" [class.hidden]="!showEditTools">
-        <a (click)="toggleEditMode()">cancel</a>
-      </div> -->
-      <div class="launch-edit-mode">
-        <a (click)="toggleEditMode()">{{ editModeButtonText }}</a>
+      <div>
+        <a (click)="toggleEditMode()" [class.visible]="showEditTools" [class.hidden]="!showEditTools">cancel</a>
       </div>
+      <div><a (click)="toggleEditMode()" [class.visible]="!showEditTools" [class.hidden]="showEditTools">Edit</a></div>
     </div>
 
     <!-- page  title -->
     <div class="contact__badge">
+      <div class="contact__badge-icon">
+        <h1>{{ iconBadgeText }}</h1>
+      </div>
       <div class="contact__badge-title">
         <h1>{{ menu.menu_name }}</h1>
       </div>
-      <div class="contact__badge-delete-menu-button">
-        <button class="action" mat-button [class.visible]="showEditTools" [class.hidden]="!showEditTools">
-          <i class="material-icons med-icon">remove_circle_outline</i>
-        </button>
-      </div>
+      <br /><br />
+      <button
+        mat-mini-fab
+        class="delete"
+        (click)="onDelete()"
+        [class.visible]="showEditTools"
+        [class.hidden]="!showEditTools"
+      >
+        <i class="fas fa-minus"></i>
+      </button>
     </div>
     <div class="toolbar">
       <mat-toolbar>
-        <div><h2>Dishes</h2></div>
+        <div><h2>Menus</h2></div>
         <div>
           <button class="action add" (click)="onAddDish()"><i class="material-icons med-icon">add</i></button>
         </div>

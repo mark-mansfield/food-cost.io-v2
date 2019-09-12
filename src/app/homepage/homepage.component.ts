@@ -28,11 +28,11 @@ export class HomepageComponent implements OnInit, OnDestroy {
     public menuService: MenusService,
     public dishService: DishService,
     public ingredientsService: IngredientsService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.customer = this.authService.getAccountData();
-    this.menuService.getMenus();
+    this.menuService.getMenusAndPaginate(0, 10);
     this.dishService.getDishData();
     this.ingredientsService.getIngredients();
 

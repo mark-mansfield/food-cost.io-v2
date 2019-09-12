@@ -1,4 +1,8 @@
-<main class="main>">
+<ng-container *ngIf="isLoading">
+  <app-loader></app-loader>
+</ng-container>
+
+<ng-container *ngIf="!isLoading">
   <section class="section">
     <!-- <div class="toolbar">
         <a [routerLink]="['/dish/create']"><i class="fas fa-plus sml-icon"></i></a>
@@ -23,6 +27,20 @@
       </form>
     </div>
 
+    <div class="toolbar" *ngIf="searchFoundNothing">
+      <mat-toolbar style="background: var(--accent) ;">
+        <div>
+          <h2 style="color: white;">Your search found 0 results</h2>
+        </div>
+      </mat-toolbar>
+    </div>
+    <div class="toolbar" *ngIf="noMenusFound">
+      <mat-toolbar style="background: var(--accent) ;">
+        <div>
+          <h2 style="color: white;">Your Have no menus set up.</h2>
+        </div>
+      </mat-toolbar>
+    </div>
     <div class="toolbar">
       <mat-toolbar>
         <div><h2>Menus</h2></div>
@@ -39,17 +57,6 @@
       <mat-list-item *ngFor="let menu of menus; let i = index">
         <div class="list__item" aria-label="view the details of this dish">
           <div class="list__item-name">{{ menu.menu_name }}</div>
-          <!-- <div class="list__item-details">
-            <button class="item-tool">
-              <i
-                class="fa fa-minus-circle med-icon"
-                style="left: -5px;"
-                tabIndex="auto"
-                (click)="onRemoveMenu(item.id)"
-              ></i>
-            </button>
-            <button><i class="far fa-clone med-icon" tabIndex="auto" (click)="onCloneMenu(item)"></i></button>
-          </div> -->
           <button class="list__item-action" aria-label="navigate to menu details" (click)="saveMenuToLocal(menu)">
             <i class="fas fa-chevron-right" aria-label="selected menu details"></i>
           </button>
@@ -59,13 +66,13 @@
       </mat-list-item>
       <mat-paginator
         class="paginator"
-        *ngIf="dishCount !== 0"
+        *ngIf="menuCount !== 0"
         [pageSize]="postsPerPage"
         [pageIndex]="pageIndex"
-        [length]="dishCount"
+        [length]="menuCount"
         [pageSizeOptions]="[5, 10, 25]"
         (page)="onChangedPage($event)"
       ></mat-paginator>
     </div>
   </section>
-</main>
+</ng-container>

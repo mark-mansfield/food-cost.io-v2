@@ -6,5 +6,6 @@ const SuppliersController = require('../controllers/suppliers');
 router.get('/:custId', SuppliersController.getSuppliers);
 router.put('/:custId', SuppliersController.putSuppliers);
 router.post('/:custId', SuppliersController.postSuppliers);
+router.post('/:custId/delete', SuppliersController.deleteSupplier);
 // export the router
 module.exports = router;

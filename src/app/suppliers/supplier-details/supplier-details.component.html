@@ -1,7 +1,5 @@
 <main class="main contact">
   <section class="section" [class.edit-mode]="showEditTools">
-    <div class="spinner"><mat-spinner *ngIf="isLoading"></mat-spinner></div>
-
     <div class="toolbar">
       <div>
         <a [routerLink]="['/suppliers/list']"><i class="fas fa-chevron-left med-icon"></i></a>
@@ -24,7 +22,7 @@
       <button
         mat-mini-fab
         class="delete"
-        (click)="showDeleteAlert()"
+        (click)="onDelete()"
         [class.visible]="showEditTools"
         [class.hidden]="!showEditTools"
       >
@@ -33,7 +31,7 @@
     </div>
 
     <!-- contact edit form / details -->
-    <form [formGroup]="myForm" (ngSubmit)="onSubmitform()">
+    <form [formGroup]="myForm" (ngSubmit)="onSubmitForm()">
       <div class="list">
         <div class="list__item details">
           <mat-list>

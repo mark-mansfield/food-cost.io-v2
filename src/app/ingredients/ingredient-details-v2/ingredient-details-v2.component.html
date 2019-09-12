@@ -55,7 +55,7 @@
                 This cannot be empty.
               </div>
               <div *ngIf="ingredientName.invalid && showEditTools" class="accent-warn">{{ requiredText }}.</div>
-              <h3 *ngIf="!createMode">{{ ingredient.ingredient_name }}</h3>
+              <span *ngIf="!createMode">{{ ingredient.ingredient_name }}</span>
             </div>
 
             <div class="list__item-item">

@@ -76,7 +76,7 @@ export class IngredientsService {
 
   // ingredients list - Paginated
   getIngredientsAndPaginate(index, postsPerPage) {
-    
+
     const customer = this.globals.getCustomer();
     this.http.get<{ ingredients: any[] }>(BACKEND_URL + '/' + customer.id).subscribe(returnData => {
       // prevent too many round trips to the server
@@ -146,7 +146,7 @@ export class IngredientsService {
           this.openSnackBar('there was an error locating your document');
           console.log(
             // tslint:disable-next-line: max-line-length
-            'could not find item in Database collection to update, check syntax, query params, and check document fields ,match teh api query'
+            'could not find item in Database collection to update, check syntax, query params, and check document fields ,match the api query'
           );
         }
       });
@@ -462,8 +462,11 @@ export class IngredientsService {
   }
 
   openSnackBar(message) {
-    this.messageSnackBar.open(message, '', {
-      duration: 2000
+    this.messageSnackBar.open(message, null, {
+      verticalPosition: 'bottom',
+      horizontalPosition: 'left',
+      panelClass: 'fadeIn',
+      duration: 3000
     });
   }
 }

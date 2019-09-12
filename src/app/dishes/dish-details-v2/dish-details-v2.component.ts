@@ -16,6 +16,13 @@ import { NumpadDialogComponent } from '../../dialogs/numpad-dialog/numpad-dialog
   styleUrls: ['../../suppliers/supplier-details/supplier-details.component.css']
 })
 export class DishDetailsV2Component implements OnInit, OnDestroy {
+
+
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Handset)
+    .pipe(map(result => result.matches));
+
+
   public dish: Dish;
   isDuplicate = false;
   submitButtonDisabled = true;
@@ -193,10 +200,14 @@ export class DishDetailsV2Component implements OnInit, OnDestroy {
     if (this.createMode) {
       this.dishService.addDish(this.dish);
     } else {
-      // this.ingredientService.updateIngredientsDocumentV2(this.ingredient);
+      this.dishService.updateDish(this.dish);
     }
   }
 
+  onRemoveDish() {
+
+    this.dishService.deleteDish(this.dish);
+  }
 
   toggleEditMode() {
     if (this.showEditTools) {

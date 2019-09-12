@@ -82,13 +82,25 @@ export class DishService {
   }
 
   // delete a dish
-  deleteDish(id: String) {
-    this.http.delete(BACKEND_URL + '/' + id).subscribe(result => {
-      this.dishes = this.dishes.filter(dish => dish._id !== id);
-      this.saveLocalDishesData(this.dishes);
-      this.dishesUpdated.next([...this.dishes]);
+  deleteDish(obj) {
+    const customer = this.globals.getCustomer();
+    this.http.post<{ nModified: number }>(BACKEND_URL + '/' + customer.id + '/delete', obj).subscribe(returnedData => {
+      if (returnedData.nModified > 0) {
+        this.dishes = this.dishes.filter(dish => dish.uuid !== obj.uuid);
+        this.dishesUpdated.next([...this.dishes]);
+        this.saveLocalDishesData(this.dishes);
+        this.openSnackBar('Dish deleted');
+        this.router.navigate(['/dishes/list']);
+        return;
+      } else {
+        this.openSnackBar('Dish Not deleted due to a technical error');
+        console.log(
+          // tslint:disable-next-line: max-line-length
+          'could not find item in Database collection to update, check syntax, query params, and check document fields ,match the api query'
+        );
+      }
+
     });
-    this.router.navigate(['/dishes']);
   }
 
   cloneDish(dish) {
@@ -299,6 +311,8 @@ export class DishService {
     this.dishesUpdated.next([...searchResults]);
   }
 
+
+
   showAllDishes() {
     const dishesData: any = this.getDishesData();
     this.dishesUpdated.next([...dishesData]);
@@ -334,7 +348,7 @@ export class DishService {
       verticalPosition: 'bottom',
       horizontalPosition: 'left',
       panelClass: 'fadeIn',
-      duration: 1
+      duration: 3000
     });
   }
 }

@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MenusService } from '../menus.service';
+import { GlobalService } from '../../global.service';
 import { Menu } from '../menu.model';
 import { Dish } from '../../dishes/dish.model';
 
@@ -34,9 +35,14 @@ export class MenuDetailsComponent implements OnInit {
   nameFormControl = new FormControl('', [Validators.required]);
   matcher = new MyErrorStateMatcher();
   nameValue = '';
+  iconBadgeText = '';
   editModeButtonText = 'edit';
   mode = null;
-  constructor(private menuService: MenusService, private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private menuService: MenusService,
+    private router: Router,
+    private globalService: GlobalService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.isLoading = true;
@@ -47,6 +53,7 @@ export class MenuDetailsComponent implements OnInit {
         this.nameValue = this.menu.menu_name;
         this.dishesOnMenu = this.menuService.getDishesOnMenu(this.menu.members);
         this.isLoading = false;
+        this.iconBadgeText = this.globalService.getIconBadgeText(this.nameValue);
       }
     });
   }
@@ -99,12 +106,19 @@ export class MenuDetailsComponent implements OnInit {
     const menuDataCopy = [...localMenusData.menus];
     const idx = menuDataCopy.findIndex(obj => obj.id === menuId);
     localMenusData.menus[idx].members = this.menu.members;
-    this.menuService.updateMenus(localMenusData, '/menus/' + this.selectedId + '/details');
+    this.menuService.updateMenus(localMenusData);
+  }
+
+  onDelete() {
+    const obj = {
+      id: this.menu.id
+    };
+    this.menuService.deleteMenu(obj);
   }
 
   onUpdateMenuName(menuId) {
     const newMenuDoc = this.updateNestedMenu('menu_name', this.nameValue, menuId);
-    this.menuService.updateMenus(newMenuDoc, null);
+    this.menuService.updateMenus(newMenuDoc);
     this.menu.menu_name = this.nameValue;
   }
 }

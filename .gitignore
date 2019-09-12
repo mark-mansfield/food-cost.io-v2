@@ -34,10 +34,12 @@ yarn-error.log
 testem.log
 /typings
 
+
 # System Files
 .DS_Store
 Thumbs.db
 
 # App specific
 /backend/uploads
+/backend/Archive.zip
 ../test-data

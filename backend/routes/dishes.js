@@ -6,7 +6,7 @@ router.get('/:custId/:id', DishesController.getCustomerDish);
 
 router.get('/:custId', DishesController.getCustomerDishes);
 router.put('/:custId/update', DishesController.updateCustomerDish);
-router.delete('/:custId/delete', DishesController.deleteCustomerDish);
+router.post('/:custId/delete', DishesController.deleteCustomerDish);
 router.post('/:custId', DishesController.addCustomerDish);
 
 // export the router
