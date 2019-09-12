@@ -62,12 +62,27 @@ mat-form-field {
   color: var(--dark-text);
 }
 
+.list__item-details {
+  flex: 1;
+  margin: 4px 20px;
+  height: 95%;
+  display: flex;
+  align-items: flex-start;
+  flex-flow: column;
+  justify-content: center;
+}
+
+.list__item-details > ul {
+  list-style-type: none;
+  text-align: left;
+}
+
 .list__item-name {
   font-size: 1rem;
   font-weight: bold;
   flex: 2;
   text-align: left;
-  margin-left: 20px;
+  /* margin-left: 20px; */
 }
 
 .list__item-action {

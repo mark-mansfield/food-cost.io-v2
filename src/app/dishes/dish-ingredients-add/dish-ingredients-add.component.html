@@ -1,0 +1,108 @@
+<ng-container *ngIf="isLoading">
+  <app-loader></app-loader>
+</ng-container>
+
+<ng-container *ngIf="!isLoading">
+  <section class="section fadeIn">
+    <!-- header -->
+    <div class="page__title">
+      <div><h1>ingredientsList</h1></div>
+      <br /><br />
+      <button *ngIf="ingredientsList.length > 0" class="fas fa-search xlarge-icon" (click)="showSearch = true"></button>
+      <br />
+    </div>
+    <div class="main__search-container">
+      <form class="main__search-form">
+        <input
+          type="text"
+          id="dish-input-text"
+          [ngClass]="{ hidden: !showSearch, visible: showSearch }"
+          #searchinput
+          [(ngModel)]="searchTerm"
+          name="search"
+          placeholder="  search....."
+        />
+        <button [ngClass]="{ hidden: !showSearch, visible: showSearch }" (click)="search(searchTerm)">
+          Go
+        </button>
+      </form>
+    </div>
+    <br />
+    <div class="toolbar" *ngIf="!isLoading && ingredientsList.length === 0">
+      <mat-toolbar style="background: var(--accent) ;">
+        <div>
+          <h2 style="color: white;">Your have no ingredients in the system.</h2>
+        </div>
+        <div>
+          <button class="action add" [routerLink]="['/ingredients/create']">
+            <i class="material-icons" style="color: white">add</i>
+          </button>
+        </div>
+      </mat-toolbar>
+    </div>
+    <div class="toolbar" *ngIf="!searchFoundNothing && ingredientsList.length > 0">
+      <mat-toolbar>
+        <div>
+          <h2>ingredientsList {{ ingredientsList.length }}</h2>
+        </div>
+        <div>
+          <button class="action add" [routerLink]="['/dish/create']"><i class="material-icons">add</i></button>
+        </div>
+      </mat-toolbar>
+    </div>
+
+    <div class="toolbar" *ngIf="searchFoundNothing">
+      <mat-toolbar style="background: var(--accent) ;">
+        <div>
+          <h2 style="color: white;">Your search found 0 results</h2>
+        </div>
+      </mat-toolbar>
+    </div>
+
+    <!-- list -->
+    <div class="list" *ngIf="ingredientsList.length > 0">
+      <mat-divider></mat-divider>
+      <mat-list-item *ngFor="let ingredient of ingredientsList; let i = index">
+        <div class="list__item" aria-label="ingredient for selection">
+          <!-- <div *ngIf="hasImage" class="list__item-dish-icon">
+        <img
+          class="thumb"
+          src="https://lh3.googleusercontent.com/5t_U3Py2tbdEQ7aT-vC-2W2nZ9p7iBniM2bbqXcHJrATNGCOvsNWjY0dMHR8t0rdMj92C21zJzuAN18P76tbQTVKZlfXULQbY8V2ZnKTqiJ5Ool959pzCj_A8jgxe13cH7zWcX5v9CUfMDdBYyT0aeH9Ww4Fdvk3jMFPpWh3_G9P3FhFsJqRvoj5DYsKuatT7zGGO6J_WQJOCVBeWkRD52MHRpUyJ1G3-UHSh4t9PqT6tySD-vE0jQ_dYWvB1uDjL-HphOEZkGYVJ9yY6oAuu9uFVd7qRIhTNzB7qTpKD2JoJawN2fC-9aW3JlXJZbyN-nQtpBOjUzwqIfdV1xrjbLcI4UMAaxivZpoFXIq_Z3WtGWTs9wNSf4Fa-nzNZsHttVvN7H2WH2UU_zWkWybRRQgFyWs61fveSv7EwfXj4XbpzjAx17uRye5TKBtszL8kdIQI5Fdwq2WUpGUp9O3E7ghJlIvl7lRYZ8SqNEobsAXHUCDlM3foPYMu-rIokoWY8_Bctvs7Z1MHrUlDOXOYBavu7MwnW4I8WfxwB1gRTFckSPn-MGyyvxgdsaudqOpjfTb6fMnlon58wcUb16_p5oJDN8ktVYSsTQ8kp-QGZKpIJskImgqerVoqXckKxh1XjMBeB5KUGaqQH2SZP4Uic3QC=w927-h1158-no"
+          alt=""
+        />
+      </div> -->
+          <!-- <div *ngIf="!hasImage" class="list__item-dish-badge">
+        <div class="contact__badge-icon">
+          <h4>{{ badgeNames[i] }}</h4>
+        </div>
+      </div> -->
+          <div class="list__item-details">
+            <ul>
+              <li class="list__item-name">{{ ingredient.ingredient_name }}</li>
+              <li class="list__item-retail">supplier: {{ ingredient.supplier }}</li>
+              <li class="list__item-retail">price: ${{ ingredient.ingredient_price }}</li>
+            </ul>
+          </div>
+          <button
+            class="list__item-action"
+            aria-label="edit the details for this item"
+            (click)="onAddIngredient(ingredient)"
+          >
+            <i class="fa fa-plus"></i>
+          </button>
+        </div>
+
+        <mat-divider></mat-divider>
+      </mat-list-item>
+      <!-- <mat-paginator
+    class="paginator"
+    *ngIf="ingredientCount !== 0"
+    [pageSize]="postsPerPage"
+    [pageIndex]="pageIndex"
+    [length]="ingredientCount"
+    [pageSizeOptions]="[5, 10, 25]"
+    (page)="onChangedPage($event)"
+  ></mat-paginator> -->
+    </div>
+  </section>
+</ng-container>

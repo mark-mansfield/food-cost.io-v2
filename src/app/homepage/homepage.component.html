@@ -1,63 +1,65 @@
-<section class="page">
-  <div class="page__title">
-    <div><h1>Dashboard</h1></div>
-    <button (click)="testRemoveDupesAndAddNewRecords()">test de dupe / only add new records</button><br />
-    <button (click)="testOverwriteAndAddNewIngredients()">test overwrite / add new</button><br />
-    <button (click)="testHasDupes()">test has dupes</button><br />
-  </div>
-  <div class="page__cards">
-    <div class="cards__card-item">
-      <div class="card-item-info">
-        <h2>Dishes</h2>
-        <br />
-        Create a dish , add ingredients, give it a description. Then you can add it to a menu.
-      </div>
-      <h2><a [routerLink]="['/dish/create']" alt="link to add a dish">Get Started</a></h2>
+<ng-container *ngIf="!isLoading">
+  <section class="page fadeIn">
+    <div class="page__title">
+      <div><h1>Dashboard</h1></div>
+      <!-- <button (click)="testRemoveDupesAndAddNewRecords()">test de dupe / only add new records</button><br />
+      <button (click)="testOverwriteAndAddNewIngredients()">test overwrite / add new</button><br />
+      <button (click)="testHasDupes()">test has dupes</button><br /> -->
     </div>
-    <div class="cards__card-item">
-      <div class="card-item-info">
-        <h2>Ingredients</h2>
-        <br />
-        Download the import template, fill in your ingredients as per the help content, <br />
-        upload, then start using them in dishes.
+    <div class="page__cards">
+      <div class="cards__card-item">
+        <div class="card-item-info">
+          <h2>Dishes</h2>
+          <br />
+          Create a dish , add ingredients, give it a description. Then you can add it to a menu.
+        </div>
+        <h2><a [routerLink]="['/dish/create']" alt="link to add a dish">Get Started</a></h2>
       </div>
-      <h2><a [routerLink]="['/ingredients/import']" alt="link to import ingredients">Start Import</a></h2>
-    </div>
-    <div class="cards__card-item">
-      <div class="card-item-info">
-        <h2>Suppliers</h2>
-        <br />
-        Add each supplier you wish to use to manage your ingredients.
+      <div class="cards__card-item">
+        <div class="card-item-info">
+          <h2>Ingredients</h2>
+          <br />
+          Download the import template, fill in your ingredients as per the help content, <br />
+          upload, then start using them in dishes.
+        </div>
+        <h2><a [routerLink]="['/ingredients/import']" alt="link to import ingredients">Start Import</a></h2>
       </div>
-      <h2><a [routerLink]="['/suppliers/create']" alt="link to Set up your suppliers">Set up your suppliers</a></h2>
-    </div>
-    <div class="cards__card-item">
-      <div class="card-item-info">
-        <h2>Menus</h2>
-        <br />
-        Create a menu, add dishes, publish and print your menus , check your costings.
+      <div class="cards__card-item">
+        <div class="card-item-info">
+          <h2>Suppliers</h2>
+          <br />
+          Add each supplier you wish to use to manage your ingredients.
+        </div>
+        <h2><a [routerLink]="['/suppliers/create']" alt="link to Set up your suppliers">Set up your suppliers</a></h2>
       </div>
-      <h2><a [routerLink]="['/menus/create']" alt="link to add a menu">Add a menu</a></h2>
+      <div class="cards__card-item">
+        <div class="card-item-info">
+          <h2>Menus</h2>
+          <br />
+          Create a menu, add dishes, publish and print your menus , check your costings.
+        </div>
+        <h2><a [routerLink]="['/menus/create']" alt="link to add a menu">Add a menu</a></h2>
+      </div>
     </div>
-  </div>
 
-  <div class="page__progress">
-    <h2>Progress</h2>
-    <ng-container *ngIf="menus.length > 0">
-      <h3 class="category-title">Dishes</h3>
-      <div *ngFor="let dish of dishes" class="category__item">
-        <h4 class="category-title">{{ dish.name }}</h4>
-        <mat-progress-bar mode="determinate" [value]="dish.progress"></mat-progress-bar>
-      </div>
-    </ng-container>
-  </div>
-  <div class="page__progress">
-    <ng-container *ngIf="menus.length > 0">
-      <h3 class="category-title">Menus</h3>
-      <div *ngFor="let menu of menus" class="category__item">
-        <h4 class="category-title">{{ menu.menu_name }}</h4>
-        <mat-progress-bar mode="determinate" [value]="menu.progress"></mat-progress-bar>
-      </div>
-    </ng-container>
-  </div>
-</section>
+    <div class="page__progress">
+      <h2>Progress</h2>
+      <ng-container *ngIf="menus.length > 0">
+        <h3 class="category-title">Dishes</h3>
+        <div *ngFor="let dish of dishes" class="category__item">
+          <h4 class="category-title">{{ dish.name }}</h4>
+          <mat-progress-bar mode="determinate" [value]="dish.progress"></mat-progress-bar>
+        </div>
+      </ng-container>
+    </div>
+    <div class="page__progress">
+      <ng-container *ngIf="menus.length > 0">
+        <h3 class="category-title">Menus</h3>
+        <div *ngFor="let menu of menus" class="category__item">
+          <h4 class="category-title">{{ menu.menu_name }}</h4>
+          <mat-progress-bar mode="determinate" [value]="menu.progress"></mat-progress-bar>
+        </div>
+      </ng-container>
+    </div>
+  </section>
+</ng-container>

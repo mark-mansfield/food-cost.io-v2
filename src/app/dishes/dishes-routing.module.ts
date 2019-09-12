@@ -8,7 +8,7 @@ import { DishIngredientsEditComponent } from './dish-ingredients-edit/dish-ingre
 import { AuthGuard } from '../auth/auth.guard';
 // import { EditFieldComponent } from './edit-field/edit-field.component';
 import { DishIngredientsListAddComponent } from './dish-ingredients-list-add/dish-ingredients-list-add.component';
-
+import { DishIngredientsAddComponent } from "./dish-ingredients-add/dish-ingredients-add.component";
 const dishesRoutes: Routes = [
   // list all dishes
   { path: 'dishes/list', component: DishesListComponent, canActivate: [AuthGuard] },
@@ -25,6 +25,9 @@ const dishesRoutes: Routes = [
   // add ingredient to selected dish
   { path: 'dish/:_id/ingredients/add', component: DishIngredientsListAddComponent, canActivate: [AuthGuard] },
 
+  // add ingredient to selected dish
+  { path: 'dish/:_id/ingredients/add-1', component: DishIngredientsAddComponent, canActivate: [AuthGuard] },
+
   // return to edit a dish withextra param to manage state
   { path: 'dish/:mode/:showEditTools', component: DishDetailsV2Component, canActivate: [AuthGuard] }
 ];
@@ -34,4 +37,4 @@ const dishesRoutes: Routes = [
 
   exports: [RouterModule]
 })
-export class DishesRoutingModule {}
+export class DishesRoutingModule { }

@@ -26,7 +26,10 @@
       <mat-toolbar>
         <div class="item-title">Ingredients:</div>
         <div>
-          <a aria-label="add an ingredient" [routerLink]="['/dish', this.id, 'ingredients', 'add']"
+          <a aria-label="add an ingredient" [routerLink]="['/dish', this.dish.uuid, 'ingredients', 'add']"
+            ><i class="fa fa-plus"></i></a
+          >&nbsp;
+          <a aria-label="add an ingredient" [routerLink]="['/dish', this.dish.uuid, 'ingredients', 'add-1']"
             ><i class="fa fa-plus"></i
           ></a>
         </div>

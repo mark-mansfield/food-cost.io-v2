@@ -6,6 +6,9 @@ import { DishService } from '../dish.service';
 import { Dish } from '../dish.model';
 import { PageEvent } from '@angular/material/paginator';
 import { IngredientsService } from '../../ingredients/ingredients.service';
+
+
+
 @Component({
   selector: 'app-dishes-list',
   templateUrl: './dishes-list.component.html',
@@ -25,10 +28,13 @@ export class DishesListComponent implements OnInit, OnDestroy {
   isLoading = false;
   showSearch = false;
   hasImage = false;
+
+
   pageIndex = 0;
   pageSizeOptions: number[] = [5, 10, 25];
-
   postsPerPage = 5;
+
+
   private dishesSub: Subscription;
 
   constructor(
