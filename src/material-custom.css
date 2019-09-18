@@ -13,28 +13,21 @@
   cursor: pointer;
 }
 
-
 /* mat-select */
 
 .mat-select {
   padding: 8px;
   height: 50px;
-  background-color: var(--accent);
-}
-
-
-.mat-select-content, .mat-select-panel-done-animating {
-  background: #c2185b;
- color: white;
-  background-color: rgb(194, 24, 91);
 }
 
 /* mat-option */
-.mat-option.mat-option-disabled , .mat-option, .mat-option.mat-active, .mat-select-value , .mat-select-placeholder{
-  color: var(--light-text)!important;
+.mat-option.mat-option-disabled,
+.mat-option,
+.mat-option.mat-active,
+.mat-select-value,
+.mat-select-placeholder {
+  color: var(--dark-text) !important;
 }
-
-
 
 /* mat-stepper */
 
@@ -56,7 +49,6 @@
   color: var(--dark-text) !important;
 }
 
-
 .mat-horizontal-content-container {
   overflow: scroll !important;
 }
@@ -69,16 +61,14 @@
 
 /* error */
 .mat-error {
-  flex: 0!important;
-  margin: auto 10px!important;
+  flex: 0 !important;
+  margin: auto 10px !important;
 }
-
 
 /* mat-spinner */
 .mat-spinner {
   margin-top: 100px;
 }
-
 
 /* mat-card */
 .mat-card {
@@ -122,7 +112,7 @@
 .mat-cell,
 .mat-footer-cell,
 .mat-header-cell {
-  font-size: 1rem!important;
+  font-size: 1rem !important;
   text-align: left;
   width: 100px;
   min-height: inherit;
@@ -131,7 +121,7 @@
 .mat-dialog-container {
   margin-top: 20px;
   height: 84% !important;
-  background: rgb(0, 0, 0, 0.87);
+  background:#37352B!important;
 }
 
 .mat-figure {
@@ -155,11 +145,19 @@ mat-nav-list .main__dish-list-tools > div.main__dish-list-tool-item {
   justify-content: center;
 }
 
+.mat-nav-list .mat-list-item:hover {
+  background-color: var(--accent);
+}
+
 .mat-list .mat-list-item,
 .mat-nav-list .mat-list-item,
 .mat-selection-list .mat-list-item {
   color: var(--dark-text);
   padding: 0px;
+}
+
+.mat-list .mat-list-item .mat-list-item-content {
+  justify-content: space-between !important;
 }
 
 .mat-nav-list a {
@@ -197,34 +195,26 @@ mat-nav-list .main__dish-list-tools > div.main__dish-list-tool-item {
   background-color: white;
 }
 
-/* mat-button */
+/* mat-button , mat-icon-button , mat-min-fab */
 
 .mat-button,
-.mat-icon-button,
-.mat-fab.mat-accent,
-.mat-fab.mat-primary,
-.mat-fab.mat-warn,
-.mat-fab,
-.mat-flat-button.mat-accent,
-.mat-flat-button.mat-primary,
-.mat-flat-button.mat-warn,
-.mat-flat-button,
-.mat-mini-fab.mat-accent,
-.mat-mini-fab.mat-primary,
-.mat-mini-fab.mat-warn,
-.mat-mini-fab,
-.mat-raised-button.mat-accent,
-.mat-raised-button.mat-primary,
-.mat-raised-button.mat-warn,
-.mat-raised-button {
-  color: var(--light-text)!important;
-  text-decoration: none;
+.mat-icon-button {
+  color: white;
+  background: var(--accent);
   background-color: var(--accent);
 }
 
-.mat-button:hover {
-  color: var(--light-text);
+.mat-icon-button[disabled][disabled] {
+  background-color: none !important;
 }
+
+.mat-mini-fab:hover,
+.mat-button:hover,
+.mat-icon-button:hover {
+  color: white;
+  background-color: black;
+}
+
 /* disabled styles */
 .mat-button[disabled],
 .mat-fab.mat-accent[disabled],
@@ -242,8 +232,8 @@ mat-nav-list .main__dish-list-tools > div.main__dish-list-tool-item {
 .mat-raised-button.mat-accent[disabled],
 .mat-raised-button.mat-primary[disabled],
 .mat-raised-button.mat-warn[disabled],
-.mat-raised-button[disabled][disabled] {
-  background-color: #f0f0f0);
+.mat-raised-button[disabled] {
+  background-color: rgba(58, 58, 58, 0.09) !important;
 }
 
 @media (min-width: 40rem) {

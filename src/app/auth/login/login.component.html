@@ -1,15 +1,20 @@
 <main class="main">
   <section class="section fadeIn">
-    <h1>Login</h1>
-    <p>u: tester@test.com</p>
-    <p>p: 12345</p>
-    <mat-card-header>
-      <mat-card-subtitle><a>forgot / reset</a> </mat-card-subtitle>
-    </mat-card-header>
-    <mat-spinner *ngIf="isLoading"></mat-spinner>
+    <div class="header">
+      <h1>Food-cost-io</h1>
+      <span class="sub-heading"><small>(pre-alpha)</small></span>
+      <div class="flex-item">
+        <h3>Login</h3>
+        <p>u: johnnyboy@gmail.com<br />p: 123456</p>
+      </div>
+    </div>
 
-    <form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!isLoading">
-      <mat-form-field>
+    <!-- <mat-card-header>
+      <mat-card-subtitle><a>forgot / reset</a> </mat-card-subtitle>
+    </mat-card-header> -->
+
+    <form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!isLoading" class="login">
+      <mat-form-field class="input-username">
         <input
           autocomplete="user-name"
           matInput
@@ -24,8 +29,9 @@
 
         <mat-error *ngIf="emailInput.invalid">please enter a valid email</mat-error>
       </mat-form-field>
+      <br />
 
-      <mat-form-field class="input-password">
+      <mat-form-field class="">
         <input
           autocomplete="current-password"
           matInput
@@ -40,11 +46,12 @@
           required
           minlength="4"
         />
-
-        <mat-hint>min 4 characters</mat-hint>
-        <mat-error *ngIf="passwordInput.invalid">Please enter a valid password</mat-error>
       </mat-form-field>
-      <i #showHide class="far fa-eye" (click)="togglePassword()"></i> <br /><br />
+      <i #showHide class="far fa-eye" (click)="togglePassword()"></i>
+
+      <mat-hint>min 4 characters</mat-hint>
+      <mat-error *ngIf="passwordInput.invalid">Please enter a valid password</mat-error>
+      <br /><br />
       <button class="button login__section-button" mat-raised-button type="submit" *ngIf="!isLoading">Login</button>
     </form>
   </section>

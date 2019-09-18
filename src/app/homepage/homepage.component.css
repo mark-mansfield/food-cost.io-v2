@@ -10,33 +10,39 @@
   list-style-type: none;
 }
 
-.page__title {
-  margin-top: 120px;
+.heading {
+  margin: 20px;
+  margin-top: 100px;
 }
 
-.page__cards {
-  width: 99%;
+.progress-heading {
+  margin: 20px;
+}
+
+.flex-grid {
   display: flex;
   flex-flow: column;
-  margin: 10px 0;
 }
 
-.cards__card-item {
-  margin: 10px 0;
+.col {
+  /* margin: 10px 0;
   padding: 20px;
   display: flex;
   flex-flow: column;
-  justify-content: space-between;
-  background-color: azure;
+  justify-content: space-between; */
+  flex: 1;
+  margin: 10px;
+  padding: 10px;
+  background-color: rgba(244, 244, 244, 0.54);
 }
 
 .card-item-info {
-  margin: 10px 0;
+  margin: 20px;
 }
 
 .page__progress {
-  margin: 20px 0;
-  width: 99%;
+  margin: auto;
+  width: 95%;
 }
 
 .progress__category {
@@ -44,14 +50,14 @@
   flex-flow: column;
 }
 
-.category-title {
+.button-link {
   margin: 20px 0;
 }
 
 .progress__item {
   margin: 10px 0;
   padding: 20px;
-  background-color: azure;
+  background-color: #f9f9f9;
 }
 
 .category__item {
@@ -59,17 +65,34 @@
   flex-flow: column;
   margin: 10px 0;
   padding: 20px;
-  background-color: azure;
+  background-color: #f9f9f9;
 }
 
-@media (min-width: 40rem) {
+h4 {
+  margin-top: 20px;
+}
+
+@media (min-width: 70rem) {
   .page {
     margin: 100px;
   }
 
-  .cards__card-item {
-    flex-flow: row;
+  .page__progress {
+    display: flex;
     justify-content: space-between;
-    align-items: center;
+    width: 100%;
+  }
+  .progress-item {
+    display: flex;
+    flex-flow: column;
+    flex: 1;
+    margin: 20px;
+  }
+
+  .flex-grid {
+    width: 99%;
+    flex-flow: row;
+    /* flex-flow: column;
+    margin: 10px 0; */
   }
 }

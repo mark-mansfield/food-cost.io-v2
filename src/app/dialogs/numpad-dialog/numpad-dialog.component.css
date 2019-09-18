@@ -38,8 +38,8 @@
 .number__pad-button {
   flex: 1 0 30%;
   margin: 1px;
-  color: var(--light-text);
-  background: var(--blue);
+  color: var(--dark-text);
+  background: var(--blue-background);
 }
 
 .number__pad-button:hover {

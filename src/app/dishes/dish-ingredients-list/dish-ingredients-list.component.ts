@@ -8,7 +8,8 @@ import { Dish } from '../dish.model';
 import { DishIngredient } from '../dish-ingredient.model';
 import { DishService } from '../dish.service';
 import { GlobalService } from '../../global.service';
-
+// ./dish-ingredients-list.component'
+// '../../css/list-layout.css
 @Component({
   selector: 'app-dish-ingredients-list',
   templateUrl: './dish-ingredients-list.component.html',
@@ -24,13 +25,14 @@ export class DishIngredientsListComponent implements OnInit {
   public dish: Dish;
   public ingredients;
   public ingredientsList = [];
+  unitPrices = [];
   public isLoading = false;
   panelOpenState = false;
   public id: string;
   iconBadgeText = '';
   toolTipPosition = 'above';
   reviewTableDataSource: any;
-  reviewDataDisplayedColumnDefs: string[] = ['name', 'unit_price', 'qty', 'cost', 'yield', 'real_cost', 'chevron'];
+  reviewDataDisplayedColumnDefs: string[] = ['name', 'unit_price', 'qty', 'cost', 'yield', 'real_cost', 'complete', 'chevron'];
   reviewTableData = new MatTableDataSource<Dish>(this.reviewTableDataSource);
   // public dishSub: Subscription;
 
@@ -45,34 +47,20 @@ export class DishIngredientsListComponent implements OnInit {
   ngOnInit() {
     this.reviewTableDataSource = [];
     this.isLoading = true;
-    // this.id = this.route.snapshot.paramMap.get('_id');
     this.dish = this.service.getDish();
-
-
     if (this.dish) {
       this.iconBadgeText = this.globalService.getIconBadgeText(this.dish.name);
       this.ingredients = this.dish.ingredients;
+      this.dish.progress = parseInt(this.service.getDishProgress(this.dish), 10);
       this.ingredients.forEach(item => {
-        const object: DishIngredient = {
-          id: item.id,
-          name: item.name,
-          qty: item.qty,
-          cost: '',
-          unit_price: '',
-          real_cost: '',
-          AP_weight: item.AP_weight,
-          EP_weight: item.EP_weight,
-          yield: item.yield,
-          complete: item.complete
-        };
-        // because these values need to be inserted after the object is created
-        object.unit_price = this.service.getIngredientUnitCost(item.id);
-        object.cost = (parseFloat(object.unit_price) * parseFloat(object.qty)).toFixed(2);
-        object.real_cost = this.service.getIngredientActualCost(object);
-        this.reviewTableDataSource.push(object);
+        item.unit_price = this.service.getIngredientUnitCost(item.id);
+        item.cost = this.service.getIngredientCost(item.unit_price, item.qty);
+        item.yeild = this.ingredients.yeild;
+        item.real_cost = this.service.getIngredientRealCost(item);
       });
 
-      //  add the variable to the MattableDataSource.data property
+      this.service.saveLocalDishData(this.dish);
+      this.reviewTableDataSource = [...this.ingredients];
       this.reviewTableData.data = this.reviewTableDataSource;
       this.isLoading = false;
     } else {

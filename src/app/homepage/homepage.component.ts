@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Menu } from '../menus/menu.model';
 import { Dish } from '../dishes/dish.model';
@@ -24,6 +24,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
   public ingredients: Ingredient[] = [];
 
   constructor(
+    private router: Router,
     private authService: AuthService,
     public menuService: MenusService,
     public dishService: DishService,
@@ -52,6 +53,15 @@ export class HomepageComponent implements OnInit, OnDestroy {
     });
   }
 
+  onDishClicked(dish) {
+    this.dishService.saveLocalDishData(dish);
+    this.router.navigate(['/dish/edit/']);
+  }
+
+  onMenuClicked(menu) {
+    this.menuService.saveLocalMenuData(menu);
+    this.router.navigate(['/menus/' + menu.id + '/details']);
+  }
   // testOverwriteAndAddNewIngredients() {
   //   const dupedData = [
   //     {

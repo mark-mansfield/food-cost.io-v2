@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
+
+// import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+// import { ErrorStateMatcher } from '@angular/material/core';
 import { MenusService } from '../menus.service';
 import { GlobalService } from '../../global.service';
 import { Menu } from '../menu.model';
 import { Dish } from '../../dishes/dish.model';
 
 /** Error when invalid control is dirty, touched, or submitted. */
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
+// export class MyErrorStateMatcher implements ErrorStateMatcher {
+//   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+//     const isSubmitted = form && form.submitted;
+//     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+//   }
+// }
 
 @Component({
   selector: 'app-menu-details',
@@ -32,12 +33,13 @@ export class MenuDetailsComponent implements OnInit {
   showEditForm = false;
   showEditTools = false;
   selectedId;
-  nameFormControl = new FormControl('', [Validators.required]);
-  matcher = new MyErrorStateMatcher();
+  // matcher = new MyErrorStateMatcher();
   nameValue = '';
   iconBadgeText = '';
   editModeButtonText = 'edit';
   mode = null;
+
+
   constructor(
     private menuService: MenusService,
     private router: Router,
@@ -56,6 +58,8 @@ export class MenuDetailsComponent implements OnInit {
         this.iconBadgeText = this.globalService.getIconBadgeText(this.nameValue);
       }
     });
+
+
   }
 
   toggleEditMode() {
@@ -78,11 +82,11 @@ export class MenuDetailsComponent implements OnInit {
   onAddDish() {
     this.router.navigate(['/menus/' + this.selectedId + '/add-dish']);
   }
-  onDishSelected(id) {
-    const dishes = JSON.parse(localStorage.getItem('dishes'));
-    const selectedDish = dishes.filter(item => item._id === id);
-    localStorage.setItem('dish', JSON.stringify(selectedDish[0]));
-    this.router.navigate(['dish/' + id]);
+  onDishSelected(dish) {
+    // const dishes = JSON.parse(localStorage.getItem('dishes'));
+    // const selectedDish = dishes.filter(item => item._id === id);
+    localStorage.setItem('dish', JSON.stringify(dish));
+    this.router.navigate(['dish/edit/referrer/' + this.selectedId]);
   }
 
   updateNestedMenu(prop, newValue, menuId) {
@@ -95,17 +99,17 @@ export class MenuDetailsComponent implements OnInit {
     return localMenusData;
   }
 
-  onRemoveDish(dishId, menuId) {
-    console.log(menuId);
-    this.dishesOnMenu = this.dishesOnMenu.filter(item => item._id !== dishId);
-    this.menu.members = this.menu.members.filter(item => item !== dishId);
+  onRemoveDish(dishId) {
 
-    // update nested menus object
-    const localMenusData = JSON.parse(localStorage.getItem('menus'));
-    localStorage.setItem('menu', JSON.stringify(this.menu));
-    const menuDataCopy = [...localMenusData.menus];
-    const idx = menuDataCopy.findIndex(obj => obj.id === menuId);
+    const localMenusData = this.menuService.loadLocalMenusData();
+    const idx = localMenusData.menus.findIndex(obj => obj.id === this.menu.id);
+
+    this.menu.members = this.menu.members.filter(item => item !== dishId);
     localMenusData.menus[idx].members = this.menu.members;
+    this.dishesOnMenu = this.menu.members;
+    this.menuService.saveLocalMenusData(localMenusData);
+    this.menuService.saveLocalMenuData(this.menu);
+
     this.menuService.updateMenus(localMenusData);
   }
 
@@ -121,4 +125,6 @@ export class MenuDetailsComponent implements OnInit {
     this.menuService.updateMenus(newMenuDoc);
     this.menu.menu_name = this.nameValue;
   }
+
+
 }

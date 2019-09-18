@@ -41,7 +41,12 @@ mat-accordion {
 
 .section {
   width: 100vw;
+}
+
+.section__header {
+  width: 100%;
   background-color: azure;
+  padding-bottom: 20px;
 }
 
 .toolbar {
@@ -113,7 +118,6 @@ mat-accordion {
 
 .list__item-name {
   text-align: left;
-  flex: 2;
 }
 
 li {
@@ -129,24 +133,24 @@ li {
   tr.mat-row {
     height: 100px !important;
   }
+
   tr.mat-header-row {
     font-weight: 500;
   }
+
   tr.mat-row:hover {
     background-color: var(--hover-green);
     cursor: pointer;
   }
-  .mat-header-cell,
-  .mat-cell {
+  .mat-header-cell {
     font-size: inherit;
-    font-weight: 500;
     color: inherit;
   }
 
   td.mat-cell:first-of-type,
   td.mat-footer-cell:first-of-type,
   th.mat-header-cell:first-of-type {
-    padding-left: 100px !important;
+    padding-left: 0px !important;
   }
 
   td.mat-cell:last-of-type,
@@ -154,6 +158,22 @@ li {
   th.mat-header-cell:last-of-type {
     padding-right: 20px;
     text-align: right;
+    border-right: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  mat-footer-row,
+  mat-header-row,
+  mat-row,
+  td.mat-cell,
+  td.mat-footer-cell,
+  th.mat-header-cell {
+    text-align: center !important;
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .mat-cell {
+    font-size: 0.8rem !important;
+    color: inherit;
   }
 
   .section {
@@ -166,6 +186,6 @@ li {
   }
 
   .list {
-    width: 100%;
+    width: 80%;
   }
 }

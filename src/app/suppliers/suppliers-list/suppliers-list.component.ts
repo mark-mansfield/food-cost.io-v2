@@ -10,7 +10,7 @@ import { Supplier } from '../supplier.model';
 @Component({
   selector: 'app-suppliers-list',
   templateUrl: './suppliers-list.component.html',
-  styleUrls: ['./suppliers-list.component.css']
+  styleUrls: ['../../css/list-layout.css', '../../suppliers/suppliers-list/suppliers-list.component.css']
 })
 export class SuppliersListComponent implements OnInit, OnDestroy {
 

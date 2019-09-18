@@ -7,6 +7,10 @@
 
 .section {
   width: 100vw;
+}
+
+.section__header {
+  width: 100%;
   background-color: azure;
 }
 
@@ -103,10 +107,6 @@ button.add {
   margin-top: 8px;
 }
 
-button:hover {
-  color: black;
-  cursor: pointer;
-}
 .list {
   height: 100%;
   width: 100vw;
@@ -140,7 +140,7 @@ button:hover {
 .list__item {
   display: flex;
   justify-content: flex-start;
-  align-items: stretch;
+  align-items: center;
   background-color: white;
   margin: 0;
   width: 100vw;
@@ -229,7 +229,12 @@ mat-list-item {
 }
 
 .list__item-action {
-  margin: 35px 20px;
+  margin-left: 10px;
+}
+
+.list__item-action ::ng-deep .mat-button-wrapper {
+  display: flex;
+  justify-content: center;
 }
 
 button {
@@ -263,11 +268,11 @@ button {
     width: 100%;
   }
   .list {
-    width: 100%;
+    width: 70%;
   }
   .list__item {
     width: 100%;
-    margin: 20px;
+    /* margin: 20px; */
   }
 
   .list__item-action {

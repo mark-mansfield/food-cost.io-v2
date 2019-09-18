@@ -1,5 +1,5 @@
-<main class="main contact">
-  <section class="section" [class.edit-mode]="showEditTools">
+<section class="section fadeIn">
+  <div class="section__header" [class.edit-mode]="showEditTools">
     <div class="toolbar">
       <div>
         <a [routerLink]="['/suppliers/list']"><i class="fas fa-chevron-left med-icon"></i></a>
@@ -13,7 +13,7 @@
     <!-- page  title -->
     <div class="contact__badge">
       <div class="contact__badge-icon">
-        <h1>{{ iconBadgeText }}</h1>
+        <h4>{{ iconBadgeText }}</h4>
       </div>
       <div class="contact__badge-title">
         <h1>{{ supplier.supplier_name }}</h1>
@@ -21,7 +21,6 @@
       <br /><br />
       <button
         mat-mini-fab
-        class="delete"
         (click)="onDelete()"
         [class.visible]="showEditTools"
         [class.hidden]="!showEditTools"
@@ -29,165 +28,130 @@
         <i class="fas fa-minus"></i>
       </button>
     </div>
+  </div>
+  <!-- contact edit form / details -->
+  <form [formGroup]="myForm" (ngSubmit)="onSubmitForm()">
+    <div class="list">
+      <div class="list__item details">
+        <mat-list>
+          <!-- contact name -->
+          <mat-list-item>
+            <div class="list__item-name">contact name:</div>
+            <div class="list__item-value" [class.visible]="!showEditTools" [class.hidden]="showEditTools">
+              <div>{{ supplier.contact_name }}</div>
+            </div>
+          </mat-list-item>
+          <mat-list-item>
+            <div class="list__item-input-toolbar-items" [class.visible]="showEditTools" [class.hidden]="!showEditTools">
+              <input
+                (change)="this.showConfirmControls = true; onUpdateSupplier('contact_name', contactNameInput.value)"
+                type="text"
+                #contactNameInput
+                formControlName="contactName"
+                value="{{ supplier.contact_name }}"
+              />
 
-    <!-- contact edit form / details -->
-    <form [formGroup]="myForm" (ngSubmit)="onSubmitForm()">
-      <div class="list">
-        <div class="list__item details">
-          <mat-list>
-            <!-- contact name -->
-            <mat-list-item>
-              <div class="list__item-name">contact name:</div>
-              <div class="list__item-value" [class.visible]="!showEditTools" [class.hidden]="showEditTools">
-                <div>{{ supplier.contact_name }}</div>
-              </div>
-            </mat-list-item>
-            <mat-list-item>
-              <div
-                class="list__item-input-toolbar-items"
-                [class.visible]="showEditTools"
-                [class.hidden]="!showEditTools"
-              >
-                <input
-                  (change)="this.showConfirmControls = true; onUpdateSupplier('contact_name', contactNameInput.value)"
-                  type="text"
-                  #contactNameInput
-                  formControlName="contactName"
-                  value="{{ supplier.contact_name }}"
-                />
+              <mat-error *ngIf="contactName.invalid && contactName.touched" class="accent-warn">
+                Your name does not look right
+              </mat-error>
+            </div>
+          </mat-list-item>
+          <mat-divider [class.visible]="!showEditTools" [class.hidden]="showEditTools"></mat-divider>
 
-                <mat-error *ngIf="contactName.invalid && contactName.touched" class="accent-warn">
-                  Your name does not look right
-                </mat-error>
-              </div>
-            </mat-list-item>
-            <mat-divider [class.visible]="!showEditTools" [class.hidden]="showEditTools"></mat-divider>
+          <!-- contact number -->
+          <mat-list-item>
+            <div class="list__item-name">contact number:</div>
+            <div class="list__item-value" [class.visible]="!showEditTools" [class.hidden]="showEditTools">
+              <div>{{ supplier.contact_number }}</div>
+            </div>
+          </mat-list-item>
+          <mat-list-item>
+            <div class="list__item-input-toolbar-items" [class.hidden]="!showEditTools" [class.visible]="showEditTools">
+              <input
+                (change)="this.showConfirmControls = true; onUpdateSupplier('contact_number', contactNumberInput.value)"
+                type="text"
+                #contactNumberInput
+                formControlName="contactNumber"
+                value="{{ supplier.contact_number }}"
+              />
 
-            <!-- contact number -->
-            <mat-list-item>
-              <div class="list__item-name">contact number:</div>
-              <div class="list__item-value" [class.visible]="!showEditTools" [class.hidden]="showEditTools">
-                <div>{{ supplier.contact_number }}</div>
-              </div>
-            </mat-list-item>
-            <mat-list-item>
-              <div
-                class="list__item-input-toolbar-items"
-                [class.hidden]="!showEditTools"
-                [class.visible]="showEditTools"
-              >
-                <input
-                  (change)="
-                    this.showConfirmControls = true; onUpdateSupplier('contact_number', contactNumberInput.value)
-                  "
-                  type="text"
-                  #contactNumberInput
-                  formControlName="contactNumber"
-                  value="{{ supplier.contact_number }}"
-                />
+              <mat-error *ngIf="contactNumber.invalid && contactNumber.touched" class="accent-warn">
+                Your number is invalid
+              </mat-error>
+            </div>
+          </mat-list-item>
+          <mat-divider [class.visible]="!showEditTools" [class.hidden]="showEditTools"></mat-divider>
 
-                <mat-error *ngIf="contactNumber.invalid && contactNumber.touched" class="accent-warn">
-                  Your number is invalid
-                </mat-error>
-              </div>
-            </mat-list-item>
-            <mat-divider [class.visible]="!showEditTools" [class.hidden]="showEditTools"></mat-divider>
+          <!-- email address -->
+          <mat-list-item>
+            <div class="list__item-name">email address:</div>
+            <div class="list__item-value" [class.visible]="!showEditTools" [class.hidden]="showEditTools">
+              {{ supplier.contact_email }}
+            </div>
+          </mat-list-item>
+          <mat-list-item>
+            <div class="list__item-input-toolbar-items" [class.hidden]="!showEditTools" [class.visible]="showEditTools">
+              <input
+                type="text"
+                (change)="this.showConfirmControls = true; onUpdateSupplier('contact_email', contactEmail.value)"
+                #contactEmail
+                formControlName="email"
+                value="{{ supplier.contact_email }}"
+              />
 
-            <!-- email address -->
-            <mat-list-item>
-              <div class="list__item-name">email address:</div>
-              <div class="list__item-value" [class.visible]="!showEditTools" [class.hidden]="showEditTools">
-                {{ supplier.contact_email }}
-              </div>
-            </mat-list-item>
-            <mat-list-item>
-              <div
-                class="list__item-input-toolbar-items"
-                [class.hidden]="!showEditTools"
-                [class.visible]="showEditTools"
-              >
-                <input
-                  type="text"
-                  (change)="this.showConfirmControls = true; onUpdateSupplier('contact_email', contactEmail.value)"
-                  #contactEmail
-                  formControlName="email"
-                  value="{{ supplier.contact_email }}"
-                />
+              <mat-error *ngIf="email.invalid && email.touched" class="accent-warn">
+                Your email does not look right
+              </mat-error>
+            </div>
+          </mat-list-item>
+          <mat-divider [class.visible]="!showEditTools" [class.hidden]="showEditTools"></mat-divider>
 
-                <mat-error *ngIf="email.invalid && email.touched" class="accent-warn">
-                  Your email does not look right
-                </mat-error>
-              </div>
-            </mat-list-item>
-            <mat-divider [class.visible]="!showEditTools" [class.hidden]="showEditTools"></mat-divider>
+          <!-- website -->
+          <mat-list-item
+            ><div class="list__item-name">Website:</div>
+            <div class="list__item-value" [class.visible]="!showEditTools" [class.hidden]="showEditTools">
+              <a href="http://{{ supplier.website }}" target="new">{{ supplier.website }}</a>
+            </div>
+          </mat-list-item>
+          <mat-list-item>
+            <div class="list__item-input-toolbar-items" [class.hidden]="!showEditTools" [class.visible]="showEditTools">
+              <input
+                type="text"
+                (change)="this.showConfirmControls = true; onUpdateSupplier('website', websiteInputValue.value)"
+                #websiteInputValue
+                value="{{ supplier.website }}"
+              />
+            </div>
+          </mat-list-item>
+          <mat-divider [class.visible]="!showEditTools" [class.hidden]="showEditTools"></mat-divider>
 
-            <!-- website -->
-            <mat-list-item
-              ><div class="list__item-name">Website:</div>
-              <div class="list__item-value" [class.visible]="!showEditTools" [class.hidden]="showEditTools">
-                <a href="http://{{ supplier.website }}" target="new">{{ supplier.website }}</a>
-              </div>
-            </mat-list-item>
-            <mat-list-item>
-              <div
-                class="list__item-input-toolbar-items"
-                [class.hidden]="!showEditTools"
-                [class.visible]="showEditTools"
-              >
-                <input
-                  type="text"
-                  (change)="this.showConfirmControls = true; onUpdateSupplier('website', websiteInputValue.value)"
-                  #websiteInputValue
-                  value="{{ supplier.website }}"
-                />
-              </div>
-            </mat-list-item>
-            <mat-divider [class.visible]="!showEditTools" [class.hidden]="showEditTools"></mat-divider>
+          <!-- ingredient cat -->
+          <mat-list-item>
+            <div class="list__item-name">ingredient category:</div>
 
-            <!-- ingredient cat -->
-            <mat-list-item
-              ><div class="list__item-name">ingredient category:</div>
-
-              <div class="list__item-value" [class.visible]="!showEditTools" [class.hidden]="showEditTools">
-                {{ supplier.ingredient_cat }}
-              </div>
-            </mat-list-item>
-            <mat-list-item>
-              <div
-                class="list__item-input-toolbar-items"
-                [class.hidden]="!showEditTools"
-                [class.visible]="showEditTools"
-              >
-                <input
-                  type="text"
-                  (change)="
-                    this.showConfirmControls = true; onUpdateSupplier('ingredient_cat', ingredientCatInput.value)
-                  "
-                  #ingredientCatInput
-                  value="{{ supplier.ingredient_cat }}"
-                />
-              </div>
-            </mat-list-item>
-            <mat-divider [class.visible]="!showEditTools" [class.hidden]="showEditTools"></mat-divider>
-            <mat-action-row [class.visible]="showConfirmControls" [class.hidden]="!showConfirmControls">
-              <mat-toolbar class="form-controls-toolbar">
-                <mat-checkbox formControlName="agree" color="accent">Are these details correct?</mat-checkbox>
-                <button mat-button [disabled]="myForm.invalid">save</button>
-              </mat-toolbar>
-            </mat-action-row>
-          </mat-list>
-        </div>
+            <div class="list__item-value" [class.visible]="!showEditTools" [class.hidden]="showEditTools">
+              {{ supplier.ingredient_cat }}
+            </div>
+          </mat-list-item>
+          <mat-list-item>
+            <div class="list__item-input-toolbar-items" [class.hidden]="!showEditTools" [class.visible]="showEditTools">
+              <input
+                type="text"
+                (change)="this.showConfirmControls = true; onUpdateSupplier('ingredient_cat', ingredientCatInput.value)"
+                #ingredientCatInput
+                value="{{ supplier.ingredient_cat }}"
+              />
+            </div>
+          </mat-list-item>
+          <mat-divider [class.visible]="!showEditTools" [class.hidden]="showEditTools"></mat-divider>
+          <mat-action-row [class.visible]="showConfirmControls" [class.hidden]="!showConfirmControls">
+            <mat-toolbar class="form-controls-toolbar">
+              <mat-checkbox formControlName="agree" color="accent">Are these details correct?</mat-checkbox>
+              <button mat-button [disabled]="myForm.invalid">save</button>
+            </mat-toolbar>
+          </mat-action-row>
+        </mat-list>
       </div>
-    </form>
-  </section>
-</main>
-<!-- <div class="list__item-edit-tools" [class.visible]="showEditTools" [class.hidden]="!showEditTools">
-                <div
-                  class="tool-item"
-                  (click)="toggleInputVisibility('show_contact_name_input')"
-                  [class.hidden]="show_contact_name_input"
-                  [class.visible]="!show_contact_name_input"
-                >
-                  <i class="fas fa-pen sml-icon"></i>
-                </div>
-              </div> -->
+    </div>
+  </form>
+</section>

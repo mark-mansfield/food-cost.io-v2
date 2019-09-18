@@ -22,10 +22,12 @@ function validQuantity(c: AbstractControl) {
   return c.value > 0 ? null : { validQuantity: { valid: true } };
 }
 
+
+// ../../suppliers/supplier-details/supplier-details.component.css
 @Component({
   selector: 'app-dish-ingredients-edit',
   templateUrl: './dish-ingredients-edit.component.html',
-  styleUrls: ['../../suppliers/supplier-details/supplier-details.component.css']
+  styleUrls: ['./dish-ingredients-edit.component.css']
 })
 export class DishIngredientsEditComponent implements OnInit {
   isHandset$: Observable<boolean> = this.breakpointObserver
@@ -55,7 +57,7 @@ export class DishIngredientsEditComponent implements OnInit {
     private route: ActivatedRoute,
     private breakpointObserver: BreakpointObserver,
     public dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit() {
     // because a manual page reload removes the param from the http request
@@ -98,13 +100,15 @@ export class DishIngredientsEditComponent implements OnInit {
   }
 
   onSubmitForm() {
-   this.dish.ingredients.forEach((item, index) => {
+    this.service.getIngredientCost(this.ingredient.unit_price, this.ingredient.qty);
+    this.ingredient.yield = this.service.getIngredientYield(this.ingredient);
+    this.dish.ingredients.forEach((item, index) => {
       if (item.name === this.ingredientName) {
         this.dish.ingredients[index] = this.ingredient;
+        this.service.updateDishIngredients(this.dish);
       }
     });
-    // this.dish.ingredients = this.ingredientsList;
-    this.service.updateDish(this.dish);
+
   }
 
   onUpdateIngredientProp(prop, value) {

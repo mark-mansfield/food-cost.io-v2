@@ -73,12 +73,13 @@ export class MenusService {
   }
 
 
+
   updateMenus(menu: Menu) {
-    console.log(menu);
+
     const customer = this.globals.getCustomer();
     this.http.put<{ message: string }>(BACKEND_URL + '/' + customer.id, menu).subscribe(response => {
       this.menusDoc = menu;
-      localStorage.setItem('menus', JSON.stringify(this.menusDoc));
+      this.saveLocalMenusData(this.menusDoc);
       this.menusUpdated.next([...this.menusDoc.menus]);
       this.openSnackBar(response.message);
     });
@@ -86,7 +87,7 @@ export class MenusService {
 
   addMenu(menuName: string) {
     const customer = this.globals.getCustomer();
-    this.menusDoc = JSON.parse(localStorage.getItem('Menus'));
+    this.menusDoc = JSON.parse(localStorage.getItem('menus'));
     const obj = {
       menu_name: menuName.toLocaleLowerCase(),
       id: uuid(),
@@ -141,39 +142,32 @@ export class MenusService {
 
   getDishesOnMenu(arr) {
     const dishes = this.dishService.getDishesData();
-    console.log(dishes);
     if (dishes === null) {
       return [];
     } else {
-      console.log(dishes);
       const filteredDishes = [];
       arr.forEach(item => {
-        dishes.forEach(dishItem => {
-          if (dishItem._id === item) {
-            filteredDishes.push(dishItem);
-          }
-        });
+        filteredDishes.push(dishes.find(element => element.uuid === item));
       });
-
       return filteredDishes;
     }
   }
 
   saveLocalMenusData(data) {
-    localStorage.setItem('Menus', JSON.stringify(data));
+    localStorage.setItem('menus', JSON.stringify(data));
   }
 
   // so we can access a selected Menu without going to the server again
   saveLocalMenuData(data) {
-    localStorage.setItem('Menu', JSON.stringify(data));
+    localStorage.setItem('menu', JSON.stringify(data));
   }
 
   loadLocalMenuData() {
-    return JSON.parse(localStorage.getItem('Menu'));
+    return JSON.parse(localStorage.getItem('menu'));
   }
 
   loadLocalMenusData() {
-    return JSON.parse(localStorage.getItem('Menus'));
+    return JSON.parse(localStorage.getItem('menus'));
   }
 
 

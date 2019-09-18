@@ -1,16 +1,17 @@
 <main class="main">
   <section class="section fadeIn">
-    <div class="spinner"><mat-spinner *ngIf="isLoading"></mat-spinner></div>
+    <div class="section__header">
+      <div class="spinner"><mat-spinner *ngIf="isLoading"></mat-spinner></div>
 
-    <div class="toolbar">
-      <div class="back-button">
-        <a [routerLink]="['/suppliers/list']"><i class="fas fa-chevron-left med-icon"></i></a>
+      <div class="toolbar">
+        <div class="back-button">
+          <a [routerLink]="['/suppliers/list']"><i class="fas fa-chevron-left med-icon"></i></a>
+        </div>
       </div>
+
+      <!-- page  title -->
+      <div class="main__title"><h1>Create Supplier</h1></div>
     </div>
-
-    <!-- page  title -->
-    <div class="main__title"><h1>Create Supplier</h1></div>
-
     <mat-toolbar>
       <div><h2>Supplier Details</h2></div>
     </mat-toolbar>
@@ -79,8 +80,12 @@
             />
           </mat-form-field>
 
-          <mat-action-row *ngIf="myForm.status === 'VALID'">
-            <mat-toolbar class="form-controls-toolbar">
+          <mat-action-row [class.visible]="this.myForm.valid" [class.hidden]="!this.myForm.valid">
+            <mat-toolbar
+              class="form-controls-toolbar"
+              [class.visible]="this.myForm.valid"
+              [class.hidden]="!this.myForm.valid"
+            >
               <mat-checkbox formControlName="agree" (change)="toggleSubmitDisabled()" color="accent"
                 >Are these details correct?</mat-checkbox
               >

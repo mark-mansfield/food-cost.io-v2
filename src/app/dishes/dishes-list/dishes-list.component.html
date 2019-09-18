@@ -7,36 +7,38 @@
     <!-- <div class="toolbar">
       <a [routerLink]="['/dish/create']"><i class="fas fa-plus sml-icon"></i></a>
     </div> -->
-    <div class="page__title">
-      <div><h1>Dishes</h1></div>
-      <br /><br />
-      <button *ngIf="dishes.length > 0" class="fas fa-search xlarge-icon" (click)="showSearch = true"></button> <br />
+    <div class="section__header">
+      <div class="page__title">
+        <div><h1>Dishes</h1></div>
+        <br /><br />
+        <button *ngIf="dishes.length > 0" class="fas fa-search xlarge-icon" (click)="showSearch = true"></button> <br />
+      </div>
+      <div class="main__search-container">
+        <form class="main__search-form">
+          <input
+            type="text"
+            id="dish-input-text"
+            [ngClass]="{ hidden: !showSearch, visible: showSearch }"
+            #searchinput
+            [(ngModel)]="searchTerm"
+            name="search"
+            placeholder="  search....."
+          />
+          <button [ngClass]="{ hidden: !showSearch, visible: showSearch }" (click)="search(searchTerm)">
+            Go
+          </button>
+        </form>
+      </div>
     </div>
-    <div class="main__search-container">
-      <form class="main__search-form">
-        <input
-          type="text"
-          id="dish-input-text"
-          [ngClass]="{ hidden: !showSearch, visible: showSearch }"
-          #searchinput
-          [(ngModel)]="searchTerm"
-          name="search"
-          placeholder="  search....."
-        />
-        <button [ngClass]="{ hidden: !showSearch, visible: showSearch }" (click)="search(searchTerm)">
-          Go
-        </button>
-      </form>
-    </div>
-    <br />
+
     <div class="toolbar" *ngIf="!isLoading && dishes.length === 0">
       <mat-toolbar style="background: var(--accent) ;">
         <div>
           <h2 style="color: white;">Your have no dishes in the system.</h2>
         </div>
         <div>
-          <button class="action add" [routerLink]="['/dish/create']">
-            <i class="material-icons" style="color: white">add</i>
+          <button class="action add" mat-mini-fab [routerLink]="['/dish/create']">
+            <mat-icon>add</mat-icon>
           </button>
         </div>
       </mat-toolbar>
@@ -47,7 +49,7 @@
           <h2>Dishes {{ dishCount }}</h2>
         </div>
         <div>
-          <button class="action add" [routerLink]="['/dish/create']"><i class="material-icons">add</i></button>
+          <button class="action add" mat-mini-fab [routerLink]="['/dish/create']"><mat-icon>add</mat-icon></button>
         </div>
       </mat-toolbar>
     </div>
@@ -74,15 +76,20 @@
             />
           </div>
           <div *ngIf="!hasImage" class="list__item-dish-badge">
-            <div class="contact__badge-icon">
+            <div>
               <h4>{{ badgeNames[i] }}</h4>
             </div>
           </div>
           <div class="list__item-details">
             <li class="list__item-name">{{ dish.name }}</li>
             <li class="list__item-retail">Retail: ${{ dish.retail_price }}</li>
-            <li class="list__item-margin">Margin: 12%</li>
-            <li class="list__item-status status-incomplete">Status: incomplete</li>
+            <li class="list__item-margin">Margin: {{ dish.margin }}</li>
+            <li *ngIf="dish.progress === 100" class="list__item-status ">
+              Status: <span class="status-complete">complete</span>
+            </li>
+            <li *ngIf="dish.progress !== 100" class="list__item-status ">
+              Status: <span class="status-incomplete">incomplete</span>
+            </li>
           </div>
           <button class="list__item-action" aria-label="edit the details for this dish" (click)="saveDishToLocal(dish)">
             <i class="fas fa-chevron-right"></i>

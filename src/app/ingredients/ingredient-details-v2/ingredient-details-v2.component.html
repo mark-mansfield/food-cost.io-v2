@@ -1,21 +1,26 @@
-<main class="main contact">
-  <section class="section" [class.edit-mode]="showEditTools">
-    <div class="toolbar">
-      <div>
-        <a [routerLink]="['/ingredients/list']"><i class="fas fa-chevron-left med-icon"></i></a>
-      </div>
-      <ng-container *ngIf="!createMode">
-        <div>
-          <a (click)="toggleEditMode()" [class.visible]="showEditTools" [class.hidden]="!showEditTools">cancel</a>
-        </div>
-        <div>
-          <a (click)="toggleEditMode()" [class.visible]="!showEditTools" [class.hidden]="showEditTools">Edit</a>
-        </div>
-      </ng-container>
-    </div>
+<ng-container *ngIf="isLoading">
+  <app-loader></app-loader>
+</ng-container>
 
-    <!-- ingredient create -->
-    <ng-container>
+<ng-container *ngIf="!isLoading">
+  <section class="section fadeIn">
+    <div class="section__header" [class.edit-mode]="showEditTools">
+      <div class="toolbar">
+        <div>
+          <a [routerLink]="['/ingredients/list']"><i class="fas fa-chevron-left med-icon"></i></a>
+        </div>
+        <ng-container *ngIf="!createMode">
+          <div>
+            <a (click)="toggleEditMode()" [class.visible]="showEditTools" [class.hidden]="!showEditTools">cancel</a>
+          </div>
+          <div>
+            <a (click)="toggleEditMode()" [class.visible]="!showEditTools" [class.hidden]="showEditTools">Edit</a>
+          </div>
+        </ng-container>
+      </div>
+
+      <!-- ingredient create -->
+
       <div *ngIf="!createMode" class="contact__badge">
         <div class="contact__badge-icon">
           <h3>{{ iconBadgeText }}</h3>
@@ -25,7 +30,6 @@
         </div>
         <button
           mat-mini-fab
-          class="delete"
           (click)="onRemoveIngredient()"
           [class.visible]="showEditTools"
           [class.hidden]="!showEditTools"
@@ -34,7 +38,8 @@
         </button>
       </div>
       <h1 *ngIf="createMode">New Ingredient</h1>
-
+    </div>
+    <ng-container>
       <form [formGroup]="myForm" (ngSubmit)="onSubmitform()" style="margin-top: 50px;">
         <div class="list">
           <div class="list__item details">
@@ -106,7 +111,7 @@
                 [class.hidden]="!showEditTools || !createMode"
                 [class.visible]="showEditTools || createMode"
               >
-                <input
+                <!-- <input
                   *ngIf="isHandset$ | async"
                   (change)="
                     this.showConfirmControls = true; onUpdateIngredient('ingredientPrice', ingredientPriceInput.value)
@@ -116,8 +121,9 @@
                   #ingredientPriceInput
                   formControlName="ingredientPrice"
                   value=""
-                />
-                <div *ngIf="!(isHandset$ | async)" class="space-between">
+                /> -->
+                <!-- <div *ngIf="!(isHandset$ | async)" class="space-between"> -->
+                <div class="space-between" style="display:flex">
                   <input
                     (change)="
                       this.showConfirmControls = true; onUpdateIngredient('ingredientPrice', ingredientPriceInput.value)
@@ -318,7 +324,7 @@
                 [class.hidden]="!showEditTools || !createMode"
                 [class.visible]="showEditTools || createMode"
               >
-                <input
+                <!-- <input
                   *ngIf="isHandset$ | async"
                   (change)="this.showConfirmControls = true; onUpdateIngredient('unitAmount', unitAmountInput.value)"
                   inputmode="decimal"
@@ -327,7 +333,8 @@
                   formControlName="unitAmount"
                   value=""
                 />
-                <div *ngIf="!(isHandset$ | async)" class="space-between">
+                <div *ngIf="!(isHandset$ | async)" class="space-between"> -->
+                <div class="space-between" style="display:flex">
                   <input
                     disabled
                     type="text"
@@ -360,7 +367,7 @@
                 </h3>
               </div>
               <div class="list__item-value">
-                {{ ingredient.unit_cost }}
+                {{ ingredient.unit_cost.toFixed(2) }}
               </div>
             </div>
             <mat-divider *ngIf="!createMode && !showEditTools"></mat-divider>
@@ -380,4 +387,4 @@
       </form>
     </ng-container>
   </section>
-</main>
+</ng-container>

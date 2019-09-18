@@ -1,65 +1,73 @@
-<ng-container *ngIf="!isLoading">
+<ng-container>
   <section class="page fadeIn">
-    <div class="page__title">
+    <div class="heading">
       <div><h1>Dashboard</h1></div>
       <!-- <button (click)="testRemoveDupesAndAddNewRecords()">test de dupe / only add new records</button><br />
       <button (click)="testOverwriteAndAddNewIngredients()">test overwrite / add new</button><br />
       <button (click)="testHasDupes()">test has dupes</button><br /> -->
     </div>
-    <div class="page__cards">
-      <div class="cards__card-item">
+    <div class="flex-grid">
+      <div class="col">
         <div class="card-item-info">
-          <h2>Dishes</h2>
+          <h4>Dishes</h4>
           <br />
           Create a dish , add ingredients, give it a description. Then you can add it to a menu.
+          <h4><a [routerLink]="['/dish/create']" alt="link to add a dish">Get Started</a></h4>
         </div>
-        <h2><a [routerLink]="['/dish/create']" alt="link to add a dish">Get Started</a></h2>
       </div>
-      <div class="cards__card-item">
+      <div class="col">
         <div class="card-item-info">
-          <h2>Ingredients</h2>
+          <h4>Ingredients</h4>
           <br />
           Download the import template, fill in your ingredients as per the help content, <br />
           upload, then start using them in dishes.
+          <h4><a alt="link to import spreadsheet template">Download template</a></h4>
+          <h4><a [routerLink]="['/ingredients/import']" alt="link to import ingredients">Start Import</a></h4>
         </div>
-        <h2><a [routerLink]="['/ingredients/import']" alt="link to import ingredients">Start Import</a></h2>
       </div>
-      <div class="cards__card-item">
+      <div class="col">
         <div class="card-item-info">
-          <h2>Suppliers</h2>
+          <h4>Suppliers</h4>
           <br />
           Add each supplier you wish to use to manage your ingredients.
+          <h4><a [routerLink]="['/suppliers/create']" alt="link to Set up your suppliers">Set up your suppliers</a></h4>
         </div>
-        <h2><a [routerLink]="['/suppliers/create']" alt="link to Set up your suppliers">Set up your suppliers</a></h2>
       </div>
-      <div class="cards__card-item">
+      <div class="col">
         <div class="card-item-info">
-          <h2>Menus</h2>
+          <h4>Menus</h4>
           <br />
           Create a menu, add dishes, publish and print your menus , check your costings.
+          <h4><a [routerLink]="['/menus/create']" alt="link to add a menu">Add a menu</a></h4>
         </div>
-        <h2><a [routerLink]="['/menus/create']" alt="link to add a menu">Add a menu</a></h2>
       </div>
     </div>
 
-    <div class="page__progress">
-      <h2>Progress</h2>
-      <ng-container *ngIf="menus.length > 0">
-        <h3 class="category-title">Dishes</h3>
+    <div class="page__progress heading">
+      <div *ngIf="dishes.length > 0" class="progress-item">
+        <h1 class="progress-heading">Dishes</h1>
+        <small class="progress-heading">in progress</small>
         <div *ngFor="let dish of dishes" class="category__item">
-          <h4 class="category-title">{{ dish.name }}</h4>
+          <div class="button-link">
+            <button mat-button (click)="onDishClicked(dish)" alt="link to dish" title="link to this dish">
+              {{ dish.name }}
+            </button>
+          </div>
           <mat-progress-bar mode="determinate" [value]="dish.progress"></mat-progress-bar>
         </div>
-      </ng-container>
-    </div>
-    <div class="page__progress">
-      <ng-container *ngIf="menus.length > 0">
-        <h3 class="category-title">Menus</h3>
+      </div>
+      <div *ngIf="menus.length > 0" class="progress-item">
+        <h1 class="progress-heading">Menus</h1>
+        <small class="progress-heading">in progress</small>
         <div *ngFor="let menu of menus" class="category__item">
-          <h4 class="category-title">{{ menu.menu_name }}</h4>
+          <div class="button-link">
+            <button mat-button (click)="onMenuClicked(menu)" alt="link to menu" title="link to this menu">
+              {{ menu.menu_name }}
+            </button>
+          </div>
           <mat-progress-bar mode="determinate" [value]="menu.progress"></mat-progress-bar>
         </div>
-      </ng-container>
+      </div>
     </div>
   </section>
 </ng-container>

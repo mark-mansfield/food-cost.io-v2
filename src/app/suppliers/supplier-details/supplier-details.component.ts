@@ -113,6 +113,7 @@ export class SupplierDetailsComponent implements OnInit {
 
   onUpdateSupplier(prop, value) {
     this.supplier[prop] = value;
+    console.log(this.supplier)
   }
 
   onDelete() {
@@ -123,16 +124,7 @@ export class SupplierDetailsComponent implements OnInit {
   }
 
   onSubmitForm() {
-    this.supplier = {
-      supplier_name: this.supplier.supplier_name,
-      contact_name: this.myForm.get('contactName').value,
-      contact_email: this.myForm.get('email').value,
-      id: this.supplier.id,
-      contact_number: this.myForm.get('contactNumber').value,
-      website: this.myForm.get('website').value,
-      products: [],
-      ingredient_cat: ''
-    };
+
     this.service.updateSuppliers(this.supplier);
   }
 }

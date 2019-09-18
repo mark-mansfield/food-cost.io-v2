@@ -9,11 +9,12 @@ import { Dish } from '../dish.model';
 import { GlobalService } from '../../global.service';
 import { DishService } from '../dish.service';
 import { NumpadDialogComponent } from '../../dialogs/numpad-dialog/numpad-dialog.component';
-
+// '../../suppliers/supplier-details/supplier-details.component.css'
+// '../../css/list-layout.css'
 @Component({
   selector: 'app-dish-details-v2',
   templateUrl: './dish-details-v2.component.html',
-  styleUrls: ['../../suppliers/supplier-details/supplier-details.component.css']
+  styleUrls: ['./dish-details-v2.component.css']
 })
 export class DishDetailsV2Component implements OnInit, OnDestroy {
 
@@ -22,7 +23,7 @@ export class DishDetailsV2Component implements OnInit, OnDestroy {
     .observe(Breakpoints.Handset)
     .pipe(map(result => result.matches));
 
-
+  referrerId = null;
   public dish: Dish;
   isDuplicate = false;
   submitButtonDisabled = true;
@@ -55,12 +56,34 @@ export class DishDetailsV2Component implements OnInit, OnDestroy {
         if (params.showEditTools) {
           this.toggleEditMode();
         }
+
+        // because our back button conditonally needs to link to our menus module sub component via menuId
+        if (params.menuId) {
+          this.referrerId = params.menuId;
+
+        }
         this.myForm = this.initEditMode();
         this.iconBadgeText = this.globalService.getIconBadgeText(this.dish.name);
       }
       if (params.mode === 'create') {
         this.createMode = true;
-        this.myForm = this.initCreateModeForm();
+        this.dish = {
+          customerId: '',
+          _id: null,
+          name: '',
+          uuid: this.dishService.makeUUID(),
+          ingredients: [],
+          retail_price: '0.00',
+          cost: '0.00',
+          margin: '0',
+          description: 'not set',
+          recipe_method: 'not set',
+          plating_guide: 'not set',
+          progress: 0
+
+        };
+        this.dishService.saveLocalDishData(this.dish);
+        this.myForm = this.initCreateModeForm(this.dish);
       }
     });
   }
@@ -68,34 +91,24 @@ export class DishDetailsV2Component implements OnInit, OnDestroy {
   initEditMode() {
     // when returning to this component in edit mode
     this.dish = JSON.parse(localStorage.getItem('dish'));
+
+    this.dish.progress = parseInt(this.dishService.getDishProgress(this.dish), 10);
+    this.dish.cost = this.dishService.getIngredientsTotal(this.dish);
+    this.dish.margin = this.dishService.getMargin(this.dish);
     return this.fb.group({
       dishName: [this.dish.name, [Validators.required]],
       retail_price: [this.dish.retail_price, [Validators.required]],
       description: [this.dish.description],
       recipe_method: [this.dish.recipe_method],
       plating_guide: [this.dish.plating_guide],
-      progress: [this.dish.progress]
+      progress: [this.dishService.getDishProgress(this.dish)]
     });
 
 
   }
 
-  initCreateModeForm() {
-    this.dish = {
-      customerId: '',
-      _id: 'null',
-      name: name,
-      uuid: this.dishService.makeUUID(),
-      ingredients: [],
-      retail_price: '0.00',
-      cost: '0.00',
-      margin: '0',
-      description: 'not set',
-      recipe_method: 'not set',
-      plating_guide: 'not set',
-      progress: 0
+  initCreateModeForm(dish) {
 
-    };
     return this.fb.group({
       dishName: [null, [Validators.required]],
       retail_price: [this.dish.retail_price, [Validators.required]],
@@ -134,11 +147,12 @@ export class DishDetailsV2Component implements OnInit, OnDestroy {
           this.dish.retail_price = null;
           this.invalidRetailPrice = true;
           this.onUpdateDish('retail_price', null);
+          this.dish.margin = result;
         } else {
           this.invalidRetailPrice = false;
-        }
+          this.onUpdateDish('retail_price', result);
 
-        this.onUpdateDish('retail_price', result);
+        }
       }
       // if (prop === 'unit_amount') {
       //   this.onUpdateIngredient('unitAmount', result);
@@ -156,7 +170,8 @@ export class DishDetailsV2Component implements OnInit, OnDestroy {
   }
 
   onUpdateDish(prop, value) {
-    // because some formcontrol names are Camel Cased and object props are underscored if more than one word
+    console.log(value);
+    // because some form control names are Camel Cased and object props are underscored if more than one word
     switch (prop) {
       case 'dishName':
         this.dish.name = value;
@@ -166,6 +181,7 @@ export class DishDetailsV2Component implements OnInit, OnDestroy {
         break;
       case 'retail_price':
         this.dish.retail_price = value;
+        this.dish.margin = this.dishService.getMargin(this.dish);
         break;
       case 'cost':
         this.dish.cost = value;

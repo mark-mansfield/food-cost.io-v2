@@ -1,8 +1,3 @@
-.section {
-  width: 100vw;
-  background-color: azure;
-}
-
 .toolbar {
   display: flex;
   justify-content: flex-end;
@@ -42,7 +37,7 @@
 }
 
 .main__search-form {
-  width: 100%;
+  width: 70%;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -93,7 +88,7 @@ button {
   display: flex;
 }
 
-.list {
+/* .list {
   height: 100%;
   width: 100vw;
   background-color: white;
@@ -101,18 +96,27 @@ button {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
+} */
 
 .list__item {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 80px;
-  width: 100vw;
+  width: 100%;
+}
+
+.contact__badge-container {
+  margin: 20px;
 }
 
 .list__item-details {
-  width: 152px;
+  flex: 1;
+  margin: 4px 20px;
+  display: flex;
+  align-items: flex-start;
+  flex-flow: column;
+  justify-content: center;
+  max-width: 100px;
 }
 
 .list__item-details > li {
@@ -127,10 +131,10 @@ button {
   font-weight: bold;
 }
 
-mat-list-item {
+/* mat-list-item {
   height: auto !important;
   width: 100% !important;
-}
+} */
 
 @media (min-width: 40rem) {
   .section {
@@ -141,31 +145,16 @@ mat-list-item {
     width: 100%;
   }
 
-  .list {
-    width: 100%;
-  }
-
-  .list__item {
-    justify-content: flex-start;
-    width: 100%;
-    height: 100px;
-    margin: 5px 0px;
-  }
-
-  .list .contact__badge-container {
-    margin-left: 20px;
-    flex: 1;
-  }
-  .list .list__item-details {
-    flex: 5;
-  }
-
   .list .list__item-action {
     width: 50px;
     text-align: right;
     margin-right: 20px;
   }
 
+  .list__item-details {
+    width: 60%;
+    max-width: 60%;
+  }
   .contact__badge-icon {
     width: 70px;
     height: 70px;

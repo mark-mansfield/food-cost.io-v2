@@ -4,30 +4,71 @@ mat-form-field {
   margin-right: 20px;
 }
 
-.mat-list-item {
-  height: auto !important;
-  width: 100% !important;
-}
-
 .paginator {
   width: 100%;
 }
 
+.section__header {
+  width: 100%;
+  background-color: azure;
+  padding-bottom: 20px;
+}
+
 .section {
   width: 100vw;
-  background-color: azure;
+}
+
+.edit-mode {
+  background-color: #2e2b2b;
 }
 
 .toolbar {
   display: flex;
   justify-content: flex-end;
   width: 100vw;
+  align-items: center;
+}
+
+.toolbar > div {
+  margin: 20px;
+}
+
+.contact__badge {
+  margin: 20px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact__badge-icon {
+  width: 80px;
+  height: 80px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(225, 225, 225, 0.87);
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+}
+
+.contact__badge-title {
+  margin-top: 10px;
 }
 
 .toolbar > a {
   margin: 20px;
   background-color: transparent;
   color: var(--dark-text);
+}
+
+.toolbar > div.back-button {
+  flex: 2;
+  display: flex;
+  justify-content: flex-start;
+  margin: 20px;
+  align-items: center;
 }
 
 .mat-toolbar-single-row {
@@ -42,6 +83,29 @@ mat-form-field {
   margin: 20px 0px;
 }
 
+.page__title-badge-icon {
+  width: 80px;
+  height: 80px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(225, 225, 225, 0.87);
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+}
+
+.page__title-toolbar {
+  display: flex;
+  justify-content: center;
+}
+
+.page__title-toolbar-label,
+.page__title-toolbar-button {
+  margin: 10px;
+}
+
 .list {
   height: 100%;
   width: 100vw;
@@ -53,19 +117,49 @@ mat-form-field {
 }
 
 .list__item {
+  width: 95%;
+}
+
+.list__item-item {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
-  height: 100px;
-  width: 100vw;
-  font-size: small;
-  color: var(--dark-text);
+  margin: 0 20px;
+}
+
+.list__item-content {
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+}
+
+.list__item-name {
+  text-align: left;
+}
+
+.list__item-name-description {
+  display: flex;
+  flex: 2;
+  flex-flow: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 20px 0;
+  text-align: start;
+}
+
+.list__item-value {
+  display: flex;
+  font-size: var(--default-text-size);
+  text-align: right;
+}
+
+.list__item-action {
+  margin: 35px 20px;
 }
 
 .list__item-details {
   flex: 1;
   margin: 4px 20px;
-  height: 95%;
   display: flex;
   align-items: flex-start;
   flex-flow: column;
@@ -77,16 +171,82 @@ mat-form-field {
   text-align: left;
 }
 
-.list__item-name {
-  font-size: 1rem;
-  font-weight: bold;
-  flex: 2;
+.list__item-input {
+  font-size: small;
   text-align: left;
-  /* margin-left: 20px; */
+  width: 25%;
 }
 
-.list__item-action {
-  margin: 35px 20px;
+.list__item-input-toolbar {
+  display: flex;
+  flex-direction: column;
+}
+
+.list__item-input-toolbar-items {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.list__item-input-toolbar-items > button {
+  margin-left: 20px;
+  width: 80px;
+}
+
+.tool-item {
+  width: 30px;
+  height: 30px;
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+  color: var(--dark-text);
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tool-item:hover {
+  background-color: var(--blue);
+  color: white;
+}
+
+.delete {
+  background-color: var(--dark-text);
+  color: white;
+}
+
+.mat-list-item {
+  height: auto !important;
+  width: 100% !important;
+}
+
+mat-error {
+  color: var(mat-error);
+  margin: auto;
+  flex: 1;
+}
+mat-action-row {
+  display: flex;
+}
+
+input,
+.mat-select {
+  color: var(--dark-text) !important;
+  border: 1px solid rgb(235, 230, 230);
+  padding: 10px;
+  text-align: left;
+  flex: 1;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+  border: 1px solid gray;
+  padding: 10px;
+  font-size: 1rem;
 }
 
 .main__search-container {
@@ -121,39 +281,102 @@ mat-form-field {
 }
 
 button {
+  display: flex;
+  justify-content: center;
+  text-align: center !important;
   color: var(--dark-text);
   background-color: transparent;
 }
 
-button:hover {
-  color: black;
-  cursor: pointer;
+form {
+  width: 100%;
 }
 
-/* toggle display */
-
-.hidden {
-  display: none;
-}
-
-.visible {
-  display: flex;
-}
 /* ipad pro and larger breakpoint 40 x 16 px */
 @media (min-width: 40rem) {
-  .section {
+  table {
     width: 100%;
   }
 
+  tr.mat-header-row,
+  tr.mat-row {
+    height: 100px !important;
+  }
+  tr.mat-header-row {
+    font-weight: 500;
+  }
+  tr.mat-row:hover {
+    background-color: var(--hover-green);
+    cursor: pointer;
+  }
+  .mat-header-cell,
+  .mat-cell {
+    font-size: inherit;
+    font-weight: 500;
+    color: inherit;
+  }
+
+  td.mat-cell:first-of-type,
+  td.mat-footer-cell:first-of-type,
+  th.mat-header-cell:first-of-type {
+    padding-left: 100px !important;
+  }
+
+  td.mat-cell:last-of-type,
+  td.mat-footer-cell:last-of-type,
+  th.mat-header-cell:last-of-type {
+    padding-right: 20px;
+    text-align: right;
+  }
+
+  .section {
+    width: 100%;
+  }
+  .main__search-form {
+    width: 70%;
+  }
   .toolbar {
     display: flex;
     justify-content: space-evenly;
     width: 100%;
   }
-  .list {
+
+  .space-between {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: grey;
+  }
+
+  .launch-numpad {
+    margin: auto 20px;
+  }
+
+  .list__item-input-toolbar {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .list__item-input-toolbar-items {
     width: 100%;
   }
+
+  .toolbar > div.back-button {
+    margin: 20px 110px;
+  }
+
+  .list {
+    width: 70%;
+  }
   .list__item {
+    justify-content: flex-start;
     width: 100%;
+    margin: 5px 0px;
+  }
+  .list__item-space-between {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 5px 0px;
   }
 }

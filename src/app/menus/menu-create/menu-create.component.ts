@@ -16,7 +16,7 @@ export class MenuCreateComponent implements OnInit {
   ngOnInit() {
     this.isLoading = true;
     this.myForm = this.fb.group({
-      menuName: ['test menu 1', [Validators.required, Validators.minLength(3)]],
+      menuName: [null, [Validators.required, Validators.minLength(3)]],
       agree: [false]
     });
     this.isLoading = false;

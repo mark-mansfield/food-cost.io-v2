@@ -3,27 +3,30 @@
 </ng-container>
 <ng-container *ngIf="!isLoading">
   <section class="section fadeIn">
-    <!-- page  title -->
-    <div class="page__title">
-      <div><h1>Suppliers</h1></div>
-      <br /><br />
-      <button class="fas fa-search xlarge-icon" (click)="showSearch = true"></button> <br />
+    <div class="section__header">
+      <!-- page  title -->
+      <div class="page__title">
+        <div><h1>Suppliers</h1></div>
+        <br /><br />
+        <button class="fas fa-search xlarge-icon" (click)="showSearch = true"></button> <br />
+      </div>
+      <!-- search -->
+      <div class="main__search-container">
+        <form class="main__search-form">
+          <input
+            type="text"
+            id="dish-input-text"
+            [ngClass]="{ hidden: !showSearch, visible: showSearch }"
+            #searchinput
+            [(ngModel)]="searchTerm"
+            name="search"
+            placeholder="  search....."
+          />
+          <button [ngClass]="{ hidden: !showSearch, visible: showSearch }" (click)="search(searchTerm)">Go</button>
+        </form>
+      </div>
     </div>
-    <!-- search -->
-    <div class="main__search-container">
-      <form class="main__search-form">
-        <input
-          type="text"
-          id="dish-input-text"
-          [ngClass]="{ hidden: !showSearch, visible: showSearch }"
-          #searchinput
-          [(ngModel)]="searchTerm"
-          name="search"
-          placeholder="  search....."
-        />
-        <button [ngClass]="{ hidden: !showSearch, visible: showSearch }" (click)="search(searchTerm)">Go</button>
-      </form>
-    </div>
+
     <!-- search finds nothing -->
     <div class="toolbar" *ngIf="searchFoundNothing">
       <mat-toolbar style="background: var(--accent) ;">
@@ -44,8 +47,8 @@
       <mat-toolbar>
         <div><h2>Suppliers</h2></div>
         <div>
-          <button class="action add" [routerLink]="['/suppliers/create']" href="">
-            <i class="material-icons">add</i>
+          <button mat-mini-fab class="action add" [routerLink]="['/suppliers/create']" href="">
+            <mat-icon>add</mat-icon>
           </button>
         </div>
       </mat-toolbar>
@@ -61,7 +64,7 @@
           <div class="list__item-details">
             <li class="list__item-name">{{ supplier.supplier_name }}</li>
             <li class="list__item-retail">{{ supplier.contact_number }}</li>
-            <li class="list__item-margin">{{ supplier.contact_email }}</li>
+            <li class="list__item-margin">{{ supplier.contact_name }}</li>
           </div>
           <button
             class="list__item-action"

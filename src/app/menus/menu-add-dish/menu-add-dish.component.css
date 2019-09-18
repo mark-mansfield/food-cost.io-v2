@@ -98,11 +98,11 @@ mat-paginator {
   background-color: rgb(70, 69, 69);
 }
 
-.main > .section > .pagination > button:hover {
+/* .main > .section > .pagination > button:hover {
   cursor: pointer;
   background-color: var(--hover-green);
   color: black;
-}
+} */
 
 .main > .section > .pagination > button > i.far {
   color: var(--blue);

@@ -10,7 +10,7 @@
   --light-background: white;
   --dark-background: rgba(0, 0, 0, 0.913);
   --side-background-light: rgba(20, 20, 20, 0.9);
-
+  --blue-background: azure;
   /* colors */
   --blue: dodgerblue;
   --light-text: white;
@@ -20,7 +20,8 @@
   --default-text-color: var(--dark-text);
 
   /* status colors */
-  --complete: rgb(42, 203, 21);
+  --complete: rgb(27, 133, 247);
+  --incomplete: rgb(203, 69, 21);
   --ok: rgb(42, 203, 21);
   --accent: #ff177f;
 
@@ -87,13 +88,13 @@ body {
 }
 
 .cdk-overlay-dark-backdrop {
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.5);
 }
 
 /* links */
 a {
   color: var(--blue);
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 a.main__nav-link {
@@ -189,6 +190,16 @@ h4 {
 
 /* UI elements */
 
+/* show / hide confirm and submit on forms */
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: flex;
+}
+
 input {
   width: 100%;
   color: white;
@@ -213,9 +224,18 @@ button,
   text-align: center;
 }
 
+button {
+  background-color: var(--accent);
+}
+
+button:hover {
+  cursor: pointer;
+}
 /* status elements */
 .status-complete {
-  color: var(--complete);
+  color: white;
+  background-color: green;
+  padding: 2px;
 }
 
 .status-incomplete {

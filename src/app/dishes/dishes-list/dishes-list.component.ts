@@ -12,7 +12,7 @@ import { IngredientsService } from '../../ingredients/ingredients.service';
 @Component({
   selector: 'app-dishes-list',
   templateUrl: './dishes-list.component.html',
-  styleUrls: ['./dishes-list.component.css']
+  styleUrls: ['../../css/list-layout.css', 'dishes-list.component.css']
 })
 export class DishesListComponent implements OnInit, OnDestroy {
   dishes: Dish[] = [];
@@ -21,7 +21,6 @@ export class DishesListComponent implements OnInit, OnDestroy {
   dishCount: number;
   searchTerm: string;
   linkListValue: string;
-  mode = 'list';
 
   searchFoundNothing = false;
   showRefresh = false;
@@ -81,7 +80,7 @@ export class DishesListComponent implements OnInit, OnDestroy {
   }
 
   search(searchValue) {
-    this.mode = 'search';
+
     if (searchValue) {
       this.dishesService.searchDishByName(searchValue);
       this.dishCount = this.dishes.length;
@@ -91,12 +90,7 @@ export class DishesListComponent implements OnInit, OnDestroy {
     }
   }
 
-  searchByFirstletter(firstLetter) {
-    this.mode = 'search';
-    this.dishesService.searchDishByFirstletter(firstLetter);
-    this.dishCount = this.dishes.length;
-    this.showRefresh = true;
-  }
+
 
   ngOnDestroy() {
     this.dishesSub.unsubscribe();

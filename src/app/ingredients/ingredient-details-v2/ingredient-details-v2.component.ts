@@ -16,7 +16,7 @@ import { SuppliersService } from '../../suppliers/suppliers.service';
   selector: 'app-ingredient-details-v2',
   templateUrl: './ingredient-details-v2.component.html',
 
-  styleUrls: ['../../suppliers/supplier-details/supplier-details.component.css']
+  styleUrls: ['../../dishes/dish-details-v2/dish-details-v2.component.css']
 })
 export class IngredientDetailsV2Component implements OnInit, OnDestroy {
   isHandset$: Observable<boolean> = this.breakpointObserver
@@ -57,7 +57,7 @@ export class IngredientDetailsV2Component implements OnInit, OnDestroy {
   fieldValueGoodText = 'Looks Good';
   ingredient: Ingredient;
   myForm: FormGroup;
-
+  isLoading = false;
   private suppliersSub: Subscription;
   public suppliers: Supplier[] = [];
   private routeSub: any;
@@ -73,12 +73,13 @@ export class IngredientDetailsV2Component implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.isLoading = true;
     this.routeSub = this.route.params.subscribe(params => {
       this.supplierService.getSuppliers();
       if (params.mode === 'edit') {
         this.ingredient = JSON.parse(localStorage.getItem('ingredient'));
         this.supplierName = this.ingredient.supplier;
-        console.log(this.supplierName);
+
         this.myForm = this.fb.group({
           ingredientName: [this.ingredient.ingredient_name, [Validators.required]],
           ingredientPrice: [this.ingredient.ingredient_price, [Validators.required]],
@@ -119,8 +120,7 @@ export class IngredientDetailsV2Component implements OnInit, OnDestroy {
 
     this.suppliersSub = this.supplierService.getSuppliersUpdateListener().subscribe((data: Supplier[]) => {
       this.suppliers = data;
-
-      console.log(this.suppliers);
+      this.isLoading = false;
       if (!this.createMode && data.length > 0) {
         this.initFormSelectsWithSelectedValues();
       }

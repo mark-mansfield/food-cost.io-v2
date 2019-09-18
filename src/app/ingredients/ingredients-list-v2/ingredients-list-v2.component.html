@@ -2,36 +2,39 @@
   <app-loader></app-loader>
 </ng-container>
 
-
 <ng-container *ngIf="!isLoading">
   <section class="section fadeIn">
-    <div class="page__title">
-      <div><h1>Ingredients</h1></div>
-      <br /><br />
-      <button class="fas fa-search xlarge-icon" (click)="showSearch = true"></button> <br />
+    <div class="section__header">
+      <div class="page__title">
+        <div><h1>Ingredients</h1></div>
+        <br /><br />
+        <button class="fas fa-search xlarge-icon" (click)="showSearch = true"></button> <br />
+      </div>
+      <div class="main__search-container">
+        <form class="main__search-form">
+          <input
+            type="text"
+            id="dish-input-text"
+            [ngClass]="{ hidden: !showSearch, visible: showSearch }"
+            #searchinput
+            [(ngModel)]="searchTerm"
+            name="search"
+            placeholder="  search....."
+          />
+          <button [ngClass]="{ hidden: !showSearch, visible: showSearch }" (click)="search(searchTerm)">Go</button>
+        </form>
+      </div>
     </div>
-    <div class="main__search-container">
-      <form class="main__search-form">
-        <input
-          type="text"
-          id="dish-input-text"
-          [ngClass]="{ hidden: !showSearch, visible: showSearch }"
-          #searchinput
-          [(ngModel)]="searchTerm"
-          name="search"
-          placeholder="  search....."
-        />
-        <button [ngClass]="{ hidden: !showSearch, visible: showSearch }" (click)="search(searchTerm)">Go</button>
-      </form>
-    </div>
-    <br />
+
     <div class="toolbar" *ngIf="!searchFoundNothing">
       <mat-toolbar>
         <div>
           <h2>Ingredients {{ ingredientCount }}</h2>
         </div>
         <div>
-          <button class="action add" [routerLink]="['/ingredient/create']"><i class="material-icons">add</i></button>
+          <button class="action add" mat-mini-fab [routerLink]="['/ingredient/create']">
+            <mat-icon>add</mat-icon>
+          </button>
         </div>
       </mat-toolbar>
     </div>

@@ -11,10 +11,9 @@ import { Supplier } from '../supplier.model';
 export class SupplierCreateComponent implements OnInit {
   myForm: FormGroup;
   supplier: Supplier;
-
   submitButtonDisabled = true;
   isLoading = false;
-  constructor(private service: SuppliersService, private fb: FormBuilder) {}
+  constructor(private service: SuppliersService, private fb: FormBuilder) { }
 
   ngOnInit() {
     this.isLoading = true;

@@ -10,7 +10,12 @@
 
 .section {
   width: 100vw;
+}
+
+.section__header {
+  width: 100vw;
   background-color: azure;
+  padding-bottom: 20px;
 }
 
 .toolbar {
@@ -60,6 +65,14 @@ form {
   width: 95%;
 }
 
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: flex;
+}
+
 mat-error {
   color: var(mat-error);
   margin: auto;
@@ -69,14 +82,7 @@ mat-action-row {
   display: flex;
 }
 
-.mat-button[disabled] {
-  background-color: rgba(58, 58, 58, 0.09) !important;
-}
 
-.mat-button {
-  color: var(--light-text);
-  background-color: var(--dark-text) !important;
-}
 
 .mat-toolbar-row,
 .mat-toolbar-single-row {

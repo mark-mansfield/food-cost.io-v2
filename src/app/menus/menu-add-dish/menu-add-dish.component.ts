@@ -1,36 +1,41 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { DishService } from '../../dishes/dish.service';
-import { MenusService } from '../menus.service';
-import { Menu } from '../menu.model';
-import { Dish } from '../../dishes/dish.model';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material';
+import { Subscription } from 'rxjs';
+
+import { Menu } from '../menu.model';
+import { Dish } from '../../dishes/dish.model';
+import { GlobalService } from '../../global.service';
+import { DishService } from '../../dishes/dish.service';
+import { MenusService } from '../menus.service';
+
 
 @Component({
   selector: 'app-menu-add-dish',
   templateUrl: './menu-add-dish.component.html',
-  styleUrls: ['./menu-add-dish.component.css']
+  styleUrls: ['../menus-list/menus-list.component.css']
 })
 export class MenuAddDishComponent implements OnInit, OnDestroy {
   selectedId;
   dishes: Dish[] = [];
   dishesOnMenu: Dish[] = [];
   menu: Menu;
-  linksList = [];
+  badgeNames = [];
   dishCount: number;
   searchTerm: string;
-  linkListValue: string;
-  mode = 'list';
+
   showRefresh = false;
   isLoading = false;
+  searchFoundNothing = false;
+  showSearch = false;
   pageIndex = 0;
   postsPerPage = 10;
   dishesSub: Subscription;
 
   constructor(
     public dishesService: DishService,
+    public globalService: GlobalService,
     public menuService: MenusService,
     private router: Router,
     public snackBar: MatSnackBar,
@@ -38,58 +43,49 @@ export class MenuAddDishComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.isLoading = true;
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('id')) {
         this.selectedId = paramMap.get('id');
         this.menu = JSON.parse(localStorage.getItem('menu'));
-
         this.dishesOnMenu = this.menuService.getDishesOnMenu(this.menu.members);
         this.dishesService.getDishes(this.pageIndex, this.postsPerPage);
-
-        this.dishesSub = this.dishesService.getDishesUpdateListener().subscribe((dishes: Dish[]) => {
-          this.dishCount = this.dishes.length;
-          this.dishes = dishes;
-          this.linksList = [];
-          this.buildLinksList();
-          this.isLoading = false;
-          console.log(this.dishes);
-        });
       }
     });
-  }
 
-  openSnackBar(message) {
-    this.snackBar.open(message, '', {
-      duration: 2000
+    this.dishesSub = this.dishesService.getDishesUpdateListener().subscribe((dishes) => {
+      this.dishCount = dishes.length;
+      this.dishCount > 0 ? this.showSearch = true : this.showSearch = false;
+      this.dishes = dishes;
+      this.dishes.forEach(item => {
+        this.badgeNames.push(this.globalService.getIconBadgeText(item.name));
+      });
+      this.isLoading = false;
     });
   }
+
+
+  // refactor this
+  // move the setting of local data into the service file
+
 
   onAddDishToMenu(dishId) {
     if (this.menu.members.includes(dishId)) {
-      this.openSnackBar('item alread exists on this menu');
+      this.menuService.openSnackBar('item alread exists on this menu');
     } else {
+
       this.menu.members.push(dishId);
+
       localStorage.setItem('menu', JSON.stringify(this.menu));
       const localMenusData = JSON.parse(localStorage.getItem('menus'));
       const idx = localMenusData.menus.findIndex(obj => obj.id === this.menu.id);
       localMenusData.menus[idx] = this.menu;
+      console.log(localMenusData);
       this.menuService.updateMenus(localMenusData);
+      this.router.navigate(['menus/' + this.menu.id + '/details']);
     }
   }
 
-  // links list
-  buildLinksList() {
-    if (this.linksList.length === 0) {
-      const tmpArray = [];
-      this.linksList = [];
-      const localDishes: any = this.dishesService.getDishesData();
-      localDishes.sort().forEach(item => {
-        tmpArray.push(item.name.substring(0, 1).toLocaleLowerCase());
-      });
-      this.linksList = Array.from(new Set(tmpArray));
-      this.linksList.sort();
-    }
-  }
 
   onChangedPage(pageData: PageEvent) {
     this.dishesService.paginateOnChange(pageData.pageIndex, pageData.pageSize);
@@ -97,7 +93,7 @@ export class MenuAddDishComponent implements OnInit, OnDestroy {
 
   saveDishToLocal(dish) {
     this.dishesService.saveLocalDishData(dish);
-    this.router.navigate(['dish/' + dish._id]);
+    this.router.navigate(['dish/edit']);
   }
 
   refreshDishesList() {
@@ -108,22 +104,17 @@ export class MenuAddDishComponent implements OnInit, OnDestroy {
   }
 
   search(searchValue) {
-    this.mode = 'search';
+
     if (searchValue) {
       this.dishesService.searchDishByName(searchValue);
-      this.dishCount = this.dishes.length;
       this.showRefresh = true;
+
     } else {
       alert('Please enter a serch term');
     }
   }
 
-  searchByFirstletter(firstLetter) {
-    this.mode = 'search';
-    this.dishesService.searchDishByFirstletter(firstLetter);
-    this.dishCount = this.dishes.length;
-    this.showRefresh = true;
-  }
+
 
   ngOnDestroy() { }
 }

@@ -37,7 +37,6 @@ export class DishService {
   getDishes(index, postsPerPage) {
     const customer = this.globals.getCustomer();
     this.http.get<{ dishes: any[] }>(BACKEND_URL + '/' + customer.id).subscribe(returnedData => {
-      console.log(returnedData);
       this.dishes = returnedData.dishes.reverse();
       this.saveLocalDishesData(this.dishes);
       const tmpArr = this.paginate(index, postsPerPage);
@@ -171,7 +170,7 @@ export class DishService {
         this.saveLocalDishData(dish);
         this.saveLocalDishesData(this.dishes);
         this.openSnackBar('Dish Updated');
-        this.router.navigate(['dish/' + dish.id + '/ingredients']);
+        this.router.navigate(['dish/' + dish.uuid + '/ingredients']);
       } else {
         this.openSnackBar('Dish Not Updated due to a technical error');
         console.log(
@@ -194,10 +193,12 @@ export class DishService {
             this.dishes[index] = dish;
           }
         });
+        console.log(this.dishes);
         this.saveLocalDishData(dish);
         this.saveLocalDishesData(this.dishes);
         this.openSnackBar('Dish Updated');
-
+        console.log(this.dishes);
+        this.router.navigate(['dish/' + dish.id]);
       } else {
         this.openSnackBar('Dish Not Updated due to a technical error');
         console.log(
@@ -207,86 +208,89 @@ export class DishService {
     });
   }
 
+  getDishProgress(dish) {
 
+    const ingredients = dish.ingredients;
+    const ingredientCount = ingredients.length;
+    let completed = 0;
+    ingredients.forEach(item => {
+      if (item.complete === true) {
+        completed += 1;
+      }
+    });
+    console.log(`Completed count : ${completed}`);
+    this.setDishProgress(dish);
+    return (completed / ingredientCount * 100).toFixed(0);
+  }
+
+  setDishProgress(dish: Dish): void {
+
+    this.saveLocalDishData(dish);
+  }
   // ** costing functions **
 
   // ingredient unit cost
   getIngredientUnitCost(id) {
-    // load local data
     const localObject = this.loadLocalIngredientsData();
-    // find object in local data
     let ingredient = localObject.ingredients.filter(item => item.id === id);
     ingredient = ingredient[0];
-    //  return property value
-    const purchasePrice = (parseFloat(ingredient.purchase_amount) / parseFloat(ingredient.unit_amount)).toFixed(2);
-    return purchasePrice;
+    return ingredient.unit_cost;
+  }
+
+  getIngredientCost(unit_price, qty) {
+    return (unit_price * qty).toFixed(2);
+    // return (parseFloat(unit_price) * parseFloat(qty)).toFixed(2);
   }
 
   // dish margin
-  getMargin(cost, retail) {
+  getMargin(dish: Dish) {
+    const cost = dish.cost;
+    const retail = dish.retail_price;
     const tax = 10;
     const markup = 100;
-    const margin = (cost / retail) * (tax + markup);
+    const margin = (parseFloat(cost) / parseFloat(retail)) * (tax + markup);
     console.log(margin);
     return margin.toFixed(2);
   }
 
-  // FUNCTION getIngredientsTotal(dishIngredientsList)
-  // params:
-  // dishIngredientList: a list of ingredients that need to be totalled
-  // id: the id of the dish
+  // total
+  getIngredientsTotal(dish) {
+    const ingredients = dish.ingredients;
+    const sum = ingredients.map(el => parseFloat(el.real_cost)).reduce(function (accumulator, currentValue) {
+      return accumulator + currentValue;
+    }, 0);
+    return (sum);
 
-  // notes
-  // loop through the ingredient list and call getAuctal cost and pass in each ingredient
-  //  returns string ingredientsTotal
-  getIngredientsTotal(dishIngredientsList) {
-    const costsArr = [];
-    if (this.ingredientsData === undefined) {
-      this.ingredientsData = this.loadLocalIngredientsData();
-    }
-    dishIngredientsList.forEach(item => {
-      costsArr.push(parseFloat(this.getIngredientActualCost(item)));
-    });
-
-    console.log(costsArr);
-    return '0.00';
   }
 
-  // FUNCTION: getIngredientActualCost(item)
-  // params:
-  // item: object {
-  //     id = "asdasd-sdfsdfs-sdfsdfsd-sdfsdfsdf-',
-  //     name: "sea salt",
-  //     qty: "0",
-  //     AP_weight: "0",
-  //     cost: "[return val from a function]"
-  //     EP_weight: "0"
-  // }
-  // returns a realCost as a string to 2 decimal places.
-  getIngredientActualCost(item) {
-    if (this.ingredientsData === undefined) {
-      this.ingredientsData = this.loadLocalIngredientsData();
+  // yeild / wastage
+  getIngredientYield(ingredient) {
+    const item_yeild = ingredient.EP_weight;
+    console.log(item_yeild);
+    if (item_yeild === 1) {
+      return (item_yeild * 100).toFixed(2);
+    } else {
+      return ((1 - item_yeild) * 100).toFixed(2);
     }
-    let currentIngredient = this.ingredientsData.ingredients.filter(ingredient => ingredient.id === item.id);
-    currentIngredient = currentIngredient[0];
-    const itemYield = (parseFloat(item.EP_weight) / parseFloat(item.AP_weight)) * 100;
-    const factor = 100 / itemYield;
-    const unitCost = (
-      parseFloat(currentIngredient.purchase_amount) / parseFloat(currentIngredient.unit_amount)
-    ).toFixed(2);
-    const itemCost = (parseFloat(unitCost) * item.qty).toFixed(2);
-    const realCost = (factor * parseFloat(itemCost)).toFixed(2);
+  }
 
-    console.log('item being costed');
-    console.log(item);
-    console.log('localdata for item being costed');
-    console.log(currentIngredient);
-    console.log('item yield: ' + itemYield);
-    console.log('item factor: ' + factor);
-    console.log('unitCost: ' + unitCost);
-    console.log('itemCost: ' + itemCost);
-    console.log('realCost: ' + realCost);
-    return realCost;
+  // cost afeter wastage
+  getIngredientRealCost(item) {
+
+    if (item.yield === '0.00') {
+      return item.cost;
+    }
+    // tslint:disable-next-line:one-line
+    else {
+      const factor = 100 / item.yield;
+
+      // avoid NaN  the ingredient has not had weights or quantites saved;
+      const realCost = (factor * parseFloat(item.cost)).toFixed(2);
+      if (realCost === 'NaN') {
+        return '0';
+      }
+      return realCost;
+    }
   }
 
   // pagination
@@ -302,12 +306,7 @@ export class DishService {
 
   // search for a dish by name
   searchDishByName(searchTerm) {
-    const searchResults = this.dishes.filter(p => p.name.includes(searchTerm));
-    this.dishesUpdated.next([...searchResults]);
-  }
-
-  searchDishByFirstletter(letter) {
-    const searchResults = this.dishes.filter(p => p.name[0] === letter);
+    const searchResults = this.dishes.filter(dish => dish.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()));
     this.dishesUpdated.next([...searchResults]);
   }
 

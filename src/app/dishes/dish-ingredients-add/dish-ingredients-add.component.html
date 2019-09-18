@@ -4,31 +4,41 @@
 
 <ng-container *ngIf="!isLoading">
   <section class="section fadeIn">
-    <!-- header -->
-    <div class="page__title">
-      <div><h1>ingredientsList</h1></div>
-      <br /><br />
-      <button *ngIf="ingredientsList.length > 0" class="fas fa-search xlarge-icon" (click)="showSearch = true"></button>
-      <br />
+    <div class="section__header">
+      <!-- header -->
+      <div class="toolbar">
+        <div class="back-button">
+          <a [routerLink]="['/dish/', dish.uuid, 'ingredients']"><i class="fas fa-chevron-left med-icon"></i></a>
+        </div>
+      </div>
+      <div class="page__title">
+        <div><h1>Ingredients List</h1></div>
+        <br /><br />
+        <button
+          *ngIf="ingredientsList.length > 0"
+          class="fas fa-search xlarge-icon"
+          (click)="showSearch = true"
+        ></button>
+        <br />
+      </div>
+      <div class="main__search-container">
+        <div class="main__search-form">
+          <input
+            type="text"
+            id="dish-input-text"
+            [ngClass]="{ hidden: !showSearch, visible: showSearch }"
+            #searchinput
+            [(ngModel)]="searchTerm"
+            name="search"
+            placeholder="search....."
+          />
+          <button *ngIf="showSearch" (click)="search(searchTerm)">
+            Go
+          </button>
+        </div>
+      </div>
     </div>
-    <div class="main__search-container">
-      <form class="main__search-form">
-        <input
-          type="text"
-          id="dish-input-text"
-          [ngClass]="{ hidden: !showSearch, visible: showSearch }"
-          #searchinput
-          [(ngModel)]="searchTerm"
-          name="search"
-          placeholder="  search....."
-        />
-        <button [ngClass]="{ hidden: !showSearch, visible: showSearch }" (click)="search(searchTerm)">
-          Go
-        </button>
-      </form>
-    </div>
-    <br />
-    <div class="toolbar" *ngIf="!isLoading && ingredientsList.length === 0">
+    <div class="toolbar" *ngIf="ingredientsList.length === 0">
       <mat-toolbar style="background: var(--accent) ;">
         <div>
           <h2 style="color: white;">Your have no ingredients in the system.</h2>
@@ -45,9 +55,6 @@
         <div>
           <h2>ingredientsList {{ ingredientsList.length }}</h2>
         </div>
-        <div>
-          <button class="action add" [routerLink]="['/dish/create']"><i class="material-icons">add</i></button>
-        </div>
       </mat-toolbar>
     </div>
 
@@ -63,7 +70,7 @@
     <div class="list" *ngIf="ingredientsList.length > 0">
       <mat-divider></mat-divider>
       <mat-list-item *ngFor="let ingredient of ingredientsList; let i = index">
-        <div class="list__item" aria-label="ingredient for selection">
+        <div class="list__item-space-between" aria-label="ingredient for selection">
           <!-- <div *ngIf="hasImage" class="list__item-dish-icon">
         <img
           class="thumb"

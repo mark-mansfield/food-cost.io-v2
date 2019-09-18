@@ -1,4 +1,4 @@
 export const environment = {
-  apiUrl: 'http://localhost:3000/api/',
+  apiUrl: 'http://foodcostio-env.jdb2azia4p.us-east-2.elasticbeanstalk.com/api/',
   production: true
 };

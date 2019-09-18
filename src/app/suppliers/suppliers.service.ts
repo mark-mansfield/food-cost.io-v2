@@ -119,8 +119,10 @@ export class SuppliersService {
 
   // update object
   updateSuppliers(supplier: Supplier) {
-    console.log(supplier);
+
     const customer = this.globals.getCustomer();
+    this.suppliersDoc = this.loadLocalSuppliersData();
+
     this.http.put<{ nModified: number }>(BACKEND_URL + '/' + customer.id, supplier).subscribe(response => {
 
       if (response.nModified > 0) {

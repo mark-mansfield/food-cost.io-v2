@@ -1,21 +1,26 @@
 <main class="main contact">
-  <section class="section" [class.edit-mode]="showEditTools">
-    <div class="toolbar">
-      <div>
-        <a [routerLink]="['/dishes/list']"><i class="fas fa-chevron-left med-icon"></i></a>
-      </div>
-      <ng-container *ngIf="!createMode">
-        <div>
-          <a (click)="toggleEditMode()" [class.visible]="showEditTools" [class.hidden]="!showEditTools">cancel</a>
+  <section class="section fadeIn">
+    <div class="section__header" [class.edit-mode]="showEditTools">
+      <div class="toolbar">
+        <div *ngIf="!referrerId">
+          <a [routerLink]="['/dishes/list']"><i class="fas fa-chevron-left med-icon"></i> </a>
         </div>
-        <div>
-          <a (click)="toggleEditMode()" [class.visible]="!showEditTools" [class.hidden]="showEditTools">Edit</a>
-        </div>
-      </ng-container>
-    </div>
 
-    <!-- dish create -->
-    <ng-container>
+        <div *ngIf="referrerId">
+          <a [routerLink]="['/menus/', this.referrerId, 'details']"><i class="fas fa-chevron-left med-icon"></i> </a>
+        </div>
+        <ng-container *ngIf="!createMode">
+          <div>
+            <a (click)="toggleEditMode()" [class.visible]="showEditTools" [class.hidden]="!showEditTools">cancel</a>
+          </div>
+          <div>
+            <a (click)="toggleEditMode()" [class.visible]="!showEditTools" [class.hidden]="showEditTools">Edit</a>
+          </div>
+        </ng-container>
+      </div>
+
+      <!-- dish create -->
+
       <div *ngIf="!createMode" class="contact__badge">
         <div class="contact__badge-icon">
           <h4>{{ iconBadgeText }}</h4>
@@ -23,19 +28,14 @@
         <div class="contact__badge-title">
           <h1>{{ dish.name }}</h1>
         </div>
-        <button
-          mat-mini-fab
-          class="delete"
-          (click)="onRemoveDish()"
-          [class.visible]="showEditTools"
-          [class.hidden]="!showEditTools"
-        >
+        <button mat-mini-fab (click)="onRemoveDish()" [class.visible]="showEditTools" [class.hidden]="!showEditTools">
           <i class="fas fa-minus"></i>
         </button>
       </div>
       <h1 *ngIf="createMode">New Dish</h1>
-
-      <form [formGroup]="myForm" (ngSubmit)="onSubmitform()" style="margin-top: 50px;">
+    </div>
+    <ng-container>
+      <form [formGroup]="myForm" (ngSubmit)="onSubmitform()">
         <div class="list">
           <div class="list__item details">
             <div class="list__item-item">
@@ -77,195 +77,217 @@
               </div>
             </div>
             <mat-divider></mat-divider>
-
-            <!-- Ingredients -->
-            <div class="list__item-item">
-              <div class="list__item-name-description">
-                <h4>Ingredients:</h4>
+            <ng-container *ngIf="!createMode">
+              <!-- Ingredients -->
+              <div class="list__item-item">
+                <div class="list__item-name-description">
+                  <h4>Ingredients:</h4>
+                </div>
+                <div [class.hidden]="showEditTools" [class.visible]="showEditTools">
+                  {{ dish.ingredients.length }}
+                </div>
+                <span
+                  [class.hidden]="!showEditTools"
+                  [class.visible]="showEditTools || createMode"
+                  style="padding: 20px; text-align: right; margin-left: 20px"
+                  [routerLink]="['/dish/', dish.uuid, 'ingredients']"
+                  class="list__item-action colspan-2"
+                >
+                  <i class="fas fa-chevron-right med-icon"></i>
+                </span>
               </div>
-              <div [class.hidden]="showEditTools" [class.visible]="showEditTools">
-                {{ dish.ingredients.length }}
-              </div>
-              <button
-                [class.hidden]="!showEditTools"
-                [class.visible]="showEditTools || createMode"
-                style="padding: 20px; text-align: right; margin-left: 20px"
-                [routerLink]="['/dish/', dish.uuid, 'ingredients']"
-                class="list__item-action colspan-2"
-              >
-                <i class="fas fa-chevron-right "></i>
-              </button>
-            </div>
 
-            <mat-divider></mat-divider>
+              <mat-divider></mat-divider>
 
-            <!-- Retail Price: -->
-            <div class="list__item-item">
-              <h4 class="list__item-name">Retail Price:</h4>
-              <span *ngIf="!createMode" [class.hidden]="showEditTools" [class.visible]="!showEditTools || !createMode">
-                {{ dish.retail_price }}
-              </span>
+              <!-- Retail Price: -->
+              <div class="list__item-item">
+                <h4 class="list__item-name">Retail Price:</h4>
+                <span
+                  *ngIf="!createMode"
+                  [class.hidden]="showEditTools"
+                  [class.visible]="!showEditTools || !createMode"
+                >
+                  {{ dish.retail_price }}
+                </span>
 
-              <div *ngIf="invalidRetailPrice && showEditTools" class="accent-warn">
-                A valid price is required
+                <div *ngIf="invalidRetailPrice && showEditTools" class="accent-warn">
+                  A valid price is required
+                </div>
+                <div
+                  *ngIf="
+                    (retail_price.invalid && retail_price.touched && showEditTools) ||
+                    (retail_price.invalid && showEditTools)
+                  "
+                  class="accent-warn"
+                >
+                  {{ requiredText }}.
+                </div>
+                <div *ngIf="retail_price.value > 0 && showEditTools" class="accent-ok">{{ fieldValueGoodText }}!</div>
               </div>
-              <div
-                *ngIf="
-                  (retail_price.invalid && retail_price.touched && showEditTools) ||
-                  (retail_price.invalid && showEditTools)
-                "
-                class="accent-warn"
-              >
-                {{ requiredText }}.
-              </div>
-              <div *ngIf="retail_price.value > 0 && showEditTools" class="accent-ok">{{ fieldValueGoodText }}!</div>
-            </div>
-            <div class="list__item-item">
-              <div
-                class="list__item-input-toolbar-items"
-                [class.hidden]="!showEditTools || !createMode"
-                [class.visible]="showEditTools || createMode"
-              >
-                <input
-                  *ngIf="isHandset$ | async"
-                  (change)="this.showConfirmControls = true; onUpdateDish('retail_price', retailPriceInput.value)"
-                  inputmode="decimal"
-                  type="text"
-                  #retailPriceInput
-                  formControlName="retail_price"
-                  value=""
-                />
-                <div *ngIf="!(isHandset$ | async)" class="space-between">
-                  <input
+              <div class="list__item-item">
+                <div
+                  class="list__item-input-toolbar-items"
+                  [class.hidden]="!showEditTools || !createMode"
+                  [class.visible]="showEditTools || createMode"
+                >
+                  <!-- <input
+                    *ngIf="isHandset$ | async"
                     (change)="this.showConfirmControls = true; onUpdateDish('retail_price', retailPriceInput.value)"
-                    disabled
+                    inputmode="decimal"
                     type="text"
-                    style="width: 60%; border:none"
                     #retailPriceInput
                     formControlName="retail_price"
                     value=""
                   />
+                  <div *ngIf="!(isHandset$ | async)" class="space-between"> -->
+                  <div class="space-between" style="display: flex">
+                    <input
+                      (change)="this.showConfirmControls = true; onUpdateDish('retail_price', retailPriceInput.value)"
+                      disabled
+                      type="text"
+                      style="width: 60%; border:none"
+                      #retailPriceInput
+                      formControlName="retail_price"
+                      value=""
+                    />
 
-                  <button
-                    type="button"
-                    mat-button
-                    class="launch-numpad"
-                    (click)="launchNumberPad('retail_price')"
-                    style="margin: 0!important"
-                  >
-                    edit
-                  </button>
+                    <button
+                      type="button"
+                      mat-button
+                      class="launch-numpad"
+                      (click)="launchNumberPad('retail_price')"
+                      style="margin: 0!important"
+                    >
+                      edit
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-            <mat-divider></mat-divider>
+              <mat-divider></mat-divider>
 
-            <!-- Total Cost -->
-            <div class="list__item-item">
-              <h4 class="list__item-name">
-                Total Cost:
-              </h4>
-              <div>ingredientsTotal</div>
-            </div>
-            <mat-divider></mat-divider>
+              <!-- Total Cost -->
+              <div class="list__item-item">
+                <h4 class="list__item-name">
+                  Total Cost:
+                </h4>
+                <div>{{ dish.cost }}</div>
+              </div>
+              <mat-divider></mat-divider>
 
-            <!-- Progress -->
-            <div class="list__item-item">
-              <h4 class="list__item-name">
-                Progress:
-              </h4>
-              <div style="width: 50%">determined by how many ingredients have been finalised</div>
-              <div style="width:25%"><mat-progress-bar mode="determinate" [value]="60"></mat-progress-bar></div>
-            </div>
-            <mat-divider></mat-divider>
-
-            <!-- Margin -->
-            <div class="list__item-item">
-              <h4 class="list__item-name">
-                Margin:
-              </h4>
-              <div>dish.margin</div>
-            </div>
-
-            <mat-divider></mat-divider>
-
-            <!-- Description -->
-            <div class="list__item-item">
-              <h4 class="list__item-name">
-                Description:
-              </h4>
-
-              <span [class.hidden]="showEditTools" [class.visible]="!showEditTools">
-                dish.description
-              </span>
-            </div>
-            <div class="list__item-item">
-              <div
-                class="list__item-input-toolbar-items"
-                [class.hidden]="!showEditTools || !createMode"
-                [class.visible]="showEditTools || createMode"
-              >
-                <div style="width: 100%">
-                  <textarea value="dish.description"></textarea>
+              <!-- Progress -->
+              <div class="list__item-item">
+                <h4 class="list__item-name">
+                  Progress:
+                </h4>
+                <div style="width: 60%">
+                  <small>determined by how many ingredients have been marked complete</small>
+                </div>
+                <div style="width:25%">
+                  <small>{{ dish.progress }} %</small><br />
+                  <mat-progress-bar mode="determinate" [value]="dish.progress"></mat-progress-bar>
                 </div>
               </div>
-            </div>
+              <mat-divider></mat-divider>
 
-            <mat-divider></mat-divider>
+              <!-- Margin -->
+              <div class="list__item-item">
+                <h4 class="list__item-name">
+                  Margin:
+                </h4>
+                <div>{{ dish.margin }} %</div>
+              </div>
 
-            <!-- Plating Guide -->
-            <div class="list__item-item">
-              <h4 class="list__item-name">
-                Plating Guide:
-              </h4>
-              <span [class.hidden]="showEditTools" [class.visible]="!showEditTools">
-                dish.plating_guide
-              </span>
-            </div>
-            <div class="list__item-item">
-              <div
-                class="list__item-input-toolbar-items"
-                [class.hidden]="!showEditTools || !createMode"
-                [class.visible]="showEditTools || createMode"
-              >
-                <div style="width: 100%">
-                  <textarea value="dish.plating_guide"></textarea>
+              <mat-divider></mat-divider>
+
+              <!-- Description -->
+              <div class="list__item-item">
+                <h4 class="list__item-name">
+                  Description:
+                </h4>
+
+                <span [class.hidden]="showEditTools" [class.visible]="!showEditTools">
+                  {{ dish.description }}
+                </span>
+              </div>
+              <div class="list__item-item">
+                <div
+                  class="list__item-input-toolbar-items"
+                  [class.hidden]="!showEditTools || !createMode"
+                  [class.visible]="showEditTools || createMode"
+                >
+                  <div style="width: 100%">
+                    <textarea
+                      value="dish.description"
+                      #descriptionInput
+                      formControlName="description"
+                      (change)="this.showConfirmControls = true; onUpdateDish('description', descriptionInput.value)"
+                    ></textarea>
+                  </div>
                 </div>
               </div>
-            </div>
-            <mat-divider></mat-divider>
 
-            <!-- Recipe Method -->
-            <div class="list__item-item">
-              <h4 class="list__item-name">
-                Recipe Method:
-              </h4>
-              <span [class.hidden]="showEditTools" [class.visible]="!showEditTools">
-                dish.recipe_method
-              </span>
-            </div>
-            <div class="list__item-item">
-              <div
-                class="list__item-input-toolbar-items"
-                [class.hidden]="!showEditTools || !createMode"
-                [class.visible]="showEditTools || createMode"
-              >
-                <div style="width: 100%">
-                  <textarea value="dish.recipe_method"></textarea>
+              <mat-divider></mat-divider>
+
+              <!-- Plating Guide -->
+              <div class="list__item-item">
+                <h4 class="list__item-name">
+                  Plating Guide:
+                </h4>
+                <span [class.hidden]="showEditTools" [class.visible]="!showEditTools">
+                  {{ dish.plating_guide }}
+                </span>
+              </div>
+              <div class="list__item-item">
+                <div
+                  class="list__item-input-toolbar-items"
+                  [class.hidden]="!showEditTools || !createMode"
+                  [class.visible]="showEditTools || createMode"
+                >
+                  <div style="width: 100%">
+                    <textarea
+                      value="dish.plating_guide"
+                      formControlName="plating_guide"
+                      #platingGuideInput
+                      (change)="this.showConfirmControls = true; onUpdateDish('plating_guide', platingGuideInput.value)"
+                    ></textarea>
+                  </div>
                 </div>
               </div>
-            </div>
-            <mat-divider></mat-divider>
+              <mat-divider></mat-divider>
 
-            <mat-divider></mat-divider>
+              <!-- Recipe Method -->
+              <div class="list__item-item">
+                <h4 class="list__item-name">
+                  Recipe Method:
+                </h4>
+                <span [class.hidden]="showEditTools" [class.visible]="!showEditTools">
+                  {{ dish.recipe_method }}
+                </span>
+              </div>
+              <div class="list__item-item">
+                <div
+                  class="list__item-input-toolbar-items"
+                  [class.hidden]="!showEditTools || !createMode"
+                  [class.visible]="showEditTools || createMode"
+                >
+                  <div style="width: 100%">
+                    <textarea
+                      value="dish.recipe_method"
+                      formControlName="plating_guide"
+                      #recipeMethodInput
+                      (change)="this.showConfirmControls = true; onUpdateDish('recipe_method', recipeMethodInput.value)"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+              <mat-divider></mat-divider>
+            </ng-container>
 
             <!-- confirm controls -->
 
             <mat-action-row [class.visible]="showConfirmControls" [class.hidden]="!showConfirmControls">
               <mat-toolbar class="form-controls-toolbar">
-                <mat-checkbox color="accent" (change)="onToggleSubmitDisabled($event)"
-                  >Are these details correct?</mat-checkbox
-                >
+                <mat-checkbox (change)="onToggleSubmitDisabled($event)">Are these details correct?</mat-checkbox>
                 <button mat-button type="submit" [disabled]="submitButtonDisabled">save</button>
               </mat-toolbar>
             </mat-action-row>

@@ -5,7 +5,7 @@
       class="number__pad-button"
       *ngFor="let tile of tiles; let i = index"
       role="button"
-      tabindex="{{i+1}}"
+      tabindex="{{ i + 1 }}"
       (click)="updateReadOut(tile.text)"
       [style.background]="tile.color"
     >
@@ -18,6 +18,7 @@
     class="number__pad-update-button"
     tabindex="14"
     mat-raised-button
+    color="accent"
     disabled
     #updateButton
     (click)="returnNumpadValue()"

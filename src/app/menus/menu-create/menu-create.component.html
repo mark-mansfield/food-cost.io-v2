@@ -1,35 +1,36 @@
-<main class="main">
-  <section class="section">
-    <div class="spinner"><mat-spinner *ngIf="isLoading"></mat-spinner></div>
+<section class="section fadeIn">
+  <div class="section__header">
     <div class="toolbar">
       <div class="back-button">
         <a [routerLink]="['/menus/list']"><i class="fas fa-chevron-left med-icon"></i></a>
       </div>
     </div>
     <div class="main__title"><h1>Create a Menu</h1></div>
-    <mat-toolbar>
-      <div><h2>Menu Name</h2></div>
-    </mat-toolbar>
-    <form class="create-form" [formGroup]="myForm" (ngSubmit)="onSubmitForm()">
-      <div class="list">
-        <div class="list__item details">
-          <mat-form-field>
-            <input matInput placeholder="enter a name..." formControlName="menuName" autocomplete="off" />
-            <mat-hint>minimum 3 letters</mat-hint>
-            <mat-error *ngIf="name.invalid && name.touched" class="has-text-danger">
-              Must be more than 3 letters
-            </mat-error>
-          </mat-form-field>
-          <mat-action-row *ngIf="myForm.status === 'VALID'">
-            <mat-toolbar class="form-controls-toolbar">
-              <mat-checkbox formControlName="agree" (change)="toggleSubmitDisabled()" color="accent"
-                >Are these details correct?</mat-checkbox
-              >
-              <button mat-button #submitButton [disabled]="submitButtonDisabled">save</button>
-            </mat-toolbar>
-          </mat-action-row>
-        </div>
+  </div>
+  <mat-toolbar>
+    <div>
+      <h2>Call it whatever you like</h2>
+    </div>
+  </mat-toolbar>
+  <form class="create-form" [formGroup]="myForm" (ngSubmit)="onSubmitForm()">
+    <div class="list">
+      <div class="list__item details">
+        <mat-form-field>
+          <input matInput placeholder="enter a name..." formControlName="menuName" autocomplete="off" />
+          <mat-hint>minimum 3 letters</mat-hint>
+          <mat-error *ngIf="name.invalid && name.touched" class="has-text-danger">
+            Must be more than 3 letters
+          </mat-error>
+        </mat-form-field>
+        <mat-action-row [class.visible]="this.myForm.valid" [class.hidden]="!this.myForm.valid">
+          <mat-toolbar class="form-controls-toolbar">
+            <mat-checkbox formControlName="agree" (change)="toggleSubmitDisabled()" color="accent"
+              >Are these details correct?</mat-checkbox
+            >
+            <button mat-button #submitButton [disabled]="submitButtonDisabled">save</button>
+          </mat-toolbar>
+        </mat-action-row>
       </div>
-    </form>
-  </section>
-</main>
+    </div>
+  </form>
+</section>

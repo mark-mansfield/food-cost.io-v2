@@ -36,26 +36,34 @@ exports.getCustomerDish =
   });
 
 // update dish
+// receives dish object in the request body
+// updates nested object with matching uuid
+
 exports.updateCustomerDish =
   ('/custId',
   checkAuth,
   (req, res, next) => {
     const dish = req.body;
-    console.log(dish);
+    console.log(`customer id: ${req.params.custId}`);
+    console.log(`dish id: ${dish.uuid}`);
+    console.log(`Dish object:`);
+    console.log(req.body);
     Dish.updateOne(
       { customerId: req.params.custId } /* finds the document */,
       { $set: { 'dishes.$[elem]': dish } } /* sets the nested target document's new value */,
       {
         multi: false,
-        arrayFilters: [{ 'elem.uuid': { $eq: dish.uuid } }] /* selects the nested document based on the id attribute*/
+        arrayFilters: [{ 'elem.uuid': { $eq: dish.uuid } }] /* selects the nested document based on the uuid attribute*/
       }
     )
       .then(result => {
         console.log(result);
         if (result.nModified === 0) {
           res.status(406).json({ message: 'couldnt find the dish to update it', nModified: result.nModified });
+          return;
+        } else {
+          res.status(200).json({ message: 'dish updated', nModified: result.nModified });
         }
-        res.status(200).json({ message: 'dish updated', nModified: result.nModified });
       })
       .catch(error => {
         res.status(500).json({

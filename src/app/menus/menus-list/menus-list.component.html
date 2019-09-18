@@ -4,29 +4,31 @@
 
 <ng-container *ngIf="!isLoading">
   <section class="section fadeIn">
-    <!-- <div class="toolbar">
+    <div class="section__header">
+      <!-- <div class="toolbar">
         <a [routerLink]="['/dish/create']"><i class="fas fa-plus sml-icon"></i></a>
       </div> -->
-    <div class="page__title">
-      <div><h1>Menus</h1></div>
-      <br /><br />
-      <button class="fas fa-search xlarge-icon" (click)="showSearch = true"></button> <br />
-    </div>
-    <div class="main__search-container">
-      <form class="main__search-form">
-        <input
-          type="text"
-          id="dish-input-text"
-          [ngClass]="{ hidden: !showSearch, visible: showSearch }"
-          #searchinput
-          [(ngModel)]="searchTerm"
-          name="search"
-          placeholder="  search....."
-        />
-        <button [ngClass]="{ hidden: !showSearch, visible: showSearch }" (click)="search(searchTerm)">Go</button>
-      </form>
-    </div>
+      <div class="page__title">
+        <div><h1>Menus</h1></div>
+        <br /><br />
+        <button class="fas fa-search xlarge-icon" (click)="showSearch = true"></button> <br />
+      </div>
 
+      <div class="main__search-container">
+        <form class="main__search-form">
+          <input
+            type="text"
+            id="dish-input-text"
+            [ngClass]="{ hidden: !showSearch, visible: showSearch }"
+            #searchinput
+            [(ngModel)]="searchTerm"
+            name="search"
+            placeholder="  search....."
+          />
+          <button [ngClass]="{ hidden: !showSearch, visible: showSearch }" (click)="search(searchTerm)">Go</button>
+        </form>
+      </div>
+    </div>
     <div class="toolbar" *ngIf="searchFoundNothing">
       <mat-toolbar style="background: var(--accent) ;">
         <div>
@@ -45,18 +47,20 @@
       <mat-toolbar>
         <div><h2>Menus</h2></div>
         <div>
-          <button class="action add" [routerLink]="['/menus/create']" href=""><i class="material-icons">add</i></button>
+          <button class="action add" mat-mini-fab [routerLink]="['/menus/create']" href="">
+            <mat-icon>add</mat-icon>
+          </button>
         </div>
       </mat-toolbar>
     </div>
     <div class="spinner list"><mat-spinner *ngIf="isLoading"></mat-spinner></div>
     <div class="list" *ngIf="menus.length > 0">
       <mat-divider></mat-divider>
-
-      <mat-divider></mat-divider>
       <mat-list-item *ngFor="let menu of menus; let i = index">
         <div class="list__item" aria-label="view the details of this dish">
-          <div class="list__item-name">{{ menu.menu_name }}</div>
+          <div class="list__item-details">
+            <div class=" list__item-name">{{ menu.menu_name }}</div>
+          </div>
           <button class="list__item-action" aria-label="navigate to menu details" (click)="saveMenuToLocal(menu)">
             <i class="fas fa-chevron-right" aria-label="selected menu details"></i>
           </button>
@@ -66,7 +70,7 @@
       </mat-list-item>
       <mat-paginator
         class="paginator"
-        *ngIf="menuCount !== 0"
+        *ngIf="menuCount > 0"
         [pageSize]="postsPerPage"
         [pageIndex]="pageIndex"
         [length]="menuCount"

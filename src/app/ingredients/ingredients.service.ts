@@ -93,8 +93,7 @@ export class IngredientsService {
   getIngredients() {
     const customer = this.globals.getCustomer();
     this.http.get<{ ingredients: any[] }>(BACKEND_URL + '/' + customer.id).subscribe(returnData => {
-      // prevent too many round trips to the server
-      console.log(returnData);
+
       this.saveLocalIngredientsData(returnData);
       this.ingredientsDoc = returnData;
       this.ingredientsUpdated.next([...this.ingredientsDoc.ingredients]);
@@ -328,7 +327,7 @@ export class IngredientsService {
     console.log(searchResults.length);
     if (searchResults.length === 0) {
       this.noSearcResultsFound.next(true);
-      this.ingredientsUpdated.next(searchResults);
+      // this.ingredientsUpdated.next(searchResults);
     } else {
       this.noSearcResultsFound.next(false);
       this.ingredientsUpdated.next(searchResults);

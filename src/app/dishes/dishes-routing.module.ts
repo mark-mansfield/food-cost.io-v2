@@ -7,14 +7,18 @@ import { DishIngredientsListComponent } from './dish-ingredients-list/dish-ingre
 import { DishIngredientsEditComponent } from './dish-ingredients-edit/dish-ingredients-edit.component';
 import { AuthGuard } from '../auth/auth.guard';
 // import { EditFieldComponent } from './edit-field/edit-field.component';
-import { DishIngredientsListAddComponent } from './dish-ingredients-list-add/dish-ingredients-list-add.component';
-import { DishIngredientsAddComponent } from "./dish-ingredients-add/dish-ingredients-add.component";
+// import { DishIngredientsListAddComponent } from './dish-ingredients-list-add/dish-ingredients-list-add.component';
+import { DishIngredientsAddComponent } from './dish-ingredients-add/dish-ingredients-add.component';
 const dishesRoutes: Routes = [
   // list all dishes
   { path: 'dishes/list', component: DishesListComponent, canActivate: [AuthGuard] },
 
   // add / edit dish
   { path: 'dish/:mode', component: DishDetailsV2Component, canActivate: [AuthGuard] },
+
+  // add / edit dish /
+  // because our back button conditonally needs to link to our menus  module sub component via menuId
+  { path: 'dish/:mode/referrer/:menuId', component: DishDetailsV2Component, canActivate: [AuthGuard] },
 
   /* List of ingredients for selected dish */
   { path: 'dish/:_id/ingredients', component: DishIngredientsListComponent, canActivate: [AuthGuard] },
@@ -23,10 +27,7 @@ const dishesRoutes: Routes = [
   { path: 'dish/:_id/ingredient/:ingredient_name', component: DishIngredientsEditComponent, canActivate: [AuthGuard] },
 
   // add ingredient to selected dish
-  { path: 'dish/:_id/ingredients/add', component: DishIngredientsListAddComponent, canActivate: [AuthGuard] },
-
-  // add ingredient to selected dish
-  { path: 'dish/:_id/ingredients/add-1', component: DishIngredientsAddComponent, canActivate: [AuthGuard] },
+  { path: 'dish/:_id/ingredients/add', component: DishIngredientsAddComponent, canActivate: [AuthGuard] },
 
   // return to edit a dish withextra param to manage state
   { path: 'dish/:mode/:showEditTools', component: DishDetailsV2Component, canActivate: [AuthGuard] }

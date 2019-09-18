@@ -9,7 +9,7 @@ import { MenusService } from '../menus.service';
 @Component({
   selector: 'app-menus-list',
   templateUrl: './menus-list.component.html',
-  styleUrls: ['../../css/list-layout.css']
+  styleUrls: ['./menus-list.component.css']
 })
 export class MenusListComponent implements OnInit, OnDestroy {
   private menusSub: Subscription;

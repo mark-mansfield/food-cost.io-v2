@@ -82,7 +82,7 @@ export class NumpadDialogComponent implements OnInit {
       case 'x':
         this.numberPad.deleteLast();
         break;
-      case 'clear':
+      case 'AC':
         this.numberPad.clearAll();
         break;
       case '.':

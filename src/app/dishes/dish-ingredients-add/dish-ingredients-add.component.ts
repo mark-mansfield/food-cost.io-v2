@@ -87,13 +87,13 @@ export class DishIngredientsAddComponent implements OnInit, OnDestroy {
     const ingredient: DishIngredient = {
       id: object.id,
       name: object.ingredient_name.toLocaleLowerCase(),
-      qty: '',
+      qty: '0',
       unit_price: '',
       AP_weight: '',
       EP_weight: '',
-      yield: '',
-      cost: '',
-      real_cost: '',
+      yield: '0',
+      cost: '0',
+      real_cost: '0',
       complete: false
     };
     // avoid expensive array object search

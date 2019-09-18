@@ -13,9 +13,14 @@ mat-form-field {
   width: 100%;
 }
 
+.section__header {
+  width: 100%;
+  background-color: azure;
+  padding-bottom: 20px;
+}
+
 .section {
   width: 100vw;
-  background-color: azure;
 }
 
 .toolbar {
@@ -34,33 +39,6 @@ mat-form-field {
   line-height: 0;
   justify-content: space-between;
 }
-.page__title {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 20px 0px;
-}
-
-.list {
-  height: 100%;
-  width: 100vw;
-  background-color: white;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.list__item {
-  display: flex;
-  justify-content: flex-start;
-  align-items: stretch;
-  height: 100px;
-  width: 100vw;
-  font-size: small;
-  color: var(--dark-text);
-}
 
 .main__search-container {
   width: 100%;
@@ -71,7 +49,7 @@ mat-form-field {
 }
 
 .main__search-form {
-  width: 100%;
+  width: 80vw;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -92,9 +70,36 @@ mat-form-field {
   height: 60px;
 }
 
+.page__title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0px;
+}
+
+.list {
+  height: 100%;
+  width: 100vw;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.list__item {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100px;
+  width: 100%;
+  font-size: small;
+  color: var(--dark-text);
+}
+
 .list__item-dish-badge {
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   margin: auto 20px;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
@@ -124,8 +129,7 @@ mat-form-field {
 
 .list__item-details {
   flex: 1;
-  margin: 4px 20px;
-  height: 95%;
+  margin: 4px 0px;
   display: flex;
   align-items: flex-start;
   flex-flow: column;
@@ -152,11 +156,6 @@ button {
   background-color: transparent;
 }
 
-button:hover {
-  color: black;
-  cursor: pointer;
-}
-
 /* toggle display */
 
 .hidden {
@@ -177,10 +176,20 @@ button:hover {
     justify-content: space-evenly;
     width: 100%;
   }
+
+  .main__search-form {
+    width: 70%;
+  }
+
   .list {
-    width: 100%;
+    width: 70%;
   }
   .list__item {
     width: 100%;
+  }
+
+  .list__item-dish-badge {
+    width: 80px;
+    height: 80px;
   }
 }
