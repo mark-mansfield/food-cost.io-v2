@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 //  this runs for <any> outgoing requests
 // must clone request before manipulating it
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     const authToken = this.authService.getToken();

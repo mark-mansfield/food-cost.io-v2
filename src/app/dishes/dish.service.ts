@@ -102,31 +102,31 @@ export class DishService {
     });
   }
 
-  cloneDish(dish) {
-    const customer = this.globals.getCustomer();
-    const dishData = {
-      customerId: customer.id,
-      name: dish.name + '(copy)'.toLocaleLowerCase(),
-      uuid: uuid(),
-      ingredients: dish.ingredients,
-      retail_price: dish.retail_price,
-      cost: dish.cost,
-      margin: dish.margin,
-      description: dish.description,
-      recipe_method: dish.recipe_method,
-      plating_guide: dish.plating_guide,
-      progress: dish.progress
-    };
+  // cloneDish(dish) {
+  //   const customer = this.globals.getCustomer();
+  //   const dishData = {
+  //     customerId: customer.id,
+  //     name: dish.name + '(copy)'.toLocaleLowerCase(),
+  //     uuid: uuid(),
+  //     ingredients: dish.ingredients,
+  //     retail_price: dish.retail_price,
+  //     cost: dish.cost,
+  //     margin: dish.margin,
+  //     description: dish.description,
+  //     recipe_method: dish.recipe_method,
+  //     plating_guide: dish.plating_guide,
+  //     progress: dish.progress
+  //   };
 
-    this.http
-      .post<{ message: string; dish: Dish }>('http://localhost:3000/api/dishes', dishData)
-      .subscribe(returnedData => {
-        console.log(returnedData.message);
-        this.dishes.push(returnedData.dish);
-        this.dishesUpdated.next([...this.dishes]); // inform UI
-        this.router.navigate(['/dishes']);
-      });
-  }
+  //   this.http
+  //     .post<{ message: string; dish: Dish }>('http://localhost:3000/api/dishes', dishData)
+  //     .subscribe(returnedData => {
+  //       console.log(returnedData.message);
+  //       this.dishes.push(returnedData.dish);
+  //       this.dishesUpdated.next([...this.dishes]); // inform UI
+  //       this.router.navigate(['/dishes']);
+  //     });
+  // }
 
   makeUUID() {
     return uuid();

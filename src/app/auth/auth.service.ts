@@ -27,7 +27,7 @@ export class AuthService {
 
   public accountStatus = new Subject<String>();
 
-  constructor(private http: HttpClient, private router: Router, private globalService: Globals) {}
+  constructor(private http: HttpClient, private router: Router, private globalService: Globals) { }
 
   getToken() {
     return this.token;
@@ -91,7 +91,7 @@ export class AuthService {
     };
     this.http
       .post<{ token: string; expiresIn: string; userId: string; firstTime: boolean }>(
-        'http://localhost:3000/api/users/login',
+        BACKEND_URL + 'users/login',
         authData
       )
       .subscribe(
