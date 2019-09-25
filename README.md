@@ -5,7 +5,7 @@ Objective : <br>
 
 
 Tech Stack
-<br />MongoDb | Angular | Node | express
+<br />MongoDb | Angular 6 | Node | express
 
 Features
 1. Login | Sign up
@@ -14,16 +14,4 @@ Features
 4. costing
 5. ingredients
 6. menus
-7. inventory
-8. notifications
-
-Road Map
-1. complete implementation of costing feature
-2. test with real users, fellow chefs.
-3. create UI's for ingredients feature
-
-
-
-
-
-
+7. dishes
