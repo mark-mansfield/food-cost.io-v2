@@ -18,6 +18,7 @@
 .mat-select {
   padding: 8px;
   height: 50px;
+  border: 1px solid grey;
 }
 
 /* mat-option */
@@ -30,34 +31,8 @@
 }
 
 /* mat-stepper */
-
-.mat-stepper-horizontal,
-.mat-stepper-vertical {
-  display: flex;
-  background-color: var(white);
-  color: var(--dark-text);
-  height: 100vh;
-  width: 100vw;
-}
-
-.mat-horizontal-stepper-header-container {
-  margin: 20px 0;
-}
-
-.mat-step-header .mat-step-label,
-.mat-step-header .mat-step-optional {
-  color: var(--dark-text) !important;
-}
-
-.mat-horizontal-content-container {
-  overflow: scroll !important;
-}
-
-.mat-horizontal-stepper-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+/* see ingredients import.css */
+/* .mat-stepper-horizontal,
 
 /* error */
 .mat-error {
@@ -121,7 +96,7 @@
 .mat-dialog-container {
   margin-top: 20px;
   height: 84% !important;
-  background:#37352B!important;
+  background: #37352b !important;
 }
 
 .mat-figure {
@@ -199,9 +174,8 @@ mat-nav-list .main__dish-list-tools > div.main__dish-list-tool-item {
 
 .mat-button,
 .mat-icon-button {
-  color: white;
-  background: var(--accent);
-  background-color: var(--accent);
+  color: white !important;
+  background-color: var(--accent) !important;
 }
 
 .mat-icon-button[disabled][disabled] {

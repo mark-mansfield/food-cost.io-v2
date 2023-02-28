@@ -27,7 +27,6 @@
 
 <main class="main">
   <section class="section fadeIn">
-
     <div class="info-panel" style="display:flex; flex-direction: row; justify-content: flex-start; align-items: center">
       <a
         style="cursor:pointer; margin-left: 20px "
@@ -36,7 +35,7 @@
         start again
       </a>
     </div>
-    <mat-horizontal-stepper #stepper linear>
+    <mat-vertical-stepper #stepper linear>
       <mat-step [completed]="false">
         <ng-template matStepLabel>Step 1. Select a file</ng-template>
 
@@ -44,15 +43,17 @@
           <!-- reactive forms approach -->
           <form [formGroup]="form" (submit)="onSubmit()" #uploadForm="ngForm">
             <h1>Import from CSV file</h1>
-            <button (click)="onImport()">test has dupes: Option 1</button><br />
-            <button (click)="onImport()">test has dupes: Option 2</button><br />
+            <!-- <button (click)="onImport()">test has dupes: Option 1</button><br />
+            <button (click)="onImport()">test has dupes: Option 2</button><br /> -->
             <br /><br />
             <h2>Upload File</h2>
             <br /><br />
+            <small>browse computer</small>
+            <br />
             <button mat-button type="button" color="accent" (click)="filePicker.click()">
               <span class="material-icons" style="font-size: 6rem; background-color: none">computer</span>
             </button>
-            <small>browse</small>
+
             <div *ngIf="showTick"><ng-container *ngTemplateOutlet="greenTick"></ng-container></div>
             <span style="color:black">{{ message }}</span> <br /><br />
             <p *ngIf="!showTick" style="text-align: center">
@@ -73,7 +74,7 @@
               <th mat-header-cell *matHeaderCellDef>
                 <br /><br />
                 <h4>Connect to your ingredient names</h4>
-                <span style="text-align: center"
+                <span class="mat-step-instructions-text" style="text-align: center"
                   >Use column names dropdown below.<br />
                   Connect the ingredient name to your import data.</span
                 >
@@ -85,7 +86,6 @@
                   placeholder="Choose an option"
                   #select
                   (selectionChange)="setColumnName(0, select.value); this.next2.disabled = false; this.showTick = true"
-
                 >
                   <mat-option *ngFor="let keyName of columnKeys; let i = index" [disabled]="keyName[1]" [value]="i">{{
                     keyName[0]
@@ -291,6 +291,6 @@
           <button class="button" style="margin: 20px;" (click)="onImport()" mat-raised-button>finish</button>
         </mat-card>
       </mat-step>
-    </mat-horizontal-stepper>
+    </mat-vertical-stepper>
   </section>
 </main>

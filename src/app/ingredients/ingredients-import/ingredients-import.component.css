@@ -1,13 +1,43 @@
-.mat-card > form {
+/* mat-stepper */
+/* .mat-stepper-vertical {
   display: flex;
   justify-content: center;
-  align-content: center;
-  flex-direction: column;
-  text-align: center;
+  background-color: var(white);
+  color: var(--dark-text);
+}
+
+.mat-horizontal-stepper-header-container {
+  margin: 20px 0;
+}
+
+.mat-step-header .mat-step-label,
+.mat-step-header .mat-step-optional {
+  color: var(--dark-text) !important;
+}
+
+.mat-horizontal-content-container {
+  overflow: scroll !important;
+}
+
+.mat-horizontal-stepper-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+.mat-stepper-vertical {
+  display: flex !important;
+  flex-flow: column;
+  justify-content: center;
+  width: 83%;
+}
+
+.mat-vertical-stepper-content {
+  overflow: hidden;
 }
 
 .mat-card {
-  width: 400px;
+  width: 90%;
   min-height: 400px;
   margin: 50px 0;
   background: transparent;
@@ -16,9 +46,20 @@
   flex-direction: column;
   text-align: center;
 }
+
+.mat-card > form {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
 .mat-step[last-step='review-table'] {
   width: 95%;
 }
+
 .mat-card[review='review-table'] {
   width: 95%;
 }
@@ -29,6 +70,10 @@
 
 .panel-accent {
   background-color: var(--accent);
+}
+
+.mat-step-instructions-text {
+  font-size: 12px;
 }
 
 /* svg green tick */
@@ -233,8 +278,8 @@ input[type='text']:focus {
 /* ipads and larger */
 @media (min-width: 40rem) {
   .section {
-    width: 100vw;
-    margin: 0px;
+    width: 100%;
+    margin: 20px 0;
   }
 
   .main {
@@ -255,5 +300,9 @@ input[type='text']:focus {
     margin: 10px 0;
     width: 500px;
     height: 80px;
+  }
+
+  .mat-card {
+    width: 50% !important;
   }
 }
