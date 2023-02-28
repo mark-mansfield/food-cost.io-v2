@@ -1,28 +1,32 @@
 
+
+
 # food-cost.io
-Objective : <br>
-1. Make food costing for chefs as easy as possible.
-2. Make managing menus easy for restaurant owners
+
+An Angular CRUD SPA built for my chef buddies that allows them to create , and cost food menus.
+
+# What I Learned
+
+* Developed a user interface with several screens that are responsive using Material UI
+* Implemented functionality to the UI: Login | Sign up (Authentication,Authorization), costing, ingredients CRUD, menus CRUD, ingredients CRUD, bulk ingredients import
+* Implemented functionality to the Backend: a complete set of node.js API endpoints that query a mongo db database
 
 
 Tech Stack
 <br />MongoDb | Angular | Node | express
 
-Features
-1. Login | Sign up
-2. Authentication
-3. Authorization
-4. costing
-5. ingredients
-6. menus
-7. inventory
-8. notifications
 
-Road Map
-1. complete implementation of costing feature
-2. test with real users, fellow chefs.
-3. create UI's for ingredients feature
-4.
 
+To use locally
+1. clone or download the repo
+2. run ```npm update```
+3. cd in to project directory
+4. Then run
+
+```ng serve, npm run start:server```
+
+Log in using the dummy credentials provided on the login page, and start creating and cost dishes and building menus
+
+[check it out here](http://food.cost.io.s3-website-ap-southeast-2.amazonaws.com/login)
 
 
