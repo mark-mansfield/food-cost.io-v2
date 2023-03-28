@@ -12,18 +12,21 @@ const accountRoutes = require('./routes/accounts');
 // app.use(bodyParser.urlencoded({ extended: false }));
 // mongoDb creds
 // user mark
-// pass jlFedsE5nKIF7i9z
-// mongodb+srv://mark:<PASSWORD>@food-cost-cluster-zlgfs.mongodb.net/test?retryWrites=true
-// jlFtdiE5nKIF7i9z
+// 'mongodb+srv://mark:' + process.env.MONGO_ATLAS_PASSWORD + '@food-cost-cluster-zlgfs.mongodb.net/food-cost-cluster'
+
+// 'mongodb+srv://mark:8koqWcF9cU6FPwgU@food-cost-cluster-zlgfs.mongodb.net/test?retryWrites=true'
+
+
+
 mongoose
   .connect(
-    'mongodb+srv://mark:' + process.env.MONGO_ATLAS_PASSWORD + '@food-cost-cluster-zlgfs.mongodb.net/food-cost-cluster'
-  )
+    'mongodb+srv://mark:8koqWcF9cU6FPwgU@food-cost-cluster-zlgfs.mongodb.net/food-cost-cluster'
+    , { useNewUrlParser: true })
   .then(() => {
     console.log('connected to database');
   })
-  .catch(() => {
-    console.log('connection failed');
+  .catch((e) => {
+    console.log('connection failed', e);
     console.error();
   });
 
