@@ -1,6 +1,6 @@
 {
   "env": {
-    "MONGO_ATLAS_PASSWORD": "jlFtdiE5nKIF7i9z",
+    "MONGO_ATLAS_PASSWORD": "8koqWcF9cU6FPwgU",
     "JWT_KEY": "this_should_be_longer"
   }
 }

@@ -1,12 +1,10 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-// const Menu = require('../models/menu');
-// const Ingredient = require('../models/ingredients');
-// const async = require('async');
 
 exports.createUser = (req, res, next) => {
   const saltingRounds = 10;
+
   bcrypt.hash(req.body.password, saltingRounds).then(hash => {
     const user = new User({
       email: req.body.email,
@@ -32,6 +30,8 @@ exports.createUser = (req, res, next) => {
 
 exports.loginUser = (req, res, next) => {
   let fetchedUser;
+
+
   User.findOne({ email: req.body.email })
     .then(user => {
       if (!user) {
